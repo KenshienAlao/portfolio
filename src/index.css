@@ -1,0 +1,128 @@
+/* --- 1. THE RESET (STAYS STATIC) --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 10px;
+}
+
+body {
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+  text-wrap: pretty;
+}
+
+#root,
+#__next {
+  isolation: isolate;
+  height: 100%;
+}
+
+:root {
+  --primary-grad: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  --accent: #a855f7;
+  --text-main: #f8fafc;
+  --bg-dark: #09090b;
+  --glass: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --text-dim: #a1a1aa;
+  --selection-bg: rgba(168, 85, 247, 0.3);
+}
+
+/* --- 2. GLOBAL APP STYLES --- */
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0.02;
+  z-index: 9999;
+  pointer-events: none;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+}
+/* Custom Modern Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 10px;
+  border: 2px solid var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Text Selection */
+::selection {
+  background: var(--selection-bg);
+  color: #ffffff;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.3s ease;
+}
+
+a:hover {
+  opacity: 0.8;
+}

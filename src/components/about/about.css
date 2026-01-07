@@ -1,0 +1,198 @@
+.container__about {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10%;
+  position: relative;
+  background: #09090b;
+  color: white;
+
+  mask-image: linear-gradient(to bottom, transparent 0%, black 15%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%);
+}
+
+.container__about::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 10;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(9, 9, 11, 0.8), transparent);
+}
+
+.about__blob {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: var(--primary-grad);
+  filter: blur(120px);
+  opacity: 0.15;
+  top: 20%;
+  left: 10%;
+  z-index: 0;
+}
+
+.parent-container__about {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  width: 100%;
+}
+
+.header__wrapper {
+  margin-bottom: 3rem;
+}
+
+.subtitle__about {
+  color: #818cf8;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+}
+
+.title__about {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin: 0.5rem 0;
+}
+
+.title__line {
+  height: 4px;
+  width: 60px;
+  background: var(--primary-grad);
+  border-radius: 2px;
+}
+
+.content__grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.name__about {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.highlight {
+  color: #a855f7;
+}
+
+.information__about {
+  color: var(--text-dim);
+  line-height: 1.8;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.text-white {
+  color: white;
+  font-weight: 500;
+}
+
+/* Bento Stats Card */
+.stats__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.stat__card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  padding: 2rem 1.5rem;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.stat__card:hover {
+  border-color: rgba(168, 85, 247, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-5px);
+}
+
+.stat__number {
+  font-family: serif;
+  font-style: italic;
+  font-size: 0.8rem;
+  color: #818cf8;
+  margin-bottom: 0.5rem;
+}
+
+.stat__label {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.btn-ash {
+  position: relative;
+  padding: 14px 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: var(--primary-grad);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+}
+
+.btn-ash:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(168, 85, 247, 0.5),
+    0 0 10px rgba(99, 102, 241, 0.4);
+}
+
+.btn-ash:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+.btn-shimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transition: none;
+}
+
+.btn-ash:hover .btn-shimmer {
+  left: 100%;
+  transition: all 0.7s ease-in-out;
+}
+.btn-text {
+  position: relative;
+  z-index: 2;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.btn-ash::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  background: var(--primary-grad);
+  border-radius: 11px;
+  z-index: 1;
+  opacity: 0.8;
+}

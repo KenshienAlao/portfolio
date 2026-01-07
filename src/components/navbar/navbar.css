@@ -1,0 +1,109 @@
+/* Base Nav State (Not Scrolled) */
+.nav {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 1200px;
+  z-index: 1000;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 24px;
+  /* Astonishing glass effect */
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid transparent;
+  /* This shadow makes it pop against the background */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2),
+    inset 0 0 10px rgba(255, 255, 255, 0.02);
+}
+
+/* Scrolled State (Gliding to top) */
+.nav.blurred {
+  top: 0;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 0;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(168, 85, 247, 0.2); /* Colored border */
+  padding: 8px 0;
+}
+
+.container__navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+/* Astonishing Logo with Glow */
+.logo__navbar {
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  margin-left: 1rem;
+  background: var(--primary-grad);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.3)); /* Subtle glow */
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  animation: logo-glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes logo-glow {
+  from {
+    filter: drop-shadow(0 0 2px rgba(168, 85, 247, 0.2));
+  }
+  to {
+    filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.6));
+  }
+}
+
+.logo__navbar:hover {
+  transform: scale(1.05);
+}
+
+.ul__navbar {
+  display: flex;
+  gap: 3rem;
+  list-style: none;
+}
+
+/* Sophisticated Link Styling */
+.link__navbar {
+  text-decoration: none;
+  color: var(--text-main);
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.7;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.link__navbar:hover {
+  opacity: 1;
+  /* Glowing text on hover */
+  text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+}
+
+/* Gradient Underline that expands from center */
+.link__navbar::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary-grad);
+  transition: width 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.link__navbar:hover::after {
+  width: 100%;
+}

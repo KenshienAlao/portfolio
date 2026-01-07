@@ -1,0 +1,217 @@
+.container__education {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5%;
+  background: #09090b;
+}
+
+.edu__wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 100px 0; /* Space for the glow to breathe */
+}
+
+.edu__orb {
+  position: absolute;
+  width: 1000px;
+  height: 1000px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  /* High-end Multi-color Gradient */
+  background: radial-gradient(
+    circle at center,
+    rgba(99, 102, 241, 0.5) 0%,
+    /* Indigo */ rgba(168, 85, 247, 0.3) 35%,
+    /* Purple */ rgba(236, 72, 153, 0.15) 60%,
+    /* Pink */ transparent 80%
+  );
+
+  filter: blur(80px);
+  mix-blend-mode: screen; /* Makes colors more vivid against dark backgrounds */
+  animation: aura-drift 15s ease-in-out infinite alternate;
+  pointer-events: none;
+} 
+
+@keyframes aura-glow {
+  0% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(-45%, -55%) scale(1.1) rotate(5deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.2) rotate(-5deg);
+    opacity: 0.6;
+  }
+}
+
+/* The Main Floating Card */
+.edu__card-base {
+  background: #0f1015; /* Solid dark background */
+  position: relative;
+  z-index: 1; /* Sits on top of the orb */
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 32px;
+  display: grid;
+  grid-template-columns: 450px 1fr;
+  width: 100%;
+  max-width: 1000px;
+  height: 520px;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5); /* Inner depth shadow */
+  padding: 1rem;
+}
+
+/* Visual Side */
+.edu__visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(
+    circle,
+    rgba(168, 85, 247, 0.05) 0%,
+    transparent 70%
+  );
+}
+
+/* The Animated Border Ring */
+.edu__visual::before {
+  content: "";
+  position: absolute;
+  width: 95%;
+  height: 95%;
+  border-radius: 110px; /* Slightly larger than your image */
+  border: 1px dashed rgba(168, 85, 247, 0.3);
+  animation: rotate-ring 20s linear infinite;
+}
+
+.edu__img {
+  border: 2px solid #a855f7;
+  border-radius: 100px;
+  width: 85%; /* Slightly smaller to let the ring show */
+  height: 85%;
+  object-fit: cover;
+  z-index: 2;
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.2);
+  transition: transform 0.5s ease;
+}
+
+/* Subtle pulse for the image */
+.edu__visual:hover .edu__img {
+  transform: scale(1.05);
+  box-shadow: 0 0 50px rgba(168, 85, 247, 0.4);
+}
+
+@keyframes rotate-ring {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.edu__badge {
+  position: absolute;
+  top: 20px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #a855f7;
+  z-index: 12;
+}
+
+/* Content Side */
+.edu__details {
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.edu__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.edu__text {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.nav-arrow {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.nav-arrow:hover {
+  background: var(--primary-grad);
+  border-color: transparent;
+}
+
+.nav-num {
+  font-family: monospace;
+  font-size: 1.2rem;
+  color: var(--text-dim);
+}
+
+.edu__title {
+  display: flex;
+  text-align: center;
+  font-size: 2.2rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  font-weight: 800;
+}
+
+.edu__location-row {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: 850px) {
+  .edu__card-base {
+    grid-template-columns: 1fr;
+    height: auto;
+    max-width: 500px;
+  }
+  .edu__visual {
+    height: 250px;
+  }
+  .edu__details {
+    padding: 2rem;
+    gap: 2rem;
+  }
+}
