@@ -13,7 +13,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 100px 0; /* Space for the glow to breathe */
+  padding: 100px 0; 
 }
 
 .edu__orb {
@@ -23,18 +23,16 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
-  /* High-end Multi-color Gradient */
   background: radial-gradient(
     circle at center,
     rgba(99, 102, 241, 0.5) 0%,
-    /* Indigo */ rgba(168, 85, 247, 0.3) 35%,
-    /* Purple */ rgba(236, 72, 153, 0.15) 60%,
-    /* Pink */ transparent 80%
+   rgba(168, 85, 247, 0.3) 35%,
+    rgba(236, 72, 153, 0.15) 60%,
+ transparent 80%
   );
 
   filter: blur(80px);
-  mix-blend-mode: screen; /* Makes colors more vivid against dark backgrounds */
+  mix-blend-mode: screen; 
   animation: aura-drift 15s ease-in-out infinite alternate;
   pointer-events: none;
 } 
@@ -54,11 +52,10 @@
   }
 }
 
-/* The Main Floating Card */
 .edu__card-base {
-  background: #0f1015; /* Solid dark background */
+  background: #0f1015; 
   position: relative;
-  z-index: 1; /* Sits on top of the orb */
+  z-index: 1; 
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 32px;
   display: grid;
@@ -66,11 +63,10 @@
   width: 100%;
   max-width: 1000px;
   height: 520px;
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5); /* Inner depth shadow */
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
   padding: 1rem;
 }
 
-/* Visual Side */
 .edu__visual {
   display: flex;
   align-items: center;
@@ -84,13 +80,12 @@
   );
 }
 
-/* The Animated Border Ring */
 .edu__visual::before {
   content: "";
   position: absolute;
   width: 95%;
   height: 95%;
-  border-radius: 110px; /* Slightly larger than your image */
+  border-radius: 110px; 
   border: 1px dashed rgba(168, 85, 247, 0.3);
   animation: rotate-ring 20s linear infinite;
 }
@@ -98,7 +93,7 @@
 .edu__img {
   border: 2px solid #a855f7;
   border-radius: 100px;
-  width: 85%; /* Slightly smaller to let the ring show */
+  width: 85%; 
   height: 85%;
   object-fit: cover;
   z-index: 2;
@@ -106,7 +101,6 @@
   transition: transform 0.5s ease;
 }
 
-/* Subtle pulse for the image */
 .edu__visual:hover .edu__img {
   transform: scale(1.05);
   box-shadow: 0 0 50px rgba(168, 85, 247, 0.4);
@@ -135,7 +129,6 @@
   z-index: 12;
 }
 
-/* Content Side */
 .edu__details {
   padding: 3rem;
   display: flex;
@@ -200,7 +193,7 @@
   font-size: 0.95rem;
 }
 
-/* Responsive */
+
 @media (max-width: 850px) {
   .edu__card-base {
     grid-template-columns: 1fr;
