@@ -14,7 +14,6 @@
   align-items: center;
 }
 
-/* --- Left Side Styling --- */
 .status__badge {
   display: inline-flex;
   align-items: center;
@@ -29,7 +28,6 @@
   margin-bottom: 2rem;
 }
 
-/* The Pulsing Dot Animation */
 .pulse-dot {
   height: 8px;
   width: 8px;
@@ -62,9 +60,8 @@
   }
 }
 
-/* Typography Enhancements */
 .introduction__section {
-  font-size: clamp(2.5rem, 6vw, 4.5rem); /* Responsive font size */
+  font-size: clamp(2.5rem, 6vw, 4.5rem); 
   font-weight: 800;
   letter-spacing: -1px;
 }
@@ -95,8 +92,6 @@
   max-width: 500px;
   margin-bottom: 3rem;
 }
-
-/* Social Icons Section */
 .contact-container__section {
   display: flex;
   flex-direction: column;
@@ -121,31 +116,26 @@
   color: white;
   background: var(--primary-grad);
   border-color: transparent;
-  transform: translateY(-8px) rotate(-5deg); /* Added a slight tilt */
+  transform: translateY(-8px) rotate(-5deg); 
   box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
 }
-
-/* --- Right Side Styling (Images) --- */
 .image-stack {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  perspective: 1000px; /* Crucial for 3D feel */
+  perspective: 1000px; 
 }
 
 .picture-card {
   position: relative;
   border-radius: 24px;
   overflow: hidden;
-  /* Glass Border Effect */
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7);
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(5px);
 }
-
-/* Add a shimmering reflection over the image */
 .glass-reflection {
   position: absolute;
   top: 0;
@@ -181,8 +171,8 @@
   right: -40px;
   bottom: -30px;
   z-index: 4;
-  opacity: 0.5; /* Keeps focus on the main image */
-  filter: grayscale(30%) blur(1px); /* Adds depth of field */
+  opacity: 0.5; 
+  filter: grayscale(30%) blur(1px);
   transition: all 0.4s ease;
 }
 
@@ -197,8 +187,6 @@
   object-fit: cover;
   display: block;
 }
-
-/* Enhanced Glow */
 .hero-glow {
   position: absolute;
   width: 500px;
@@ -206,8 +194,8 @@
   background: radial-gradient(
     circle,
     rgba(168, 85, 247, 0.2) 0%,
-    /* Purple Tint */ rgba(99, 102, 241, 0.1) 40%,
-    /* Blue Tint */ transparent 70%
+    rgba(99, 102, 241, 0.1) 40%, 
+    transparent 70%
   );
   z-index: 1;
   filter: blur(60px);
