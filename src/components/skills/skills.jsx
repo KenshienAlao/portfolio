@@ -8,14 +8,12 @@ const skillsData = {
   Styling: ["CSS3", "Tailwind CSS", "Sass", "Framer Motion"],
   "Tools/Deploy": ["Git", "GitHub", "Vite", "Vercel", "NPM"],
 };
-
-// Animation Variants for the staggered effect
 const gridVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1, // This creates the "wave" effect
+      staggerChildren: 0.1, 
     },
   },
 };
@@ -60,8 +58,6 @@ function Skills() {
             I leverage a modern suite of technologies to build high-performance
             interfaces that are as functional as they are beautiful.
           </p>
-
-          {/* An astonishing decorative divider */}
           <motion.div
             className="skills__divider"
             initial={{ width: 0 }}
@@ -78,7 +74,6 @@ function Skills() {
                 className={`options ${activeCategory === cat ? "active" : ""}`}
                 onClick={() => setActiveCategory(cat)}
               >
-                {/* The span ensures the text label has a constant width */}
                 <span className="option__label">{cat}</span>
 
                 <AnimatePresence>
@@ -116,7 +111,6 @@ function Skills() {
                   whileHover={{ y: -10, transition: { duration: 0.2 } }}
                   className="skill__card"
                 >
-                  {/* Decorative background glow inside the card */}
                   <div className="card__glow"></div>
 
                   <div className="skill__content">
