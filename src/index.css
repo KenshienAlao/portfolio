@@ -1,4 +1,4 @@
-/* --- 1. THE RESET (STAYS STATIC) --- */
+
 *,
 *::before,
 *::after {
@@ -66,8 +66,6 @@ h6 {
   --text-dim: #a1a1aa;
   --selection-bg: rgba(168, 85, 247, 0.3);
 }
-
-/* --- 2. GLOBAL APP STYLES --- */
 body {
   background-color: var(--bg-dark);
   color: var(--text-main);
@@ -88,7 +86,7 @@ body::before {
   pointer-events: none;
   background-image: url("https://grainy-gradients.vercel.app/noise.svg");
 }
-/* Custom Modern Scrollbar */
+
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -107,7 +105,7 @@ body::before {
   background: var(--accent);
 }
 
-/* Text Selection */
+
 ::selection {
   background: var(--selection-bg);
   color: #ffffff;
