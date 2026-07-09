@@ -1,5 +1,5 @@
 import { NAV_PAGES } from "@/config/navigation.config";
-import { cn } from "@/lib/cn";
+import { cn } from "@/lib/utils";
 import { Code2, Menu, X } from "lucide-react";
 import { useEffect } from "react";
 import { m, AnimatePresence } from "framer-motion";

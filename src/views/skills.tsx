@@ -5,7 +5,7 @@ import { useTheme } from "next-themes";
 import { SkillItem, SKILLS } from "@/config/skills";
 import { m, AnimatePresence } from "framer-motion";
 import { containerVars, itemVars } from "@/components/animation/ani";
-import { cn } from "@/lib/cn";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 const fade = {

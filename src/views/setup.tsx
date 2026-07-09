@@ -5,7 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import { m, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useTheme } from "next-themes";
-import { cn } from "@/lib/cn";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { containerVars, itemVars } from "@/components/animation/ani";
