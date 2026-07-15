@@ -108,7 +108,7 @@ export function Setup() {
                     <div className="flex items-center gap-1.5 shrink-0">
                       {lightImages.map((src, idx) => (
                         <div
-                          key={`icon-${idx}`}
+                          key={`${src.length}-${idx}`}
                           className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-surface border border-border/50 shadow-xs flex items-center justify-center p-2"
                         >
                           <Image

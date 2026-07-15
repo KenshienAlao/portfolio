@@ -86,6 +86,7 @@ export function Navigation({
         <div className="flex items-center gap-3">
           <ThemeTogglerButton />
           <button
+            type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="flex h-10 w-10 items-center justify-center rounded-full border border-border/40 bg-surface/30 text-text-secondary transition-all duration-300 hover:bg-surface hover:text-text-primary shadow-xs active:scale-95 md:hidden"
             aria-label="Toggle menu"
@@ -107,11 +108,10 @@ export function Navigation({
               const Icon = NAV_PAGES.ICONS[key];
               const active = currentPath === page.toLowerCase();
               return (
-                <a
+                <button
+                  type="button"
                   key={page}
-                  href={`#${page.toLowerCase()}`}
-                  onClick={(e) => {
-                    e.preventDefault();
+                  onClick={() => {
                     go(page);
                     setMobileMenuOpen(false);
                   }}
@@ -125,7 +125,7 @@ export function Navigation({
                 >
                   {Icon && <Icon className="h-5 w-5" />}
                   <span>{page}</span>
-                </a>
+                </button>
               );
             })}
           </div>
