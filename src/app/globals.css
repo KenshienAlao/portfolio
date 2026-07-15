@@ -249,12 +249,13 @@
 }
 
 .fade-in {
-  animation: fadeIn 0.4s ease-out forwards;
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out both;
 }
 
 .slide-up {
   opacity: 0;
-  animation: slideUp 0.5s ease-out forwards;
+  animation: slideUp 0.5s ease-out both;
 }
 
 .stagger-1 {
@@ -358,13 +359,14 @@
   color: var(--accent);
 }
 
-*,
-*::before,
-*::after {
-  transition-property:
-    background-color, border-color, color, fill, stroke, box-shadow;
+button,
+a,
+input,
+select,
+[role="button"] {
+  transition-property: background-color, border-color, color, box-shadow;
   transition-timing-function: ease;
-  transition-duration: 200ms;
+  transition-duration: 150ms;
 }
 
 .theme-transition,
@@ -372,9 +374,11 @@
 .theme-transition *::before,
 .theme-transition *::after {
   transition:
-    background-color 200ms ease,
-    border-color 200ms ease,
-    color 200ms ease,
-    fill 200ms ease,
-    stroke 200ms ease !important;
+    background-color 500ms cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 500ms cubic-bezier(0.4, 0, 0.2, 1),
+    color 500ms cubic-bezier(0.4, 0, 0.2, 1),
+    fill 500ms cubic-bezier(0.4, 0, 0.2, 1),
+    stroke 500ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 500ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 500ms cubic-bezier(0.4, 0, 0.2, 1) !important;
 }

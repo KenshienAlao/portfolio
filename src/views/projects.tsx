@@ -2,8 +2,6 @@ import { Button } from "@/components/ui/button";
 import { PROJECTS } from "@/config/projects";
 import { ArrowUpRight } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
-import { m } from "framer-motion";
-import { containerVars, itemVars } from "@/components/animation/ani";
 import Image from "next/image";
 
 export function Projects() {
@@ -12,18 +10,12 @@ export function Projects() {
       id="projects"
       className="relative py-24 bg-background overflow-hidden"
     >
-      <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-accent/5 blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 rounded-full bg-accent/5 blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-accent/5 blur-[60px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 rounded-full bg-accent/5 blur-[60px] pointer-events-none" />
 
       <div className="container relative z-10 mx-auto px-4 max-w-5xl">
-        <m.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={containerVars}
-          className="space-y-16"
-        >
-          <m.div variants={itemVars} className="text-center">
+        <div className="space-y-16">
+          <div className="text-center slide-up stagger-1">
             <h2 className="text-4xl font-extrabold tracking-tight text-text-primary md:text-5xl">
               Projects
             </h2>
@@ -32,16 +24,14 @@ export function Projects() {
               A selection of work showcasing design, engineering, and attention
               to detail.
             </p>
-          </m.div>
+          </div>
 
-          <m.div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 fade-in stagger-2">
             {PROJECTS.map(
               ({ id, title, description, image, tags, github, demo }) => (
-                <m.article
+                <article
                   key={id}
-                  variants={itemVars}
-                  whileHover={{ y: -6, scale: 1.01 }}
-                  className="group flex flex-col overflow-hidden rounded-2xl border border-border/40 bg-surface/30 transition-colors hover:border-accent/40 hover:shadow-xl hover:shadow-accent/2"
+                  className="group flex flex-col overflow-hidden rounded-2xl border border-border/40 bg-surface/30 transition-all hover:-translate-y-1.5 hover:border-accent/40 hover:shadow-xl hover:shadow-accent/2"
                 >
                   <div className="relative aspect-video overflow-hidden bg-muted/40 border-b border-border/40">
                     <Image
@@ -108,11 +98,11 @@ export function Projects() {
                       )}
                     </div>
                   </div>
-                </m.article>
+                </article>
               ),
             )}
-          </m.div>
-        </m.div>
+          </div>
+        </div>
       </div>
     </section>
   );

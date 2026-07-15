@@ -1,6 +1,4 @@
-import { itemVars } from "@/components/animation/ani";
 import { HIGHLIGHTS } from "@/config/highlights";
-import { m } from "framer-motion";
 
 export function About() {
   return (
@@ -8,31 +6,19 @@ export function About() {
       id="about"
       className="relative py-24 bg-background overflow-hidden md:py-32"
     >
-      <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-accent/5 blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 rounded-full bg-accent/5 blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-accent/5 blur-[60px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 rounded-full bg-accent/5 blur-[60px] pointer-events-none" />
 
-      <m.div
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: "-100px" }}
-        variants={{
-          hidden: { opacity: 0 },
-          show: { opacity: 1, transition: { staggerChildren: 0.15 } },
-        }}
-        className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl"
-      >
-        <m.div variants={itemVars} className="mb-16 text-center">
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+        <div className="mb-16 text-center slide-up stagger-1">
           <h2 className="text-4xl font-extrabold tracking-tight text-text-primary sm:text-5xl lg:text-6xl">
             About Me
           </h2>
           <div className="mt-6 h-1.5 w-16 bg-accent mx-auto rounded-full" />
-        </m.div>
+        </div>
 
         <div className="mx-auto max-w-3xl">
-          <m.div
-            variants={itemVars}
-            className="space-y-6 text-lg md:text-xl leading-relaxed text-text-secondary"
-          >
+          <div className="space-y-6 text-lg md:text-xl leading-relaxed text-text-secondary slide-up stagger-2">
             <p>
               As a 19-year-old BSIT student and aspiring full-stack developer,
               my world revolves around code—often dedicating 12+ hours a day to
@@ -54,19 +40,15 @@ export function About() {
               <span className="font-semibold text-accent italic">crafted</span>{" "}
               rather than just assembled.
             </p>
-          </m.div>
+          </div>
 
-          <m.div
-            variants={itemVars}
-            className="mt-20 grid gap-4 sm:gap-6 sm:grid-cols-3"
-          >
+          <div className="mt-20 grid gap-4 sm:gap-6 sm:grid-cols-3 fade-in stagger-3">
             {HIGHLIGHTS.STATS.map(({ label, value }, i) => {
               const Icon = HIGHLIGHTS.ICONS[i];
               return (
-                <m.div
+                <div
                   key={label}
-                  whileHover={{ y: -5, scale: 1.02 }}
-                  className="group relative flex flex-col items-center justify-center rounded-2xl border border-border/40 bg-surface/30 p-8 text-center backdrop-blur-sm transition-colors hover:border-accent/40 hover:bg-surface/60 hover:shadow-lg hover:shadow-accent/3"
+                  className="group relative flex flex-col items-center justify-center rounded-2xl border border-border/40 bg-surface/30 p-8 text-center transition-transform hover:-translate-y-1 hover:border-accent/40 hover:bg-surface/60 hover:shadow-lg hover:shadow-accent/3"
                 >
                   {Icon && (
                     <div className="mb-4 rounded-xl bg-accent/10 p-3 text-accent transition-transform duration-300 group-hover:scale-110 group-hover:bg-accent/20">
@@ -79,12 +61,12 @@ export function About() {
                   <p className="text-xs font-bold uppercase tracking-widest text-text-secondary/80">
                     {label}
                   </p>
-                </m.div>
+                </div>
               );
             })}
-          </m.div>
+          </div>
         </div>
-      </m.div>
+      </div>
     </section>
   );
 }

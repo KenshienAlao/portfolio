@@ -1,22 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useTheme } from "next-themes";
 import { SkillItem, SKILLS } from "@/config/skills";
-import { m, AnimatePresence } from "framer-motion";
-import { containerVars, itemVars } from "@/components/animation/ani";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-const fade = {
-  initial: { opacity: 0, y: 12 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -12 },
-  transition: { duration: 0.3 },
-};
-
 export default function Skills() {
-  const { resolvedTheme } = useTheme();
   const categories = ["All", ...Object.keys(SKILLS)];
   const [active, setActive] = useState("All");
 
@@ -25,18 +14,12 @@ export default function Skills() {
       id="skills"
       className="relative py-24 bg-background overflow-hidden md:py-32"
     >
-      <div className="absolute top-0 left-1/4 -ml-40 -mt-40 w-[500px] h-[500px] rounded-full bg-accent/5 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 -mr-40 -mb-40 w-[500px] h-[500px] rounded-full bg-accent/5 blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 left-1/4 -ml-40 -mt-40 w-[500px] h-[500px] rounded-full bg-accent/5 blur-[60px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 -mr-40 -mb-40 w-[500px] h-[500px] rounded-full bg-accent/5 blur-[60px] pointer-events-none" />
 
       <div className="container relative z-10 mx-auto px-4 max-w-5xl">
-        <m.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={containerVars}
-          className="space-y-16"
-        >
-          <m.div variants={itemVars} className="text-center">
+        <div className="space-y-16">
+          <div className="text-center slide-up stagger-1">
             <h2 className="text-4xl font-extrabold tracking-tight text-text-primary md:text-5xl">
               Skills
             </h2>
@@ -44,12 +27,9 @@ export default function Skills() {
             <p className="mt-6 text-lg text-text-secondary max-w-md mx-auto leading-relaxed">
               Technologies and tools I use to build modern web applications.
             </p>
-          </m.div>
+          </div>
 
-          <m.div
-            variants={itemVars}
-            className="flex flex-wrap justify-center gap-1 border-b border-border pb-0"
-          >
+          <div className="flex flex-wrap justify-center gap-1 border-b border-border pb-0 slide-up stagger-2">
             {categories.map((cat) => (
               <button
                 type="button"
@@ -64,27 +44,19 @@ export default function Skills() {
               >
                 {cat}
                 {active === cat && (
-                  <m.div
-                    layoutId="skillUnderline"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  />
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent transition-all duration-300" />
                 )}
               </button>
             ))}
-          </m.div>
+          </div>
 
-          <AnimatePresence mode="wait">
+          <div className="fade-in stagger-3">
             {active === "All" ? (
-              <m.div
-                key="grid"
-                {...fade}
-                className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-              >
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {Object.entries(SKILLS).map(([category, items]) => (
                   <div
                     key={category}
-                    className="flex flex-col rounded-2xl border border-border bg-surface/10 p-6 backdrop-blur-md hover:border-accent/30 transition-colors"
+                    className="flex flex-col rounded-2xl border border-border bg-surface/10 p-6"
                   >
                     <h3 className="mb-6 text-sm font-bold uppercase tracking-widest text-text-primary/90 flex items-center gap-2.5">
                       <span className="h-2 w-2 rounded-full bg-accent/80" />{" "}
@@ -94,74 +66,62 @@ export default function Skills() {
                       {items.map((skill: SkillItem) => (
                         <div
                           key={skill.name}
-                          className="group/item relative flex items-center gap-3 overflow-hidden rounded-xl border border-border bg-background/20 px-4 py-3 text-sm font-semibold hover:border-accent/20 transition-colors"
+                          className="relative flex items-center gap-3 overflow-hidden rounded-xl border border-border bg-background/20 px-4 py-3 text-sm font-semibold"
                         >
-                          <m.div
-                            initial={{ width: 0 }}
-                            whileInView={{ width: `${skill.level}%` }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 1 }}
+                          <div
                             className="absolute inset-y-0 left-0 bg-accent/10 pointer-events-none"
+                            style={{ width: `${skill.level}%` }}
                           />
                           <div className="relative z-10 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-surface/60 p-1 border border-border">
                             <Image
-                              src={
-                                resolvedTheme === "dark"
-                                  ? skill.image.dark
-                                  : skill.image.light
-                              }
-                              alt={skill.name}
-                              width={500}
-                              height={500}
-                              className="h-full w-full object-contain"
-                              loading="lazy"
+                              src={skill.image.light}
+                              alt={`${skill.name} light icon`}
+                              width={28}
+                              height={28}
+                              className="absolute inset-0 m-auto h-[20px] w-[20px] object-contain transition-opacity duration-500 dark:opacity-0"
+                            />
+                            <Image
+                              src={skill.image.dark}
+                              alt={`${skill.name} dark icon`}
+                              width={28}
+                              height={28}
+                              className="absolute inset-0 m-auto h-[20px] w-[20px] object-contain opacity-0 transition-opacity duration-500 dark:opacity-100"
                             />
                           </div>
                           <span className="relative z-10 text-text-primary">
                             {skill.name}
                           </span>
-                          <span className="relative z-10 ml-auto font-mono text-xs text-text-secondary group-hover/item:text-accent transition-colors">
+                          <span className="relative z-10 ml-auto font-mono text-xs text-text-secondary">
                             {skill.level}%
                           </span>
-                          <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-border/10">
-                            <m.div
-                              initial={{ width: 0 }}
-                              whileInView={{ width: `${skill.level}%` }}
-                              viewport={{ once: true }}
-                              transition={{ duration: 1.2 }}
-                              className="h-full bg-accent/40 group-hover/item:bg-accent transition-colors"
-                            />
-                          </div>
                         </div>
                       ))}
                     </div>
                   </div>
                 ))}
-              </m.div>
+              </div>
             ) : (
-              <m.div
-                key="list"
-                {...fade}
-                className="max-w-2xl mx-auto flex flex-col gap-4"
-              >
+              <div className="max-w-2xl mx-auto flex flex-col gap-4">
                 {(SKILLS[active as keyof typeof SKILLS] || []).map(
                   (skill: SkillItem) => (
                     <div
                       key={skill.name}
-                      className="flex items-center gap-5 rounded-2xl border border-border bg-surface/10 p-5 backdrop-blur-md hover:border-accent/30 transition-colors"
+                      className="flex items-center gap-5 rounded-2xl border border-border bg-surface/10 p-5"
                     >
-                      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-background/50 border border-border p-2.5">
+                      <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-background/50 border border-border p-2.5">
                         <Image
-                          src={
-                            resolvedTheme === "dark"
-                              ? skill.image.dark
-                              : skill.image.light
-                          }
-                          alt={skill.name}
-                          width={500}
-                          height={500}
-                          className="h-full w-full object-contain"
-                          loading="lazy"
+                          src={skill.image.light}
+                          alt={`${skill.name} light icon`}
+                          width={56}
+                          height={56}
+                          className="absolute inset-0 m-auto h-[36px] w-[36px] object-contain transition-opacity duration-700 dark:opacity-0"
+                        />
+                        <Image
+                          src={skill.image.dark}
+                          alt={`${skill.name} dark icon`}
+                          width={56}
+                          height={56}
+                          className="absolute inset-0 m-auto h-[36px] w-[36px] object-contain opacity-0 transition-opacity duration-700 dark:opacity-100"
                         />
                       </div>
                       <div className="flex-1 min-w-0 space-y-2.5">
@@ -174,25 +134,20 @@ export default function Skills() {
                           </span>
                         </div>
                         <div className="h-2.5 w-full bg-border/20 rounded-full overflow-hidden">
-                          <m.div
-                            initial={{ width: 0 }}
-                            animate={{ width: `${skill.level}%` }}
-                            transition={{ duration: 1 }}
-                            className="h-full bg-accent rounded-full"
+                          <div
+                            className="h-full bg-accent rounded-full transition-[width] duration-700 ease-out"
+                            style={{ width: `${skill.level}%` }}
                           />
                         </div>
                       </div>
                     </div>
                   ),
                 )}
-              </m.div>
+              </div>
             )}
-          </AnimatePresence>
+          </div>
 
-          <m.div
-            variants={itemVars}
-            className="relative overflow-hidden rounded-3xl border border-border bg-surface/10 p-8 sm:p-10 backdrop-blur-md"
-          >
+          <div className="relative overflow-hidden rounded-3xl border border-border bg-surface/10 p-8 sm:p-10 slide-up stagger-4">
             <div className="absolute -right-10 -bottom-10 w-40 h-40 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
             <div className="flex flex-col md:flex-row gap-6 relative z-10">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent/10 text-accent">
@@ -216,14 +171,15 @@ export default function Skills() {
                 </h3>
                 <p className="text-base leading-relaxed text-text-secondary/90">
                   I build fast, reliable web apps from front to back. I&apos;m
-                  most at home with React, Next.js, and Node.js, but I also work
-                  with databases, Docker, and cloud platforms like Vercel and
-                  Supabase to ship and scale real products.
+                  most at home with Backend, Springboot, and Node.js, but I also
+                  work with databases and frontend frameworks, Docker, and cloud
+                  platforms like Vercel and Supabase to ship and scale real
+                  products.
                 </p>
               </div>
             </div>
-          </m.div>
-        </m.div>
+          </div>
+        </div>
       </div>
     </section>
   );
