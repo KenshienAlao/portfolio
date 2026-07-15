@@ -35,7 +35,7 @@ export default function Home() {
         theme={theme}
         setTheme={setTheme}
       />
-      <main className="flex-1 fade-in">
+      <main className="flex-1">
         {pages[currentPage] || <Hero changePage={setCurrentPage} />}
       </main>
       <Footer />
