@@ -1,13 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 export default function NotFound() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 text-center overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-accent/5 blur-[80px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-125 h-125 rounded-full bg-accent/5 blur-[80px] pointer-events-none" />
 
       <div className="relative z-10 space-y-6">
         <h1 className="text-8xl font-extrabold tracking-tighter text-accent">
@@ -26,12 +25,9 @@ export default function NotFound() {
           <Button
             asChild
             size="lg"
-            className="rounded-full bg-accent text-white hover:bg-accent/90 active:scale-95 transition-transform"
+            className="rounded-full bg-accent text-white"
           >
-            <Link href="/">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Return Home Now
-            </Link>
+            <Link href="/">Return</Link>
           </Button>
         </div>
       </div>

@@ -8,51 +8,52 @@ export function Projects() {
   return (
     <section
       id="projects"
-      className="relative py-24 bg-background overflow-hidden"
+      className="relative py-24 bg-background overflow-hidden md:py-32"
     >
       <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-accent/5 blur-[60px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 rounded-full bg-accent/5 blur-[60px] pointer-events-none" />
 
       <div className="container relative z-10 mx-auto px-4 max-w-5xl">
         <div className="space-y-16">
-          <div className="text-center slide-up stagger-1">
+          <div className="text-center">
             <h2 className="text-4xl font-extrabold tracking-tight text-text-primary md:text-5xl">
               Projects
             </h2>
             <div className="mt-4 h-1.5 w-12 bg-accent mx-auto rounded-full" />
-            <p className="mt-6 text-lg text-text-secondary max-w-md mx-auto">
-              A selection of work showcasing design, engineering, and attention
-              to detail.
+            <p className="mt-6 text-lg text-text-secondary max-w-md mx-auto leading-relaxed">
+              Projects that showcase my skills in full-stack development, UI
+              design, and problem solving.
             </p>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 fade-in stagger-2">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {PROJECTS.map(
               ({ id, title, description, image, tags, github, demo }) => (
                 <article
                   key={id}
-                  className="group flex flex-col overflow-hidden rounded-2xl border border-border/40 bg-surface/30 transition-all hover:-translate-y-1.5 hover:border-accent/40 hover:shadow-xl hover:shadow-accent/2"
+                  className="flex flex-col overflow-hidden rounded-xl border border-border bg-surface"
                 >
-                  <div className="relative aspect-video overflow-hidden bg-muted/40 border-b border-border/40">
+                  <div className="relative aspect-video overflow-hidden border-b border-border">
                     <Image
                       src={image}
                       alt={title}
                       width={500}
                       height={500}
                       loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="h-full w-full object-cover"
                     />
                   </div>
 
-                  <div className="flex flex-1 flex-col p-6">
-                    <h3 className="text-xl font-bold text-text-primary relative inline-block self-start after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 group-hover:after:w-full after:bg-accent after:transition-all after:duration-300">
+                  <div className="flex flex-1 flex-col gap-3 p-5">
+                    <h3 className="text-base font-bold text-text-primary">
                       {title}
                     </h3>
-                    <p className="mt-3 text-sm leading-relaxed text-text-secondary/90 line-clamp-2">
+
+                    <p className="text-sm leading-relaxed text-text-secondary line-clamp-2">
                       {description}
                     </p>
 
-                    <div className="mt-4 flex flex-wrap gap-1.5">
+                    <div className="flex flex-wrap gap-1.5">
                       {tags.map((tag) => (
                         <span
                           key={tag}
@@ -63,12 +64,12 @@ export function Projects() {
                       ))}
                     </div>
 
-                    <div className="mt-auto pt-6 flex gap-3">
+                    <div className="mt-auto pt-2 flex gap-2">
                       <Button
                         asChild
                         size="sm"
                         variant="outline"
-                        className="rounded-xl border-border/60 text-text-primary hover:bg-surface"
+                        className="rounded-lg border-border text-text-primary hover:bg-background"
                       >
                         <a
                           href={github}
@@ -83,7 +84,7 @@ export function Projects() {
                         <Button
                           asChild
                           size="sm"
-                          className="rounded-xl bg-accent text-white hover:bg-accent/90 shadow-sm shadow-accent/10 group/btn"
+                          className="rounded-lg bg-accent text-white hover:bg-accent/90"
                         >
                           <a
                             href={demo}
@@ -91,8 +92,7 @@ export function Projects() {
                             rel="noopener noreferrer"
                             className="gap-1.5"
                           >
-                            Demo{" "}
-                            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                            Demo <ArrowUpRight className="h-4 w-4" />
                           </a>
                         </Button>
                       )}

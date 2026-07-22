@@ -27,14 +27,14 @@ function ThemeTogglerButton({ className }: { className?: string }) {
       type="button"
       onClick={handleThemeToggle}
       className={cn(
-        "flex h-10 w-10 items-center justify-center rounded-full border border-border/40 bg-surface/30 text-text-secondary hover:bg-surface hover:text-text-primary shadow-xs transition-transform active:scale-95",
+        "flex h-10 w-10 items-center justify-center rounded-full border border-border/40 bg-surface/30 text-text-secondary hover:bg-surface hover:text-text-primary shadow-xs",
         !mounted && "pointer-events-none opacity-0",
         className,
       )}
       aria-label="Toggle theme"
     >
       {mounted && (
-        <div className="transition-all duration-300">
+        <div>
           {resolvedTheme === "dark" ? (
             <Sun className="h-4 w-4 text-yellow-400" />
           ) : (

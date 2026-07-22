@@ -13,19 +13,19 @@ export function Contact() {
 
       <div className="container relative z-10 mx-auto px-4 max-w-5xl">
         <div className="space-y-16">
-          <div className="text-center slide-up stagger-1">
+          <div className="text-center">
             <h2 className="text-4xl font-extrabold tracking-tight text-text-primary md:text-5xl">
               Get in Touch
             </h2>
             <div className="mt-4 h-1.5 w-12 bg-accent mx-auto rounded-full" />
             <p className="mt-6 text-lg text-text-secondary max-w-xl mx-auto leading-relaxed">
-              I&apos;m always open to discussing new projects, creative ideas,
-              or opportunities to be part of your visions.
+              Looking for a developer? I&aos;m available for freelance projects,
+              internships, and full-time opportunities.
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 items-stretch fade-in stagger-2">
-            <div className="flex flex-col justify-center gap-4">
+          <div className="grid gap-4 md:grid-cols-2 items-stretch">
+            <div className="flex flex-col gap-3">
               {CONTACT_LINKS.map((link) => {
                 const Icon = link.icon;
                 return (
@@ -34,56 +34,51 @@ export function Contact() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-5 rounded-2xl border border-border/40 bg-surface/30 p-5 transition-transform hover:-translate-y-1 hover:border-accent/40 active:bg-surface/60"
+                    className="flex items-center gap-4 rounded-xl border border-border bg-surface p-4 hover:border-border/60"
                   >
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent transition-all duration-300 group-hover:scale-105 group-hover:bg-accent/20">
-                      <Icon className="h-5 w-5" />
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
+                      <Icon className="h-4 w-4" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-bold uppercase tracking-widest text-text-secondary/60 mb-0.5">
+                      <p className="text-[11px] font-bold uppercase tracking-widest text-text-secondary mb-0.5">
                         {link.label}
                       </p>
-                      <p className="text-lg font-bold text-text-primary truncate transition-colors duration-300 group-hover:text-accent">
+                      <p className="text-sm font-semibold text-text-primary truncate">
                         {link.value}
                       </p>
                     </div>
-                    <ExternalLink className="h-4 w-4 text-text-secondary/40 transition-all duration-300 group-hover:text-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    <ExternalLink className="h-3.5 w-3.5 text-text-secondary shrink-0" />
                   </a>
                 );
               })}
             </div>
 
-            <div className="flex flex-col justify-center items-center rounded-3xl border border-border/40 bg-surface/10 p-8 sm:p-10 text-center transition-colors hover:border-accent/30 shadow-xs fade-in stagger-3">
-              <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-accent/10 text-accent">
-                <MessageSquare className="h-7 w-7" />
+            <div className="flex flex-col justify-center items-center rounded-xl border border-border bg-surface p-8 text-center">
+              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-lg bg-accent/10 text-accent">
+                <MessageSquare className="h-5 w-5" />
               </div>
-              <h3 className="mb-3 text-2xl font-bold text-text-primary tracking-tight">
+              <h3 className="mb-2 text-lg font-bold text-text-primary tracking-tight">
                 Available for Opportunities
               </h3>
-              <p className="mb-8 text-text-secondary/90 leading-relaxed text-base max-w-sm">
+              <p className="mb-7 text-sm text-text-secondary leading-relaxed max-w-sm">
                 I&apos;m currently looking for freelance projects, full-time
                 roles, and exciting collaborations. Let&apos;s build something
                 amazing together.
               </p>
-
-              <div className="w-full sm:w-auto">
-                <Button
-                  asChild
-                  size="lg"
-                  className="w-full rounded-xl bg-accent text-white shadow-lg shadow-accent/10 hover:bg-accent/90 active:scale-95 transition-transform gap-2 px-8 group"
+              <Button
+                asChild
+                size="lg"
+                className="w-full rounded-lg bg-accent text-white hover:bg-accent/90 active:scale-95 gap-2"
+              >
+                <a
+                  href="mailto:kenshienworkacc@gmail.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  <a
-                    href="mailto:kenshienworkacc@gmail.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Mail className="h-4 w-4 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-12" />
-                    <span className="font-semibold tracking-wide">
-                      Send me an Email
-                    </span>
-                  </a>
-                </Button>
-              </div>
+                  <Mail className="h-4 w-4" />
+                  Send me an Email
+                </a>
+              </Button>
             </div>
           </div>
         </div>

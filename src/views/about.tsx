@@ -9,61 +9,59 @@ export function About() {
       <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-accent/5 blur-[60px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 rounded-full bg-accent/5 blur-[60px] pointer-events-none" />
 
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
-        <div className="mb-16 text-center slide-up stagger-1">
-          <h2 className="text-4xl font-extrabold tracking-tight text-text-primary sm:text-5xl lg:text-6xl">
-            About Me
-          </h2>
-          <div className="mt-6 h-1.5 w-16 bg-accent mx-auto rounded-full" />
-        </div>
-
-        <div className="mx-auto max-w-3xl">
-          <div className="space-y-6 text-lg md:text-xl leading-relaxed text-text-secondary slide-up stagger-2">
-            <p>
-              As a 19-year-old BSIT student and aspiring full-stack developer,
-              my world revolves around code—often dedicating 12+ hours a day to
-              honing my craft. I&apos;m driven by a passion for building
-              scalable, globally accessible web applications that solve real
-              problems.
-            </p>
-            <p>
-              My current focus is mastering{" "}
-              <strong className="font-semibold text-text-primary">
-                Next.js and TypeScript
-              </strong>
-              , bridging the gap between clean, intuitive user interfaces and
-              robust backend architectures.
-            </p>
-            <p>
-              I believe great software is the intersection of technical
-              excellence and thoughtful user experience—software that feels{" "}
-              <span className="font-semibold text-accent italic">crafted</span>{" "}
-              rather than just assembled.
-            </p>
+      <div className="container relative z-10 mx-auto px-4 max-w-5xl">
+        <div className="space-y-16">
+          <div className="text-center">
+            <h2 className="text-4xl font-extrabold tracking-tight text-text-primary md:text-5xl">
+              About Me
+            </h2>
+            <div className="mt-4 h-1.5 w-12 bg-accent mx-auto rounded-full" />
           </div>
 
-          <div className="mt-20 grid gap-4 sm:gap-6 sm:grid-cols-3 fade-in stagger-3">
-            {HIGHLIGHTS.STATS.map(({ label, value }, i) => {
-              const Icon = HIGHLIGHTS.ICONS[i];
-              return (
-                <div
-                  key={label}
-                  className="group relative flex flex-col items-center justify-center rounded-2xl border border-border/40 bg-surface/30 p-8 text-center transition-transform hover:-translate-y-1 hover:border-accent/40 hover:bg-surface/60 hover:shadow-lg hover:shadow-accent/3"
-                >
-                  {Icon && (
-                    <div className="mb-4 rounded-xl bg-accent/10 p-3 text-accent transition-transform duration-300 group-hover:scale-110 group-hover:bg-accent/20">
-                      <Icon className="h-6 w-6" />
+          <div className="mx-auto max-w-3xl space-y-10">
+            <div className="space-y-5 text-base leading-relaxed text-text-secondary md:text-lg">
+              <p>
+                I&apos;m a developer focused on building modern web
+                applications, business websites, and landing pages that are
+                fast, scalable, and easy to maintain.
+              </p>
+              <p>
+                My main stack includes{" "}
+                <strong className="font-semibold text-text-primary">
+                  React, Next.js, TypeScript, Spring Boot, and PostgreSQL
+                </strong>
+                . I enjoy creating clean user interfaces and reliable backend
+                systems.
+              </p>
+              <p>
+                I believe great software should be simple to use, perform well,
+                and solve real problems for both businesses and users.
+              </p>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-3">
+              {HIGHLIGHTS.STATS.map(({ label, value }, i) => {
+                const Icon = HIGHLIGHTS.ICONS[i];
+                return (
+                  <div
+                    key={label}
+                    className="flex flex-col items-center justify-center gap-3 rounded-xl border border-border bg-surface p-6 text-center"
+                  >
+                    {Icon && (
+                      <div className="rounded-lg bg-accent/10 p-2.5 text-accent">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                    )}
+                    <div className="text-3xl font-extrabold text-text-primary">
+                      {value}
                     </div>
-                  )}
-                  <div className="text-4xl font-extrabold text-text-primary mb-1">
-                    {value}
+                    <p className="text-[11px] font-bold uppercase tracking-widest text-text-secondary">
+                      {label}
+                    </p>
                   </div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-text-secondary/80">
-                    {label}
-                  </p>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>

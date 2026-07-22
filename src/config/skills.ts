@@ -8,6 +8,7 @@ export interface SkillItem {
 }
 
 export interface SkillsStructure {
+  [key: string]: SkillItem[];
   Languages: SkillItem[];
   Frontend: SkillItem[];
   Backend: SkillItem[];

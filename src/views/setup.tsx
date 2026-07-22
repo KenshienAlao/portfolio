@@ -16,17 +16,17 @@ export function Setup() {
 
       <div className="container relative z-10 mx-auto px-4 max-w-4xl">
         <div className="space-y-16">
-          <div className="text-center slide-up stagger-1">
+          <div className="text-center">
             <h2 className="text-4xl font-extrabold tracking-tight text-text-primary md:text-5xl">
               Setup
             </h2>
             <div className="mt-4 h-1.5 w-12 bg-accent mx-auto rounded-full" />
             <p className="mt-6 text-lg text-text-secondary max-w-md mx-auto leading-relaxed">
-              The precision tools powering my workflow.
+              The tools I use for development, design, and productivity.
             </p>
           </div>
 
-          <div className="space-y-4 fade-in stagger-2">
+          <div className="grid gap-3 sm:grid-cols-2">
             {SETUP_ITEMS.map((item) => {
               const values = Array.isArray(item.value)
                 ? item.value
@@ -34,7 +34,6 @@ export function Setup() {
               const downloads = Array.isArray(item.download)
                 ? item.download
                 : [item.download];
-
               const lightImages = Array.isArray(item.image.light)
                 ? item.image.light
                 : [item.image.light];
@@ -45,37 +44,37 @@ export function Setup() {
               return (
                 <div
                   key={item.category}
-                  className="group relative rounded-2xl border border-border/40 bg-surface/20 p-6 sm:p-8 transition-colors hover:border-accent/40"
+                  className="flex flex-col gap-4 rounded-xl border border-border bg-surface p-5"
                 >
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                    <div className="flex-1 min-w-0 md:max-w-[70%]">
-                      <span className="text-xs font-bold uppercase tracking-widest text-accent mb-3 block">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex flex-col gap-3 min-w-0">
+                      <p className="text-[11px] font-bold uppercase tracking-widest text-text-secondary">
                         {item.category}
-                      </span>
+                      </p>
 
-                      <div className="flex flex-wrap gap-x-4 gap-y-2 items-center">
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                         {values.map((v, i) => (
                           <span
                             key={v}
-                            className="inline-flex items-center gap-1.5"
+                            className="inline-flex items-center gap-1"
                           >
                             {downloads[i] ? (
                               <a
                                 href={downloads[i]!}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group/link relative flex items-center gap-1 text-2xl font-bold tracking-tight text-text-primary hover:text-accent transition-colors duration-200"
+                                className="inline-flex items-center gap-1 text-lg font-bold tracking-tight text-text-primary"
                               >
                                 {v}
-                                <ArrowUpRight className="w-4 h-4 text-text-secondary/40 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5 group-hover/link:text-accent" />
+                                <ArrowUpRight className="w-3.5 h-3.5 text-text-secondary" />
                               </a>
                             ) : (
-                              <span className="text-2xl font-bold tracking-tight text-text-primary">
+                              <span className="text-lg font-bold tracking-tight text-text-primary">
                                 {v}
                               </span>
                             )}
                             {i < values.length - 1 && (
-                              <span className="ml-2 text-xl text-border/40 select-none">
+                              <span className="ml-1 text-border select-none">
                                 /
                               </span>
                             )}
@@ -83,7 +82,7 @@ export function Setup() {
                         ))}
                       </div>
 
-                      <p className="mt-3 text-base text-text-secondary/90 leading-relaxed">
+                      <p className="text-sm text-text-secondary leading-relaxed">
                         {item.description}
                       </p>
 
@@ -91,8 +90,7 @@ export function Setup() {
                         <Button
                           asChild
                           size="sm"
-                          variant="secondary"
-                          className="mt-5 rounded-xl bg-accent/10 text-accent hover:bg-accent hover:text-white transition-colors duration-200 shadow-xs"
+                          className="self-start rounded-lg bg-accent text-white hover:bg-accent/90 shadow-sm shadow-accent/10"
                         >
                           <a
                             href={item.subDownload}
@@ -108,23 +106,23 @@ export function Setup() {
                     <div className="flex items-center gap-1.5 shrink-0">
                       {lightImages.map((src, idx) => (
                         <div
-                          key={`${src.length}-${idx}`}
-                          className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-surface border border-border/50 shadow-xs flex items-center justify-center p-2"
+                          key={`${src}-${idx}`}
+                          className="relative h-10 w-10 rounded-lg border border-border bg-background flex items-center justify-center p-2"
                         >
                           <Image
                             src={src}
                             alt="Tool icon"
-                            width={32}
-                            height={32}
-                            className="absolute inset-0 m-auto h-[24px] w-[24px] object-contain transition-opacity duration-500 dark:opacity-0"
+                            width={24}
+                            height={24}
+                            className="absolute inset-0 m-auto h-5 w-5 object-contain dark:opacity-0"
                           />
                           {darkImages[idx] && (
                             <Image
                               src={darkImages[idx]}
                               alt="Tool icon"
-                              width={32}
-                              height={32}
-                              className="absolute inset-0 m-auto h-[24px] w-[24px] object-contain opacity-0 transition-opacity duration-500 dark:opacity-100"
+                              width={24}
+                              height={24}
+                              className="absolute inset-0 m-auto h-5 w-5 object-contain opacity-0 dark:opacity-100"
                             />
                           )}
                         </div>
