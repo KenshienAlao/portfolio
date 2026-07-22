@@ -241,14 +241,6 @@ export function Navigation({
             );
           })}
         </div>
-
-        {/* Drawer footer */}
-        <div className="border-t border-border/10 px-5 py-4">
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-text-secondary/60">Theme</span>
-            <ThemeTogglerButton className="h-8 w-8 rounded-lg text-sm" />
-          </div>
-        </div>
       </div>
     </>
   );
