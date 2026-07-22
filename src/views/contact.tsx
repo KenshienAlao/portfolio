@@ -19,8 +19,8 @@ export function Contact() {
             </h2>
             <div className="mt-4 h-1.5 w-12 bg-accent mx-auto rounded-full" />
             <p className="mt-6 text-lg text-text-secondary max-w-xl mx-auto leading-relaxed">
-              Looking for a developer? I&aos;m available for freelance projects,
-              internships, and full-time opportunities.
+              Looking for a developer? I&apos;m available for freelance
+              projects, internships, and full-time opportunities.
             </p>
           </div>
 
