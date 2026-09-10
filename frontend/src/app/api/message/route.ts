@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
 import { submitContactMessage } from "@/actions/contact";
+import { rateLimit } from "@/lib/rate-limit";
+
+const limiter = rateLimit({ limit: 5, window: 60 * 60 });
 
 export async function POST(req: Request) {
+  const blocked = limiter(req);
+  if (blocked) return blocked;
+
   try {
     const body = await req.json();
     const result = await submitContactMessage(body);

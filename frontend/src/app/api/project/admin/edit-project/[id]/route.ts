@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
 import { editProjectAction } from "@/actions/projects";
+import { rateLimit } from "@/lib/rate-limit";
+
+const limiter = rateLimit({ limit: 30, window: 60 });
 
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const blocked = limiter(req);
+  if (blocked) return blocked;
+
   try {
     const { id } = await params;
     const formData = await req.formData();

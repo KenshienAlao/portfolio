@@ -5,8 +5,11 @@ import { getAllSkills } from "@/lib/db/skills";
 import { getAllEducation } from "@/lib/db/education";
 import { getAllSetupCategories } from "@/lib/db/setup";
 import { buildSystemInstruction } from "@/lib/chat-prompt";
+import { rateLimit } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
+
+const limiter = rateLimit({ limit: 10, window: 60 });
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -14,6 +17,9 @@ interface ChatMessage {
 }
 
 export async function POST(req: NextRequest) {
+  const blocked = limiter(req);
+  if (blocked) return blocked;
+
   try {
     const rawKeys = process.env.GEMINI_API_KEY;
     if (!rawKeys) {
