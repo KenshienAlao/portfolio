@@ -1,7 +1,6 @@
 "use server";
 
 import {
-  getAllEducation,
   createEducation,
   updateEducation,
   deleteEducation,
