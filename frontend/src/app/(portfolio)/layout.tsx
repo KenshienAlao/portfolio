@@ -1,5 +1,6 @@
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
+import { ChatWidget } from "@/components/chat-widget";
 
 export default function PortfolioLayout({
   children,
@@ -11,6 +12,8 @@ export default function PortfolioLayout({
       <Navigation />
       <main className="flex-1">{children}</main>
       <Footer />
+      <ChatWidget />
     </div>
   );
 }
+

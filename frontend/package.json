@@ -10,6 +10,7 @@
     "doctor": "npx react-doctor@latest"
   },
   "dependencies": {
+    "@google/genai": "^2.21.0",
     "@radix-ui/react-slot": "^1.2.5",
     "@tanstack/react-query": "^5.101.4",
     "axios": "^1.18.1",
