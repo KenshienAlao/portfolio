@@ -1,9 +1,6 @@
 import { Education } from "@/views/education";
-import { fetchPublicData } from "@/lib/prefetch";
-import { type Education as EducationType } from "@/service/education.service";
+import { getAllEducation } from "@/lib/db/education";
 import type { Metadata } from "next";
-
-export const revalidate = 31536000;
 
 export const metadata: Metadata = {
   title: "Education | Kenshien Alao",
@@ -15,6 +12,6 @@ export const metadata: Metadata = {
 };
 
 export default async function EducationPage() {
-  const education = await fetchPublicData<EducationType>("/api/education");
+  const education = await getAllEducation();
   return <Education education={education} />;
 }

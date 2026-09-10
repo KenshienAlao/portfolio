@@ -1,9 +1,6 @@
 import { Setup } from "@/views/setup";
-import { fetchPublicData } from "@/lib/prefetch";
-import { type SetupCategory } from "@/service/setup.service";
+import { getAllSetupCategories } from "@/lib/db/setup";
 import type { Metadata } from "next";
-
-export const revalidate = 31536000;
 
 export const metadata: Metadata = {
   title: "Setup | Kenshien Alao",
@@ -15,6 +12,6 @@ export const metadata: Metadata = {
 };
 
 export default async function SetupPage() {
-  const setups = await fetchPublicData<SetupCategory>("/api/setup");
+  const setups = await getAllSetupCategories();
   return <Setup setups={setups} />;
 }

@@ -8,8 +8,9 @@ export class SessionExpiredError extends Error {
   }
 }
 
+// In Next.js full-stack mode, default baseURL to "" (same origin)
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "",
   withCredentials: true,
   headers: {
     Accept: "application/json",
@@ -23,7 +24,6 @@ api.interceptors.response.use(
     if (res.data?.success === false) {
       throw new Error(res.data.message);
     }
-    12;
     return res;
   },
   async (error: AxiosError<{ message?: string }>) => {
@@ -34,7 +34,8 @@ api.interceptors.response.use(
     if (
       (error.response?.status === 401 || error.response?.status === 403) &&
       req &&
-      !req._retry
+      !req._retry &&
+      !req.url?.includes("/api/auth/login")
     ) {
       req._retry = true;
 
@@ -43,7 +44,7 @@ api.interceptors.response.use(
         return api(req);
       } catch {
         if (typeof window !== "undefined") {
-          window.location.href = `/?clear_session=true`;
+          window.location.href = `/login`;
           return;
         }
 

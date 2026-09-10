@@ -1,0 +1,29 @@
+[
+  {
+    "id": 6,
+    "school": "Colegio de Montalban",
+    "degree": "BSIT",
+    "yearStart": "2025",
+    "yearEnd": "Present",
+    "description": "Currently pursuing a Bachelor of Science in Information Technology, with a focus on software engineering.",
+    "location": "https://maps.app.goo.gl/oe9GKPBFfVz9aTLj9"
+  },
+  {
+    "id": 7,
+    "school": "Kasiglahan Village Senior High School",
+    "degree": "ICT",
+    "yearStart": "2023",
+    "yearEnd": "2025",
+    "description": "Studied computer hardware and system units, computer assembly and maintenance, basic networking, workplace ethics, and ICT fundamentals.",
+    "location": "https://maps.app.goo.gl/kx4FsaYg75qzNUT49"
+  },
+  {
+    "id": 8,
+    "school": "Kasiglahan Village National High School",
+    "degree": "JHS",
+    "yearStart": "2019",
+    "yearEnd": "2023",
+    "description": "Developed an interest in technology and problem-solving, which inspired me to pursue a career in software development.",
+    "location": "https://maps.app.goo.gl/jjTb4UNfcA6mKV9g6"
+  }
+]

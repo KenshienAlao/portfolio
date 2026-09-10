@@ -1,0 +1,45 @@
+[
+  {
+    "id": 25,
+    "title": "BareSway",
+    "image": "https://res.cloudinary.com/lpxtww2i/image/upload/v1785685080/projects/project_5c386d6b-6fac-4a0b-a5bb-4b834c208229.png",
+    "description": "A minimal tiling Wayland compositor.",
+    "tags": [
+      "Arch Linux",
+      "Hyprland",
+      "Linux",
+      "Shell"
+    ],
+    "github": "https://github.com/KenshienAlao/BareSway",
+    "demo": null
+  },
+  {
+    "id": 29,
+    "title": "Green-Root-Co.",
+    "image": "https://res.cloudinary.com/lpxtww2i/image/upload/v1785841647/projects/project_4a961286-21ff-4753-ae0a-5f0f36e32d8b.png",
+    "description": "A comprehensive component library built with React and Tailwind CSS for enterprise applications.",
+    "tags": [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Landing Page"
+    ],
+    "github": "https://github.com/KenshienAlao/Green-Roots-Co..git",
+    "demo": "https://greenrootsco.vercel.app"
+  },
+  {
+    "id": 30,
+    "title": "ELibrary-CDM",
+    "image": "https://res.cloudinary.com/lpxtww2i/image/upload/v1785842380/projects/project_19e2224a-4255-404d-9f7d-262da16c48e7.png",
+    "description": "A web application for the libary in the Colegio De Montalban",
+    "tags": [
+      "Next.js",
+      "TypeScript",
+      "Java",
+      "Spring Boot",
+      "Full-Stack"
+    ],
+    "github": "https://github.com/KenshienAlao/elibrary-cdm.git",
+    "demo": "https://elibrary-cdm.vercel.app/"
+  }
+]

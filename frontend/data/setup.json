@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "category": "Operating System",
+    "description": "The operating systems I use for development, testing, and everyday computing.",
+    "items": [
+      {
+        "id": 1,
+        "categoryId": 1,
+        "value": "Linux",
+        "download": "https://archlinux.org/download/",
+        "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786679827/setup/setup_5b46543e-1d1b-4edb-a5dc-91e51efb118b_light.svg",
+        "subValue": "Download my Compository",
+        "subDownload": "https://github.com/KenshienAlao/BareSway.git"
+      },
+      {
+        "id": 2,
+        "categoryId": 1,
+        "value": "Windows 10",
+        "download": "https://www.microsoft.com/en-us/software-download/windows10",
+        "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786680503/setup/setup_d7b566e2-073c-4215-af17-5ceccf100170_light.png"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "category": "IDEs",
+    "description": "Development environments I use for coding, debugging, and managing projects.",
+    "items": [
+      {
+        "id": 3,
+        "categoryId": 2,
+        "value": "VSCodium",
+        "download": "https://vscodium.com/#install",
+        "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786680867/setup/setup_3a99b227-b20d-4ec6-b154-266a5767dc32_light.svg"
+      },
+      {
+        "id": 4,
+        "categoryId": 2,
+        "value": "IntelliJ",
+        "download": "https://vscodium.com/#install",
+        "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786680918/setup/setup_74b6a9f9-0bff-41b4-9159-b0ed20dfbf52_light.svg"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "category": "Packager Manager",
+    "description": "Tools I use to install, manage, and update project dependencies.",
+    "items": [
+      {
+        "id": 5,
+        "categoryId": 3,
+        "value": "NPM",
+        "download": "https://docs.npmjs.com/downloading-and-installing-node-js-and-npm",
+        "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786681039/setup/setup_b478e943-36e6-4918-9065-4c22cf425b4b_light.svg"
+      },
+      {
+        "id": 6,
+        "categoryId": 3,
+        "value": "PNPM",
+        "download": "https://pnpm.io/installation",
+        "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786681071/setup/setup_05187770-8ab4-4e45-bb27-95da1fa8e997_light.svg",
+        "imageDark": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786681073/setup/setup_d0b86a6f-27fd-4cfe-9f96-ee1bec1a38fd_dark.svg"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "category": "Version Control",
+    "description": "Tools I use to track code changes, manage versions, and collaborate on projects.",
+    "items": [
+      {
+        "id": 7,
+        "categoryId": 4,
+        "value": "Git",
+        "download": "https://git-scm.com/install/linux",
+        "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786681195/setup/setup_6e2f1a69-1409-404d-8581-46343d0840b4_light.svg"
+      },
+      {
+        "id": 8,
+        "categoryId": 4,
+        "value": "GitHub",
+        "download": "https://desktop.github.com/download/",
+        "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786681228/setup/setup_4b3cf1d5-d568-4fe4-8909-9bb57fd2fcc1_light.svg",
+        "imageDark": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786681231/setup/setup_964b2955-4d4b-40e9-b060-1af3f8b1aaaa_dark.svg"
+      }
+    ]
+  }
+]

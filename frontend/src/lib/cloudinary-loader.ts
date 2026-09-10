@@ -5,7 +5,10 @@ export interface ImageLoaderProps {
 }
 
 const CLOUD_NAME =
-  process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || "lpxtww2i";
+  process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME ||
+  process.env.CLOUDINARY_CLOUD_NAME ||
+  process.env.CLOUDINARY_NAME ||
+  "lpxtww2i";
 
 export default function cloudinaryLoader({
   src,

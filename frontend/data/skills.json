@@ -1,0 +1,151 @@
+[
+  {
+    "id": 8,
+    "name": "TypeScript",
+    "category": "Languages",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674126/skills/skill_f5b7a971-68f8-400f-8105-c7d456cec851_light.svg"
+  },
+  {
+    "id": 9,
+    "name": "JavaScript",
+    "category": "Languages",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674139/skills/skill_bab4280c-fbc0-41e3-997e-8a2b6ad56e3f_light.svg"
+  },
+  {
+    "id": 10,
+    "name": "Java",
+    "category": "Languages",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674156/skills/skill_dcecfba3-33c4-4d95-9b30-92e7127c7632_light.svg"
+  },
+  {
+    "id": 11,
+    "name": "C#",
+    "category": "Languages",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674171/skills/skill_7066cae6-4382-4f6f-bfbc-ed07a0067224_light.svg"
+  },
+  {
+    "id": 12,
+    "name": "C++",
+    "category": "Languages",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674183/skills/skill_258c4ff0-20b7-4a27-8786-c5031c18af33_light.svg"
+  },
+  {
+    "id": 13,
+    "name": "Vite",
+    "category": "Frontend",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674210/skills/skill_2abbe3a4-ca5b-4ef0-a6ba-527f3f0f62e9_light.svg"
+  },
+  {
+    "id": 14,
+    "name": "NextJS",
+    "category": "Frontend",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674224/skills/skill_ad9547c8-f432-4cbe-bacf-0825a3291532_light.svg"
+  },
+  {
+    "id": 15,
+    "name": "React",
+    "category": "Frontend",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674240/skills/skill_822ff24b-c3b7-436e-929a-ae3e8187f5be_light.svg",
+    "imageDark": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674242/skills/skill_5a06cb04-2971-4ad0-a36c-b7f5719b9c5c_dark.svg"
+  },
+  {
+    "id": 16,
+    "name": "TailwindCSS",
+    "category": "Frontend",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674255/skills/skill_db16a5a7-41d4-409f-8a7b-ebea49ce9064_light.svg"
+  },
+  {
+    "id": 17,
+    "name": "NodeJS",
+    "category": "Backend",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674270/skills/skill_c36dbfc8-ca23-4081-b596-51bfdd6e8262_light.svg"
+  },
+  {
+    "id": 18,
+    "name": "Springboot",
+    "category": "Backend",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674287/skills/skill_3a103f98-a5e6-4ba8-8131-2ce9752031c5_light.svg"
+  },
+  {
+    "id": 19,
+    "name": "ExpressJS",
+    "category": "Backend",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674318/skills/skill_da4bb477-039b-4d0c-83ef-b92f0e853e82_light.svg",
+    "imageDark": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674320/skills/skill_2ee13c57-d2d4-4158-9c81-9373dbd7761e_dark.svg"
+  },
+  {
+    "id": 20,
+    "name": "MySQL",
+    "category": "Database",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674349/skills/skill_f1adaf92-2c68-4c3b-bc17-056ae5f0ae6d_light.svg",
+    "imageDark": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674351/skills/skill_a3fe8adf-096b-42e6-b7bc-2555631f5983_dark.svg"
+  },
+  {
+    "id": 21,
+    "name": "PostgreSQL",
+    "category": "Database",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674377/skills/skill_3d3ac900-7f6f-4604-8a30-57ee49038ec6_light.svg"
+  },
+  {
+    "id": 22,
+    "name": "Docker",
+    "category": "Tools",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674393/skills/skill_4a3e25c2-7241-491f-a1f6-59a738c5d497_light.svg"
+  },
+  {
+    "id": 23,
+    "name": "Git",
+    "category": "Tools",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674402/skills/skill_ad01573a-2a60-4c40-8a04-a0bed2520587_light.svg"
+  },
+  {
+    "id": 24,
+    "name": "Postman",
+    "category": "Tools",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674414/skills/skill_0912018c-3f8f-41d2-a293-5ea2993aed1c_light.svg"
+  },
+  {
+    "id": 25,
+    "name": "IntelliJ",
+    "category": "Tools",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786680946/skills/skill_e0154d96-1fe7-48df-ad50-494ff044db41_light.svg"
+  },
+  {
+    "id": 26,
+    "name": "VSCodium",
+    "category": "Tools",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674444/skills/skill_344c61ae-d9bb-4de3-8030-53d1c2b2e319_light.svg"
+  },
+  {
+    "id": 27,
+    "name": "Blender",
+    "category": "Platforms",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674461/skills/skill_74972876-5e6c-48c4-9d1c-f02c93dc08d6_light.svg"
+  },
+  {
+    "id": 28,
+    "name": "Figma",
+    "category": "Platforms",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674468/skills/skill_7b3c62c4-8e99-43a5-9f33-ce25b45fa47a_light.svg"
+  },
+  {
+    "id": 29,
+    "name": "Supabase",
+    "category": "Platforms",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674480/skills/skill_d42f88d6-e241-4dde-9d5d-cb115b9ec01c_light.svg"
+  },
+  {
+    "id": 30,
+    "name": "Vercel",
+    "category": "Platforms",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674498/skills/skill_958f809e-96d3-4574-b525-79b951178b32_light.svg",
+    "imageDark": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674501/skills/skill_9f181abd-cc29-4520-b5f6-3760cff37452_dark.svg"
+  },
+  {
+    "id": 31,
+    "name": "GitHub",
+    "category": "Platforms",
+    "imageLight": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674516/skills/skill_e01c3ea3-ec92-455e-81a4-75eae0b2cc07_light.svg",
+    "imageDark": "https://res.cloudinary.com/lpxtww2i/image/upload/v1786674518/skills/skill_9fc30049-7ae9-4550-88cc-2e222d08df8c_dark.svg"
+  }
+]

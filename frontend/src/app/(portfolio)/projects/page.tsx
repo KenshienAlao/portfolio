@@ -1,9 +1,6 @@
 import { Projects } from "@/views/projects";
-import { fetchPublicData } from "@/lib/prefetch";
-import { type Project } from "@/service/project.service";
+import { getAllProjects } from "@/lib/db/projects";
 import type { Metadata } from "next";
-
-export const revalidate = 31536000;
 
 export const metadata: Metadata = {
   title: "Projects | Kenshien Alao",
@@ -15,6 +12,6 @@ export const metadata: Metadata = {
 };
 
 export default async function ProjectsPage() {
-  const projects = await fetchPublicData<Project>("/api/project");
+  const projects = await getAllProjects();
   return <Projects projects={projects} />;
 }

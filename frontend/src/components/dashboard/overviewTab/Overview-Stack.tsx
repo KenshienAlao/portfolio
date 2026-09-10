@@ -16,22 +16,22 @@ export function Stack() {
 
       <div className="space-y-2 text-xs text-text-secondary">
         <div className="flex justify-between border-b border-border/40 pb-2">
-          <span>Frontend:</span>
+          <span>Framework:</span>
           <span className="font-semibold text-text-primary">
             Next.js 16 / React 19
           </span>
         </div>
         <div className="flex justify-between border-b border-border/40 pb-2">
-          <span>Backend:</span>
-          <span className="font-semibold text-text-primary">Spring Boot 3</span>
+          <span>Architecture:</span>
+          <span className="font-semibold text-text-primary">Full-Stack</span>
         </div>
         <div className="flex justify-between border-b border-border/40 pb-2">
-          <span>Assets:</span>
-          <span className="font-semibold text-text-primary">Cloudinary</span>
+          <span>Auth:</span>
+          <span className="font-semibold text-text-primary">Session Cookies</span>
         </div>
         <div className="flex justify-between">
-          <span>Database:</span>
-          <span className="font-semibold text-text-primary">Supabase</span>
+          <span>Datastore:</span>
+          <span className="font-semibold text-text-primary">JSON</span>
         </div>
       </div>
     </div>

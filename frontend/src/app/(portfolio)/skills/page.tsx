@@ -1,9 +1,6 @@
 import { Skills } from "@/views/skills";
-import { fetchPublicData } from "@/lib/prefetch";
-import { type Skill } from "@/service/skill.service";
+import { getAllSkills } from "@/lib/db/skills";
 import type { Metadata } from "next";
-
-export const revalidate = 31536000;
 
 export const metadata: Metadata = {
   title: "Skills | Kenshien Alao",
@@ -15,6 +12,6 @@ export const metadata: Metadata = {
 };
 
 export default async function SkillsPage() {
-  const skills = await fetchPublicData<Skill>("/api/skill");
+  const skills = await getAllSkills();
   return <Skills skills={skills} />;
 }
