@@ -268,6 +268,42 @@ export function ChatWidget() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [isOpen]);
 
+  // Lock the page behind the widget while it's open, so a touch-scroll on
+  // mobile moves the chat, not the page underneath it. The fixed-position
+  // trick (rather than plain overflow:hidden) is what actually holds still
+  // on iOS Safari, and we restore the exact scroll offset on close.
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const scrollY = window.scrollY;
+    const { body } = document;
+    const prev = {
+      position: body.style.position,
+      top: body.style.top,
+      left: body.style.left,
+      right: body.style.right,
+      width: body.style.width,
+      overflow: body.style.overflow,
+    };
+
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+    body.style.overflow = "hidden";
+
+    return () => {
+      body.style.position = prev.position;
+      body.style.top = prev.top;
+      body.style.left = prev.left;
+      body.style.right = prev.right;
+      body.style.width = prev.width;
+      body.style.overflow = prev.overflow;
+      window.scrollTo(0, scrollY);
+    };
+  }, [isOpen]);
+
   const autoResize = () => {
     const el = textareaRef.current;
     if (!el) return;
@@ -367,15 +403,16 @@ export function ChatWidget() {
   };
 
   return (
-    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end">
+    <div className="fixed bottom-0 right-0 sm:bottom-5 sm:right-5 z-50 flex flex-col items-end">
       {isOpen && (
         <div
           role="dialog"
           aria-label="Kenshien AI chat"
           className={cn(
-            "mb-3 flex flex-col w-[92vw] sm:w-96 h-136 max-h-[80vh]",
-            "rounded-2xl border border-border bg-surface shadow-xl",
-            "overflow-hidden",
+            "relative flex flex-col w-screen sm:w-96",
+            "h-dvh sm:h-136 sm:max-h-[80vh]",
+            "border-0 sm:border border-border bg-surface sm:shadow-xl",
+            "sm:mb-3 sm:rounded-2xl overflow-hidden",
           )}
         >
           <div className="flex items-center justify-between border-b border-border px-4 py-3 bg-surface">
@@ -401,7 +438,7 @@ export function ChatWidget() {
                   onClick={handleClear}
                   title="Clear conversation"
                   aria-label="Clear chat"
-                  className="p-1.5 rounded-lg text-text-secondary hover:text-destructive hover:bg-destructive/10 transition-colors focus-visible:outline-2 focus-visible:outline-accent"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg text-text-secondary hover:text-destructive hover:bg-destructive/10 transition-colors focus-visible:outline-2 focus-visible:outline-accent"
                 >
                   <HiTrash className="h-4 w-4" />
                 </button>
@@ -411,7 +448,7 @@ export function ChatWidget() {
                 onClick={() => setIsOpen(false)}
                 title="Close chat"
                 aria-label="Close chat"
-                className="p-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-border/50 transition-colors focus-visible:outline-2 focus-visible:outline-accent"
+                className="flex h-9 w-9 items-center justify-center rounded-lg text-text-secondary hover:text-text-primary hover:bg-border/50 transition-colors focus-visible:outline-2 focus-visible:outline-accent"
               >
                 <HiX className="h-5 w-5" />
               </button>
@@ -419,7 +456,7 @@ export function ChatWidget() {
           </div>
           <div
             aria-live="polite"
-            className="chat-scroll flex-1 overflow-y-auto p-4 space-y-3.5 text-xs sm:text-sm"
+            className="chat-scroll flex-1 overflow-y-auto overscroll-contain p-4 space-y-3.5 text-xs sm:text-sm"
           >
             {messages.map((msg, idx) => {
               const isUser = msg.role === "user";
@@ -526,7 +563,7 @@ export function ChatWidget() {
               e.preventDefault();
               handleSend();
             }}
-            className="border-t border-border p-3 bg-surface flex gap-2 items-end"
+            className="border-t border-border p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] bg-surface flex gap-2 items-end"
           >
             <textarea
               ref={textareaRef}
@@ -544,38 +581,30 @@ export function ChatWidget() {
               }}
               placeholder="Ask about Kenshien..."
               disabled={isLoading}
-              className="flex-1 resize-none bg-background border border-border focus:border-accent rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-text-primary placeholder:text-text-secondary/60 focus:outline-none focus:ring-2 focus:ring-accent/30 disabled:opacity-60 transition-colors leading-relaxed max-h-30 overflow-y-auto"
+              className="flex-1 resize-none bg-background border border-border focus:border-accent rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-text-primary placeholder:text-text-secondary/60 focus:outline-none focus:ring-2 focus:ring-accent/30 disabled:opacity-60 transition-colors leading-relaxed max-h-30 overflow-y-auto"
             />
             <button
               type="submit"
               disabled={!input.trim() || isLoading}
               aria-label="Send message"
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent text-white hover:opacity-90 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              className="flex h-11 w-11 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl bg-accent text-white hover:opacity-90 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
               <HiPaperAirplane className="h-4 w-4 -rotate-45" />
             </button>
           </form>
         </div>
       )}
-      <button
-        type="button"
-        onClick={() => setIsOpen((prev) => !prev)}
-        aria-label={isOpen ? "Close AI chat" : "Open AI chat"}
-        className={cn(
-          "flex items-center justify-center gap-2 rounded-full px-4 py-3 shadow-lg transition-colors",
-          "bg-accent text-white hover:opacity-90 active:scale-95 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
-          isOpen && "bg-surface border border-border text-text-primary",
-        )}
-      >
-        {isOpen ? (
-          <HiX className="h-5 w-5" />
-        ) : (
-          <>
-            <HiSparkles className="h-5 w-5 text-white" />
-            <span className="text-xs font-semibold tracking-wide">Ask AI</span>
-          </>
-        )}
-      </button>
+      {!isOpen && (
+        <button
+          type="button"
+          onClick={() => setIsOpen(true)}
+          aria-label="Open AI chat"
+          className="m-5 flex items-center justify-center gap-2 rounded-full px-4 py-3 shadow-lg transition-colors bg-accent text-white hover:opacity-90 active:scale-95 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        >
+          <HiSparkles className="h-5 w-5 text-white" />
+          <span className="text-xs font-semibold tracking-wide">Ask AI</span>
+        </button>
+      )}
     </div>
   );
 }
