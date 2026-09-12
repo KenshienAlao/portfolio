@@ -2,8 +2,6 @@ import { type SetupCategory, type SetupItem } from "@/service/setup.service";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { SectionHeader } from "@/components/section-header";
-import { FiArrowUpRight } from "react-icons/fi";
-import { ReactNode } from "react";
 import Link from "next/link";
 
 export function Setup({ setups }: { setups?: SetupCategory[] | null }) {
@@ -12,11 +10,11 @@ export function Setup({ setups }: { setups?: SetupCategory[] | null }) {
   return (
     <section
       id="setup"
-      className="relative py-24 bg-background overflow-hidden md:py-32"
+      className="relative overflow-hidden bg-background py-24 md:py-32"
     >
       <div className="absolute inset-0 bg-grid opacity-40" aria-hidden="true" />
 
-      <div className="container relative z-10 mx-auto px-4 max-w-4xl">
+      <div className="container relative z-10 mx-auto max-w-4xl px-4">
         <SectionHeader
           path="~/setup"
           command="cat .config"
@@ -25,56 +23,33 @@ export function Setup({ setups }: { setups?: SetupCategory[] | null }) {
         />
 
         <div className="mt-14">
-          {!categories || categories.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 text-center rounded-2xl border border-dashed border-border bg-surface/50">
+          {categories.length === 0 ? (
+            <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-surface/50 py-12 text-center">
               <h3 className="font-mono text-base font-bold text-text-primary">
                 No setup items available
               </h3>
+
               <p className="mt-1 text-sm text-text-secondary">
                 Check back later for updates to this section.
               </p>
             </div>
           ) : (
             <div className="grid gap-4 sm:grid-cols-2">
-              {categories.map((cat: SetupCategory) => {
-                const items = cat.items ?? [];
-                const subButtons: ReactNode[] = [];
-                for (const tool of items) {
-                  if (tool.subValue && tool.subDownload) {
-                    subButtons.push(
-                      <Button
-                        type="button"
-                        key={tool.id}
-                        asChild
-                        size="sm"
-                        className="self-start rounded-lg bg-accent text-on-accent hover:bg-accent/90 shadow-sm shadow-accent/10 text-xs font-mono"
-                      >
-                        <Link
-                          href={tool.subDownload}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {tool.subValue}
-                        </Link>
-                      </Button>,
-                    );
-                  }
-                }
+              {categories.map((category) => {
+                const items = category.items ?? [];
 
                 return (
                   <div
-                    key={cat.id}
-                    className="group flex flex-col justify-between gap-4 rounded-2xl border border-border bg-surface p-6 transition-all hover:border-accent/40"
+                    key={category.id}
+                    className="group flex flex-col justify-between gap-4 rounded-2xl border border-border bg-surface p-6 transition-colors hover:border-accent/40"
                   >
                     <div className="space-y-3">
-                      <div className="flex items-center gap-3">
-                        <span className="font-mono text-xs font-bold text-accent">
-                          {cat.category}
-                        </span>
-                      </div>
+                      <span className="font-mono text-xs font-bold text-accent">
+                        {category.category}
+                      </span>
 
                       <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                        {items.map((tool: SetupItem, i: number) => (
+                        {items.map((tool: SetupItem, index) => (
                           <span
                             key={tool.id}
                             className="inline-flex items-center gap-1.5"
@@ -83,26 +58,21 @@ export function Setup({ setups }: { setups?: SetupCategory[] | null }) {
                               <span className="relative inline-flex h-5 w-5 shrink-0 items-center justify-center">
                                 <Image
                                   src={tool.imageLight}
-                                  alt={tool.value}
+                                  alt=""
                                   width={20}
                                   height={20}
-                                  loading="lazy"
-                                  decoding="async"
-                                  style={{ width: "auto", height: "auto" }}
                                   className={`object-contain ${
                                     tool.imageDark ? "dark:hidden" : ""
                                   }`}
                                 />
+
                                 {tool.imageDark && (
                                   <Image
                                     src={tool.imageDark}
-                                    alt={tool.value}
+                                    alt=""
                                     width={20}
                                     height={20}
-                                    loading="lazy"
-                                    decoding="async"
-                                    style={{ width: "auto", height: "auto" }}
-                                    className="object-contain hidden dark:block"
+                                    className="hidden object-contain dark:block"
                                   />
                                 )}
                               </span>
@@ -116,7 +86,16 @@ export function Setup({ setups }: { setups?: SetupCategory[] | null }) {
                                 className="inline-flex items-center gap-0.5 text-base font-bold tracking-tight text-text-primary transition-colors hover:text-accent"
                               >
                                 {tool.value}
-                                <FiArrowUpRight className="w-3 h-3 text-text-secondary" />
+
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 -960 960 960"
+                                  fill="currentColor"
+                                  className="h-4 w-4 text-text-secondary"
+                                  aria-hidden="true"
+                                >
+                                  <path d="m256-240-56-56 384-384H240v-80h480v480h-80v-344L256-240Z" />
+                                </svg>
                               </Link>
                             ) : (
                               <span className="text-base font-bold tracking-tight text-text-primary">
@@ -124,8 +103,11 @@ export function Setup({ setups }: { setups?: SetupCategory[] | null }) {
                               </span>
                             )}
 
-                            {i < items.length - 1 && (
-                              <span className="ml-1 text-border select-none">
+                            {index < items.length - 1 && (
+                              <span
+                                className="ml-1 select-none text-border"
+                                aria-hidden="true"
+                              >
                                 /
                               </span>
                             )}
@@ -133,13 +115,34 @@ export function Setup({ setups }: { setups?: SetupCategory[] | null }) {
                         ))}
                       </div>
 
-                      <p className="text-sm text-text-secondary leading-relaxed">
-                        {cat.description}
+                      <p className="text-sm leading-relaxed text-text-secondary">
+                        {category.description}
                       </p>
                     </div>
-                    {subButtons.length > 0 && (
+
+                    {items.some(
+                      (tool) => tool.subValue && tool.subDownload,
+                    ) && (
                       <div className="flex flex-wrap gap-2 pt-1">
-                        {subButtons}
+                        {items
+                          .filter((tool) => tool.subValue && tool.subDownload)
+                          .map((tool) => (
+                            <Button
+                              key={tool.id}
+                              type="button"
+                              asChild
+                              size="sm"
+                              className="self-start rounded-lg bg-accent font-mono text-xs text-on-accent hover:bg-accent/90"
+                            >
+                              <Link
+                                href={tool.subDownload!}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {tool.subValue}
+                              </Link>
+                            </Button>
+                          ))}
                       </div>
                     )}
                   </div>
