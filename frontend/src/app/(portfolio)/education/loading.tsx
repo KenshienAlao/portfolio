@@ -17,7 +17,12 @@ export default function EducationLoading() {
           description="My academic journey and the milestones that shaped my path in technology."
         />
 
-        <ol className="relative mt-14 ml-3 space-y-8 border-l border-border">
+        <ol
+          className="relative mt-14 ml-3 space-y-8 border-l border-border"
+          role="status"
+          aria-busy="true"
+          aria-label="Loading education timeline"
+        >
           {Array.from({ length: 3 }).map((_, i) => (
             <EducationCardSkeleton key={i} />
           ))}

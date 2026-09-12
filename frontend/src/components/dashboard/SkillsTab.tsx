@@ -53,7 +53,12 @@ export function SkillsTab() {
       {skillsError ? (
         <FetchError skillError={skillsError} refetchSkill={refetchSkills} />
       ) : loadingSkills ? (
-        <div className="space-y-8">
+        <div
+          className="space-y-8"
+          role="status"
+          aria-busy="true"
+          aria-label="Loading skills"
+        >
           {Array.from({ length: 3 }).map((_, i) => (
             <DashboardSkillCategorySkeleton key={i} />
           ))}

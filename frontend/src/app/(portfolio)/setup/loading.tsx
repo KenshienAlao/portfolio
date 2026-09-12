@@ -17,7 +17,12 @@ export default function SetupLoading() {
           description="The tools I use for development, design, and productivity."
         />
 
-        <div className="mt-14 grid gap-4 sm:grid-cols-2">
+        <div
+          className="mt-14 grid gap-4 sm:grid-cols-2"
+          role="status"
+          aria-busy="true"
+          aria-label="Loading setup items"
+        >
           {Array.from({ length: 4 }).map((_, i) => (
             <SetupCardSkeleton key={i} />
           ))}

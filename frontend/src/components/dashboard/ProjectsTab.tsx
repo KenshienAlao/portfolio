@@ -64,7 +64,12 @@ export function ProjectsTab() {
           refetchProjects={refetchProjects}
         />
       ) : loadingProject ? (
-        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+          role="status"
+          aria-busy="true"
+          aria-label="Loading projects"
+        >
           {Array.from({ length: 6 }).map((_, i) => (
             <DashboardProjectCardSkeleton key={i} />
           ))}

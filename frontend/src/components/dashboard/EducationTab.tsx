@@ -59,7 +59,12 @@ export function EducationTab() {
           refetchEducation={refetchEducation}
         />
       ) : loadingEducation ? (
-        <div className="space-y-4">
+        <div
+          className="space-y-4"
+          role="status"
+          aria-busy="true"
+          aria-label="Loading education items"
+        >
           {Array.from({ length: 3 }).map((_, i) => (
             <DashboardEducationCardSkeleton key={i} />
           ))}

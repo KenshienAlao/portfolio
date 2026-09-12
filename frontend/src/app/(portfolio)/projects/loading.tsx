@@ -17,7 +17,12 @@ export default function ProjectsLoading() {
           description="Selected work showcasing full-stack development, UI design, and problem solving."
         />
 
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+          role="status"
+          aria-busy="true"
+          aria-label="Loading projects"
+        >
           {Array.from({ length: 6 }).map((_, i) => (
             <ProjectCardSkeleton key={i} />
           ))}
