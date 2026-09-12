@@ -11,7 +11,10 @@ export const metadata: Metadata = {
   },
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function SkillsPage() {
   const skills = await getAllSkills();
   return <Skills skills={skills} />;
 }
+

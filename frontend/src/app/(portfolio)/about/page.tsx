@@ -11,7 +11,10 @@ export const metadata: Metadata = {
   },
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function AboutPage() {
   const projects = await getAllProjects();
   return <About projectCount={projects.length} />;
 }
+

@@ -56,7 +56,8 @@ The portfolio is built as a unified, lightweight full-stack **Next.js** applicat
 
 ### Data Storage & Media
 
-- **File-Based JSON Datastore** — Lightweight, zero-overhead JSON data layer with atomic serialized writes and serverless fallback support
+- **Upstash Redis / Vercel KV** — Persistent cloud datastore across serverless instances and page refreshes with automatic seeding from bundled JSON
+- **File-Based JSON Datastore** — Lightweight, zero-overhead local JSON data layer with atomic serialized writes (used locally and as automatic seed/fallback)
 - **Cloudinary** — Cloud storage for image assets with custom dynamic optimization loaders
 - **Bcrypt.js** — Secure password verification for administrative access
 - **Zod** — Runtime schema parsing and input validation
@@ -71,12 +72,12 @@ The application adopts a consolidated Next.js full-stack architecture:
 
 ```text
 Next.js (App Router)
- ├── Server Components (SEO-optimized pre-rendering & data fetching)
+ ├── Server Components (Dynamic pre-rendering & data fetching)
  ├── Server Actions & API Route Handlers (Secure administrative mutations)
  ├── Client Components (Interactive modals, tabs, theme toggle)
  ├── In-Memory Auth & Signed Session Cookies (HMAC-SHA256)
  ├── Cloudinary Storage Layer (Project & skill media)
- └── JSON Datastore Layer (Local file store with serverless-safe fallback)
+ └── Persistent Datastore Layer (Upstash Redis with local JSON fallback & auto-seed)
 ```
 
 ## Getting Started
@@ -116,6 +117,10 @@ Next.js (App Router)
    CLOUDINARY_CLOUD_NAME=your_cloud_name
    CLOUDINARY_API_KEY=your_api_key
    CLOUDINARY_SECRET=your_api_secret
+
+   # Upstash Redis / Vercel KV (Persistent datastore on serverless/Vercel)
+   UPSTASH_REDIS_REST_URL=your_upstash_redis_rest_url
+   UPSTASH_REDIS_REST_TOKEN=your_upstash_redis_rest_token
    ```
 
 4. Start the development server:
