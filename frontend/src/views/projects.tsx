@@ -1,37 +1,34 @@
-"use client";
-
-import { useState, useMemo } from "react";
-import { Button } from "@/components/ui/button";
-import { FaGithub } from "react-icons/fa";
-import Image from "next/image";
 import { SectionHeader } from "@/components/section-header";
-import {
-  FiArrowUpRight,
-  FiClock,
-  FiArrowDown,
-  FiArrowUp,
-} from "react-icons/fi";
-import Link from "next/link";
+import { ProjectCard } from "@/components/projects/project-card";
+import { ProjectSort } from "@/components/projects/project-sort";
 import { type Project } from "@/service/project.service";
-import { formatProjectDate } from "@/lib/format-date";
 
-export function Projects({ projects }: { projects?: Project[] | null }) {
+function sortProjects(
+  projects: Project[],
+  order: "latest" | "oldest",
+): Project[] {
+  return [...projects].sort((a, b) => {
+    const timeA = a.addedAt ? new Date(a.addedAt).getTime() : 0;
+    const timeB = b.addedAt ? new Date(b.addedAt).getTime() : 0;
+
+    if (timeA && timeB && timeA !== timeB) {
+      return order === "latest" ? timeB - timeA : timeA - timeB;
+    }
+    return order === "latest"
+      ? (b.id ?? 0) - (a.id ?? 0)
+      : (a.id ?? 0) - (b.id ?? 0);
+  });
+}
+
+export function Projects({
+  projects,
+  sort = "latest",
+}: {
+  projects?: Project[] | null;
+  sort?: "latest" | "oldest";
+}) {
   const projectList = Array.isArray(projects) ? projects : [];
-  const [sortOrder, setSortOrder] = useState<"latest" | "oldest">("latest");
-
-  const sortedProjects = useMemo(() => {
-    return [...projectList].sort((a, b) => {
-      const timeA = a.addedAt ? new Date(a.addedAt).getTime() : 0;
-      const timeB = b.addedAt ? new Date(b.addedAt).getTime() : 0;
-
-      if (timeA && timeB && timeA !== timeB) {
-        return sortOrder === "latest" ? timeB - timeA : timeA - timeB;
-      }
-      return sortOrder === "latest"
-        ? (b.id ?? 0) - (a.id ?? 0)
-        : (a.id ?? 0) - (b.id ?? 0);
-    });
-  }, [projectList, sortOrder]);
+  const sortedProjects = sortProjects(projectList, sort);
 
   return (
     <section
@@ -48,29 +45,7 @@ export function Projects({ projects }: { projects?: Project[] | null }) {
           description="Selected work showcasing full-stack development, UI design, and problem solving."
         />
 
-        {projectList.length > 0 && (
-          <div className="mt-8 flex items-center justify-end border-b border-border/50 pb-4">
-            <div className="flex items-center gap-2 font-mono text-xs">
-              <label
-                htmlFor="sort-projects"
-                className="flex items-center gap-1 text-[11px] text-text-muted"
-              >
-                <FiClock className="h-3 w-3" /> Sort:
-              </label>
-              <select
-                id="sort-projects"
-                value={sortOrder}
-                onChange={(e) =>
-                  setSortOrder(e.target.value as "latest" | "oldest")
-                }
-                className="cursor-pointer rounded-lg border border-border bg-surface px-2.5 py-1 text-xs text-text-primary transition-colors hover:border-accent/50 focus:border-accent focus:outline-none"
-              >
-                <option value="latest">Latest</option>
-                <option value="oldest">Oldest</option>
-              </select>
-            </div>
-          </div>
-        )}
+        {projectList.length > 0 && <ProjectSort />}
 
         {sortedProjects.length === 0 ? (
           <div className="mt-14 flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-surface/50 py-12 text-center">
@@ -83,97 +58,13 @@ export function Projects({ projects }: { projects?: Project[] | null }) {
           </div>
         ) : (
           <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {sortedProjects.map(
-              (
-                { id, title, description, image, tags, github, demo, addedAt },
-                idx,
-              ) => (
-                <article
-                  key={id}
-                  className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-surface hover:border-accent/40"
-                >
-                  <div className="relative aspect-video overflow-hidden border-b border-border">
-                    <Image
-                      src={image}
-                      alt={title}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 340px"
-                      priority={idx === 0}
-                      loading={idx === 0 ? "eager" : "lazy"}
-                      fetchPriority={idx === 0 ? "high" : "auto"}
-                      decoding="async"
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-
-                  <div className="flex flex-1 flex-col gap-3 p-5">
-                    <div className="flex items-baseline justify-between gap-2">
-                      <h3 className="font-mono text-base font-bold text-text-primary">
-                        {title}
-                      </h3>
-                      {addedAt && (
-                        <span className="shrink-0 font-mono text-[11px] text-text-secondary">
-                          {formatProjectDate(addedAt)}
-                        </span>
-                      )}
-                    </div>
-
-                    <p className="line-clamp-2 text-sm leading-relaxed text-text-secondary">
-                      {description}
-                    </p>
-
-                    <div className="flex flex-wrap gap-1.5">
-                      {tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-md bg-accent/10 px-2.5 py-0.5 font-mono text-[11px] font-semibold text-accent"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="mt-auto flex gap-2 pt-2">
-                      <Button
-                        type="button"
-                        asChild
-                        size="sm"
-                        variant="outline"
-                        className="rounded-lg border-border text-text-primary hover:border-accent/50 hover:bg-background"
-                      >
-                        <Link
-                          href={github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="gap-2"
-                          aria-label={`View ${title} on GitHub`}
-                        >
-                          <FaGithub className="h-4 w-4" /> Code
-                        </Link>
-                      </Button>
-                      {demo && (
-                        <Button
-                          type="button"
-                          asChild
-                          size="sm"
-                          className="rounded-lg bg-accent text-on-accent hover:bg-accent/90"
-                        >
-                          <Link
-                            href={demo}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="gap-1.5"
-                            aria-label={`View ${title} demo`}
-                          >
-                            Demo <FiArrowUpRight className="h-4 w-4" />
-                          </Link>
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                </article>
-              ),
-            )}
+            {sortedProjects.map((project, idx) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                priority={idx === 0}
+              />
+            ))}
           </div>
         )}
       </div>

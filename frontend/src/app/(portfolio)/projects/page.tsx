@@ -13,8 +13,14 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default async function ProjectsPage() {
+export default async function ProjectsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ sort?: string }>;
+}) {
+  const { sort } = await searchParams;
   const projects = await getAllProjects();
-  return <Projects projects={projects} />;
-}
+  const sortOrder = sort === "oldest" ? "oldest" : "latest";
 
+  return <Projects projects={projects} sort={sortOrder} />;
+}
