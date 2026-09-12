@@ -1,15 +1,23 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { FaCode } from "react-icons/fa";
-import { FiArrowRight, FiZap } from "react-icons/fi";
-import { IoAccessibility, IoLayers } from "react-icons/io5";
-
 const CAPABILITIES = [
-  { icon: FaCode, label: "Develop" },
-  { icon: IoLayers, label: "Design" },
-  { icon: FiZap, label: "Optimize" },
-  { icon: IoAccessibility, label: "Accessible" },
-];
+  {
+    label: "Develop",
+    path: "M240-280 40-480l200-200 56 56-143 144 143 144-56 56Zm178 132-76-24 200-640 76 24-200 640Zm302-132-56-56 143-144-143-144 56-56 200 200-200 200Z",
+  },
+  {
+    label: "Design",
+    path: "M480-118 120-398l66-50 294 228 294-228 66 50-360 280Zm0-202L120-600l360-280 360 280-360 280Zm0-280Zm0 178 230-178-230-178-230 178 230 178Z",
+  },
+  {
+    label: "Optimize",
+    path: "m520-120 40-280H319l321-440h40l-40 280h241L560-120h-40ZM120-240v-80h348l-12 80H120ZM80-440v-80h228l-58 80H80Zm80-200v-80h294l-58 80H160Z",
+  },
+  {
+    label: "Accessible",
+    path: "M423.5-743.5Q400-767 400-800t23.5-56.5Q447-880 480-880t56.5 23.5Q560-833 560-800t-23.5 56.5Q513-720 480-720t-56.5-23.5ZM360-80v-520H120v-80h720v80H600v520h-80v-240h-80v240h-80Z",
+  },
+] as const;
 
 export function Hero() {
   return (
@@ -59,7 +67,14 @@ export function Hero() {
             >
               <Link href="/projects">
                 View Projects
-                <FiArrowRight className="ml-2 h-4 w-4" />
+                <svg
+                  className="ml-2 h-4 w-4"
+                  fill="currentColor"
+                  viewBox="0 -960 960 960"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z" />
+                </svg>
               </Link>
             </Button>
             <Button
@@ -73,9 +88,16 @@ export function Hero() {
           </div>
 
           <div className="mt-12 flex flex-wrap items-center gap-x-6 gap-y-4 border-t border-border/60 pt-6">
-            {CAPABILITIES.map(({ icon: Icon, label }) => (
+            {CAPABILITIES.map(({ path, label }) => (
               <div key={label} className="flex items-center gap-2">
-                <Icon className="h-4 w-4 text-accent" aria-hidden="true" />
+                <svg
+                  viewBox="0 -960 960 960"
+                  fill="currentColor"
+                  className="h-4 w-4 text-accent"
+                  aria-hidden="true"
+                >
+                  <path d={path} />
+                </svg>
                 <span className="font-mono text-[11px] uppercase tracking-widest text-text-secondary">
                   {label}
                 </span>
