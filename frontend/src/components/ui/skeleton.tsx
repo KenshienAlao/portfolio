@@ -157,3 +157,21 @@ export const SetupCardSkeleton = () => {
     </div>
   );
 };
+
+export const SkillCardSkeleton = () => {
+  return (
+    <div
+      className="flex flex-col gap-4 rounded-2xl border border-border bg-surface p-5 animate-pulse"
+      aria-hidden="true"
+    >
+      <div className="h-3 w-20 rounded bg-muted-foreground/15" />
+      <div className="flex flex-wrap gap-2">
+        <div className="h-8 w-24 rounded-lg bg-muted-foreground/15" />
+        <div className="h-8 w-20 rounded-lg bg-muted-foreground/15" />
+        <div className="h-8 w-28 rounded-lg bg-muted-foreground/15" />
+        <div className="h-8 w-16 rounded-lg bg-muted-foreground/15" />
+        <div className="h-8 w-24 rounded-lg bg-muted-foreground/15" />
+      </div>
+    </div>
+  );
+};
