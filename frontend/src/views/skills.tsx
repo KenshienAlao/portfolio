@@ -1,12 +1,16 @@
-"use client";
-
-import { useState } from "react";
+import { SectionHeader } from "@/components/section-header";
+import { SkillCategoryFilter } from "@/components/skills/skill-category-filter";
 import { type Skill } from "@/service/skill.service";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { SectionHeader } from "@/components/section-header";
 
-export function Skills({ skills }: { skills?: Skill[] | null }) {
+export function Skills({
+  skills,
+  selectedCategory = "All",
+}: {
+  skills?: Skill[] | null;
+  selectedCategory?: string;
+}) {
   const groupedSkills = (() => {
     if (!Array.isArray(skills)) return {};
     return skills.reduce<Record<string, Skill[]>>((acc, skill) => {
@@ -18,12 +22,16 @@ export function Skills({ skills }: { skills?: Skill[] | null }) {
   })();
 
   const categories = ["All", ...Object.keys(groupedSkills)];
-  const [active, setActive] = useState("All");
+
+  const activeCategory =
+    selectedCategory && categories.includes(selectedCategory)
+      ? selectedCategory
+      : "All";
 
   const visibleSkills: Record<string, Skill[]> =
-    active === "All"
+    activeCategory === "All"
       ? groupedSkills
-      : { [active]: groupedSkills[active] ?? [] };
+      : { [activeCategory]: groupedSkills[activeCategory] ?? [] };
 
   return (
     <section
@@ -41,73 +49,68 @@ export function Skills({ skills }: { skills?: Skill[] | null }) {
         />
 
         <div className="mt-12 space-y-10">
-          <div className="flex flex-wrap gap-2">
-            {categories.map((cat) => (
-              <button
-                type="button"
-                key={cat}
-                onClick={() => setActive(cat)}
-                className={cn(
-                  "rounded-full border px-4 py-1.5 font-mono text-xs font-semibold transition-colors",
-                  active === cat
-                    ? "border-accent bg-accent text-on-accent"
-                    : "border-border bg-transparent text-text-secondary hover:border-accent/50 hover:text-text-primary",
-                )}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+          {categories.length > 1 && (
+            <SkillCategoryFilter categories={categories} />
+          )}
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {Object.entries(visibleSkills).map(([category, items]) => (
-              <div
-                key={category}
-                className="flex flex-col gap-4 rounded-2xl border border-border bg-surface p-5 hover:border-accent/40"
-              >
-                <p className="font-mono text-[11px] uppercase tracking-widest text-text-secondary">
-                  {category}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {items.map((skill: Skill) => (
-                    <div
-                      key={skill.name}
-                      className="flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-text-primary"
-                    >
-                      <div className="relative flex h-4 w-4 shrink-0">
-                        {skill.imageLight ? (
+          {Object.keys(visibleSkills).length === 0 ? (
+            <div className="mt-14 flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-surface/50 py-12 text-center">
+              <h3 className="font-mono text-base font-bold text-text-primary">
+                No skills found
+              </h3>
+              <p className="mt-1 text-sm text-text-secondary">
+                No tools or technologies found under this category.
+              </p>
+            </div>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {Object.entries(visibleSkills).map(([category, items]) => (
+                <div
+                  key={category}
+                  className="flex flex-col gap-4 rounded-2xl border border-border bg-surface p-5 hover:border-accent/40"
+                >
+                  <p className="font-mono text-[11px] uppercase tracking-widest text-text-secondary">
+                    {category}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {items.map((skill: Skill) => (
+                      <div
+                        key={skill.name}
+                        className="flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-text-primary"
+                      >
+                        {skill.imageLight && (
                           <Image
                             src={skill.imageLight}
                             alt={skill.name}
-                            fill
-                            sizes="32px"
+                            width={16}
+                            height={16}
                             loading="lazy"
                             decoding="async"
                             className={cn(
-                              "absolute inset-0 object-contain",
+                              "h-4 w-4 shrink-0 object-contain",
                               skill.imageDark ? "dark:hidden" : "",
                             )}
                           />
-                        ) : null}
-                        {skill.imageDark ? (
+                        )}
+                        {skill.imageDark && (
                           <Image
                             src={skill.imageDark}
                             alt={skill.name}
-                            fill
-                            sizes="32px"
+                            width={16}
+                            height={16}
                             loading="lazy"
                             decoding="async"
-                            className="absolute inset-0 object-contain hidden dark:block"
+                            className="hidden h-4 w-4 shrink-0 object-contain dark:block"
                           />
-                        ) : null}
+                        )}
+                        {skill.name}
                       </div>
-                      {skill.name}
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>

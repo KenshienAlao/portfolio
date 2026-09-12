@@ -13,8 +13,13 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default async function SkillsPage() {
+export default async function SkillsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>;
+}) {
+  const { category } = await searchParams;
   const skills = await getAllSkills();
-  return <Skills skills={skills} />;
-}
 
+  return <Skills skills={skills} selectedCategory={category} />;
+}
