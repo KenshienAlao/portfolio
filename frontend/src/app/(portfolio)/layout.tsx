@@ -1,6 +1,6 @@
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import { ChatWidget } from "@/components/chat-widget";
+import { ChatWidget } from "@/components/chat/ChatWidget";
 
 export default function PortfolioLayout({
   children,
@@ -16,4 +16,3 @@ export default function PortfolioLayout({
     </div>
   );
 }
-

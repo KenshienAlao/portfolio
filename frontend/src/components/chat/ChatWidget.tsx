@@ -1,16 +1,9 @@
 "use client";
 
-import {
-  HiSparkles,
-  HiPaperAirplane,
-  HiTrash,
-  HiArrowTopRightOnSquare,
-} from "react-icons/hi2";
-import { FaUser, FaRobot } from "react-icons/fa6";
-import { cn } from "@/lib/utils";
-import { HiX } from "react-icons/hi";
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import { cn } from "@/lib/utils";
+import { FormattedMessage } from "./FormattedMessage";
+import { ThinkingIndicator } from "./ThinkingIndicator";
 
 interface Message {
   role: "user" | "assistant";
@@ -23,216 +16,6 @@ const SUGGESTED_PROMPTS = [
   "How can I contact or hire him?",
   "Tell me about his background and experience.",
 ];
-
-function FormattedText({ text, isUser }: { text: string; isUser: boolean }) {
-  const tokenRegex =
-    /(\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|https?:\/\/[^\s)]+|\*\*[^*]+\*\*|\*[^*]+\*|_[^_]+_)/g;
-  const parts: React.ReactNode[] = [];
-  let lastIndex = 0;
-  let match: RegExpExecArray | null;
-
-  while ((match = tokenRegex.exec(text)) !== null) {
-    if (match.index > lastIndex) {
-      parts.push(text.slice(lastIndex, match.index));
-    }
-
-    const token = match[0];
-    if (token.startsWith("[") && match[2] && match[3]) {
-      parts.push(
-        <a
-          key={match.index}
-          href={match[3]}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={cn(
-            "font-medium underline decoration-1 underline-offset-2 transition-colors inline-flex items-center gap-0.5",
-            isUser
-              ? "text-white decoration-white/50 hover:decoration-white"
-              : "text-accent decoration-accent/40 hover:decoration-accent",
-          )}
-        >
-          {match[2]}
-          <HiArrowTopRightOnSquare className="h-3 w-3 shrink-0 opacity-70" />
-        </a>,
-      );
-    } else if (token.startsWith("http")) {
-      parts.push(
-        <a
-          key={match.index}
-          href={token}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={cn(
-            "font-medium underline decoration-1 underline-offset-2 transition-colors break-all",
-            isUser
-              ? "text-white decoration-white/50 hover:decoration-white"
-              : "text-accent decoration-accent/40 hover:decoration-accent",
-          )}
-        >
-          {token}
-        </a>,
-      );
-    } else if (token.startsWith("**") && token.endsWith("**")) {
-      parts.push(
-        <strong
-          key={match.index}
-          className={cn("font-semibold", !isUser && "text-text-primary")}
-        >
-          {token.slice(2, -2)}
-        </strong>,
-      );
-    } else if (
-      (token.startsWith("*") && token.endsWith("*")) ||
-      (token.startsWith("_") && token.endsWith("_"))
-    ) {
-      parts.push(
-        <em
-          key={match.index}
-          className={cn("italic opacity-90", !isUser && "text-text-secondary")}
-        >
-          {token.slice(1, -1)}
-        </em>,
-      );
-    }
-
-    lastIndex = match.index + token.length;
-  }
-
-  if (lastIndex < text.length) {
-    parts.push(text.slice(lastIndex));
-  }
-
-  return <>{parts}</>;
-}
-
-function ProjectPreviewCard({
-  title,
-  imageUrl,
-}: {
-  title: string;
-  imageUrl: string;
-}) {
-  const [imgError, setImgError] = useState(false);
-
-  return (
-    <div className="my-2 overflow-hidden rounded-xl border border-border bg-surface shadow-sm">
-      {!imgError && (
-        <div className="relative w-full aspect-video overflow-hidden bg-background">
-          <Image
-            src={imageUrl}
-            alt={`${title} preview`}
-            fill
-            sizes="(max-width: 640px) 100vw, 384px"
-            className="object-cover object-top transition-transform duration-300 hover:scale-105"
-            loading="lazy"
-            onError={() => setImgError(true)}
-          />
-          <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent pointer-events-none" />
-        </div>
-      )}
-      <div className="px-3 py-2 flex items-center gap-2">
-        <div className="h-2 w-2 rounded-full bg-accent shrink-0" />
-        <span className="text-xs font-semibold text-text-primary truncate">
-          {title}
-        </span>
-      </div>
-    </div>
-  );
-}
-
-const PROJECT_EMBED_REGEX = /^::project\[([^\]]+)\]\(([^)]+)\)$/;
-
-function FormattedMessage({
-  content,
-  isUser,
-}: {
-  content: string;
-  isUser: boolean;
-}) {
-  if (isUser) {
-    return (
-      <p className="whitespace-pre-wrap leading-relaxed text-white font-medium">
-        {content}
-      </p>
-    );
-  }
-
-  const lines = content.split("\n");
-  const blocks: React.ReactNode[] = [];
-  let currentList: { text: string; indent: number }[] = [];
-
-  const flushList = (key: string) => {
-    if (currentList.length === 0) return;
-    blocks.push(
-      <ul key={key} className="my-1.5 space-y-1.5 pl-1">
-        {currentList.map((item, i) => (
-          <li
-            key={i}
-            className={cn(
-              "relative flex items-start gap-2",
-              item.indent > 0
-                ? "pl-4 text-[12px] opacity-90"
-                : "text-xs sm:text-[13px]",
-            )}
-          >
-            <span
-              className={cn(
-                "mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full",
-                item.indent > 0
-                  ? "border border-accent bg-transparent"
-                  : "bg-accent",
-              )}
-            />
-            <div className="flex-1">
-              <FormattedText text={item.text} isUser={isUser} />
-            </div>
-          </li>
-        ))}
-      </ul>,
-    );
-    currentList = [];
-  };
-
-  lines.forEach((line, index) => {
-    const trimmed = line.trim();
-    if (!trimmed) {
-      flushList(`list-${index}`);
-      blocks.push(<div key={`blank-${index}`} className="h-1.5" />);
-      return;
-    }
-
-    // Check for project embed
-    const embedMatch = trimmed.match(PROJECT_EMBED_REGEX);
-    if (embedMatch) {
-      flushList(`list-${index}`);
-      blocks.push(
-        <ProjectPreviewCard
-          key={`embed-${index}`}
-          title={embedMatch[1]}
-          imageUrl={embedMatch[2]}
-        />,
-      );
-      return;
-    }
-
-    const bulletMatch = line.match(/^(\s*)(?:[*+-]|\d+\.)\s+(.+)$/);
-    if (bulletMatch) {
-      const indent = bulletMatch[1].length;
-      currentList.push({ text: bulletMatch[2], indent });
-    } else {
-      flushList(`list-${index}`);
-      blocks.push(
-        <p key={`p-${index}`} className="leading-relaxed">
-          <FormattedText text={line} isUser={isUser} />
-        </p>,
-      );
-    }
-  });
-
-  flushList("list-final");
-
-  return <div className="space-y-1">{blocks}</div>;
-}
 
 const WELCOME_MESSAGE =
   "Hi, I'm Kenshien's AI assistant. Ask me anything about his projects, skills, or experience \u2014 I'm happy to help.";
@@ -415,10 +198,24 @@ export function ChatWidget() {
             "sm:mb-3 sm:rounded-2xl overflow-hidden",
           )}
         >
+          {/* Header */}
           <div className="flex items-center justify-between border-b border-border px-4 py-3 bg-surface">
             <div className="flex items-center gap-3">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-white">
-                <HiSparkles className="h-4 w-4" />
+                {/* Sparkles Icon */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="h-4 w-4"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M9 4.5a.75.75 0 0 1 .721.544l.813 2.846a3.75 3.75 0 0 0 2.576 2.576l2.846.813a.75.75 0 0 1 0 1.442l-2.846.813a3.75 3.75 0 0 0-2.576 2.576l-.813 2.846a.75.75 0 0 1-1.442 0l-.813-2.846a3.75 3.75 0 0 0-2.576-2.576l-2.846-.813a.75.75 0 0 1 0-1.442l2.846-.813A3.75 3.75 0 0 0 7.466 7.89l.813-2.846A.75.75 0 0 1 9 4.5ZM18 1.5a.75.75 0 0 1 .728.568l.258 1.036c.236.94.97 1.674 1.91 1.91l1.036.258a.75.75 0 0 1 0 1.456l-1.036.258c-.94.236-1.674.97-1.91 1.91l-.258 1.036a.75.75 0 0 1-1.456 0l-.258-1.036a2.625 2.625 0 0 0-1.91-1.91l-1.036-.258a.75.75 0 0 1 0-1.456l1.036-.258a2.625 2.625 0 0 0 1.91-1.91l.258-1.036A.75.75 0 0 1 18 1.5Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
               </div>
               <div className="min-w-0">
                 <h3 className="text-sm font-semibold text-text-primary leading-none truncate">
@@ -438,9 +235,22 @@ export function ChatWidget() {
                   onClick={handleClear}
                   title="Clear conversation"
                   aria-label="Clear chat"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-text-secondary hover:text-destructive hover:bg-destructive/10 transition-colors focus-visible:outline-2 focus-visible:outline-accent"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg text-text-secondary hover:text-destructive hover:bg-destructive/10 transition-colors focus-visible:outline-2 focus-visible:outline-accent cursor-pointer"
                 >
-                  <HiTrash className="h-4 w-4" />
+                  {/* Trash Icon */}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="h-4 w-4"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
                 </button>
               )}
               <button
@@ -448,12 +258,23 @@ export function ChatWidget() {
                 onClick={() => setIsOpen(false)}
                 title="Close chat"
                 aria-label="Close chat"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-text-secondary hover:text-text-primary hover:bg-border/50 transition-colors focus-visible:outline-2 focus-visible:outline-accent"
+                className="flex h-9 w-9 items-center justify-center rounded-lg text-text-secondary hover:text-text-primary hover:bg-border/50 transition-colors focus-visible:outline-2 focus-visible:outline-accent cursor-pointer"
               >
-                <HiX className="h-5 w-5" />
+                {/* Close X Icon */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  className="h-5 w-5"
+                  aria-hidden="true"
+                >
+                  <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+                </svg>
               </button>
             </div>
           </div>
+
+          {/* Messages list */}
           <div
             aria-live="polite"
             className="chat-scroll flex-1 overflow-y-auto overscroll-contain p-4 space-y-3.5 text-xs sm:text-sm"
@@ -462,6 +283,7 @@ export function ChatWidget() {
               const isUser = msg.role === "user";
               const isLastAssistant =
                 !isUser && isLoading && idx === messages.length - 1;
+
               return (
                 <div
                   key={idx}
@@ -479,9 +301,27 @@ export function ChatWidget() {
                     )}
                   >
                     {isUser ? (
-                      <FaUser className="h-3 w-3" />
+                      /* User Avatar Icon */
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className="h-3.5 w-3.5"
+                        aria-hidden="true"
+                      >
+                        <path d="M10 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.465 14.493a1.23 1.23 0 0 0 .41 1.412A9.957 9.957 0 0 0 10 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 0 0-13.074.003Z" />
+                      </svg>
                     ) : (
-                      <FaRobot className="h-3 w-3" />
+                      /* Robot / Assistant Icon */
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="h-3.5 w-3.5"
+                        aria-hidden="true"
+                      >
+                        <path d="M12 2a1 1 0 0 1 1 1v1.055A9.004 9.004 0 0 1 20.945 11H22a1 1 0 1 1 0 2h-1.055A9.004 9.004 0 0 1 13 19.945V21a1 1 0 1 1-2 0v-1.055A9.004 9.004 0 0 1 3.055 13H2a1 1 0 1 1 0-2h1.055A9.004 9.004 0 0 1 11 4.055V3a1 1 0 0 1 1-1Zm0 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14Zm-3.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm7 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm-7 5a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5A.75.75 0 0 1 8.5 15Z" />
+                      </svg>
                     )}
                   </div>
 
@@ -504,14 +344,7 @@ export function ChatWidget() {
                         )}
                       </>
                     ) : !isUser ? (
-                      <span className="inline-flex gap-2 items-center py-1 text-text-secondary">
-                        <span className="text-xs sm:text-[13px]">Thinking</span>
-                        <span className="inline-flex gap-1 items-center">
-                          <span className="h-1.5 w-1.5 rounded-full bg-accent/70 animate-bounce" />
-                          <span className="h-1.5 w-1.5 rounded-full bg-accent/70 animate-bounce [animation-delay:0.2s]" />
-                          <span className="h-1.5 w-1.5 rounded-full bg-accent/70 animate-bounce [animation-delay:0.4s]" />
-                        </span>
-                      </span>
+                      <ThinkingIndicator />
                     ) : null}
                   </div>
                 </div>
@@ -521,17 +354,18 @@ export function ChatWidget() {
             {isLoading && messages[messages.length - 1]?.role === "user" && (
               <div className="flex gap-2.5 items-start flex-row">
                 <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] mt-0.5 bg-accent/10 border border-accent/20 text-accent">
-                  <FaRobot className="h-3 w-3" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="h-3.5 w-3.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 2a1 1 0 0 1 1 1v1.055A9.004 9.004 0 0 1 20.945 11H22a1 1 0 1 1 0 2h-1.055A9.004 9.004 0 0 1 13 19.945V21a1 1 0 1 1-2 0v-1.055A9.004 9.004 0 0 1 3.055 13H2a1 1 0 1 1 0-2h1.055A9.004 9.004 0 0 1 11 4.055V3a1 1 0 0 1 1-1Zm0 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14Zm-3.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm7 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm-7 5a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5A.75.75 0 0 1 8.5 15Z" />
+                  </svg>
                 </div>
                 <div className="rounded-2xl px-4 py-3 bg-background border border-border text-text-primary rounded-tl-sm text-xs sm:text-[13px]">
-                  <span className="inline-flex gap-2 items-center py-1 text-text-secondary">
-                    <span className="text-xs sm:text-[13px]">Thinking</span>
-                    <span className="inline-flex gap-1 items-center">
-                      <span className="h-1.5 w-1.5 rounded-full bg-accent/70 animate-bounce" />
-                      <span className="h-1.5 w-1.5 rounded-full bg-accent/70 animate-bounce [animation-delay:0.2s]" />
-                      <span className="h-1.5 w-1.5 rounded-full bg-accent/70 animate-bounce [animation-delay:0.4s]" />
-                    </span>
-                  </span>
+                  <ThinkingIndicator />
                 </div>
               </div>
             )}
@@ -547,7 +381,7 @@ export function ChatWidget() {
                       key={i}
                       type="button"
                       onClick={() => handleSend(prompt)}
-                      className="text-left text-xs px-3.5 py-2.5 rounded-xl bg-background hover:bg-accent/10 hover:border-accent/40 border border-border text-text-primary transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-accent"
+                      className="text-left text-xs px-3.5 py-2.5 rounded-xl bg-background hover:bg-accent/10 hover:border-accent/40 border border-border text-text-primary transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-accent cursor-pointer"
                     >
                       {prompt}
                     </button>
@@ -558,6 +392,8 @@ export function ChatWidget() {
 
             <div ref={messagesEndRef} />
           </div>
+
+          {/* Input form */}
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -587,13 +423,24 @@ export function ChatWidget() {
               type="submit"
               disabled={!input.trim() || isLoading}
               aria-label="Send message"
-              className="flex h-11 w-11 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl bg-accent text-white hover:opacity-90 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              className="flex h-11 w-11 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl bg-accent text-white hover:opacity-90 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent cursor-pointer"
             >
-              <HiPaperAirplane className="h-4 w-4 -rotate-45" />
+              {/* Paper airplane send icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="h-4 w-4 -rotate-45"
+                aria-hidden="true"
+              >
+                <path d="m3.105 2.288 15.342 6.818a.75.75 0 0 1 0 1.368L3.105 17.292a.75.75 0 0 1-1.026-.882l1.62-5.41a.75.75 0 0 1 .716-.54h5.835a.75.75 0 0 0 0-1.5H4.415a.75.75 0 0 1-.716-.54l-1.62-5.41a.75.75 0 0 1 1.026-.882Z" />
+              </svg>
             </button>
           </form>
         </div>
       )}
+
+      {/* Floating launcher button */}
       {!isOpen && (
         <button
           type="button"
@@ -601,7 +448,19 @@ export function ChatWidget() {
           aria-label="Open AI chat"
           className="m-5 flex items-center justify-center gap-2 rounded-full px-4 py-3 shadow-lg transition-colors bg-accent text-white hover:opacity-90 active:scale-95 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
-          <HiSparkles className="h-5 w-5 text-white" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="h-5 w-5 text-white"
+            aria-hidden="true"
+          >
+            <path
+              fillRule="evenodd"
+              d="M9 4.5a.75.75 0 0 1 .721.544l.813 2.846a3.75 3.75 0 0 0 2.576 2.576l2.846.813a.75.75 0 0 1 0 1.442l-2.846.813a3.75 3.75 0 0 0-2.576 2.576l-.813 2.846a.75.75 0 0 1-1.442 0l-.813-2.846a3.75 3.75 0 0 0-2.576-2.576l-2.846-.813a.75.75 0 0 1 0-1.442l2.846-.813A3.75 3.75 0 0 0 7.466 7.89l.813-2.846A.75.75 0 0 1 9 4.5ZM18 1.5a.75.75 0 0 1 .728.568l.258 1.036c.236.94.97 1.674 1.91 1.91l1.036.258a.75.75 0 0 1 0 1.456l-1.036.258c-.94.236-1.674.97-1.91 1.91l-.258 1.036a.75.75 0 0 1-1.456 0l-.258-1.036a2.625 2.625 0 0 0-1.91-1.91l-1.036-.258a.75.75 0 0 1 0-1.456l1.036-.258a2.625 2.625 0 0 0 1.91-1.91l.258-1.036A.75.75 0 0 1 18 1.5Z"
+              clipRule="evenodd"
+            />
+          </svg>
           <span className="text-xs font-semibold tracking-wide">Ask AI</span>
         </button>
       )}

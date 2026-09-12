@@ -70,7 +70,9 @@ export async function POST(req: NextRequest) {
       parts: [{ text: m.content }],
     }));
     let lastError: unknown = null;
-    let responseStream: any = null;
+    let responseStream: Awaited<
+      ReturnType<GoogleGenAI["models"]["generateContentStream"]>
+    > | null = null;
 
     for (let i = 0; i < apiKeys.length; i++) {
       const key = apiKeys[i];
@@ -171,15 +173,27 @@ export async function POST(req: NextRequest) {
       let retryDelayStr = "";
       const details = innerErr?.details || outerErr?.details;
       if (Array.isArray(details)) {
+        interface RetryInfoDetail {
+          "@type"?: string;
+          retryDelay?: string | number;
+        }
+
         const retryDetail = details.find(
-          (d: any) => d?.["@type"]?.includes("RetryInfo") && d?.retryDelay,
+          (d: unknown): d is RetryInfoDetail =>
+            typeof d === "object" &&
+            d !== null &&
+            "@type" in d &&
+            typeof (d as RetryInfoDetail)["@type"] === "string" &&
+            Boolean((d as RetryInfoDetail)["@type"]?.includes("RetryInfo")) &&
+            "retryDelay" in d &&
+            Boolean((d as RetryInfoDetail).retryDelay),
         );
         if (retryDetail?.retryDelay) {
           const raw = String(retryDetail.retryDelay).replace(/s$/i, "");
           const secs = parseFloat(raw);
           retryDelayStr = !isNaN(secs)
             ? formatDuration(secs)
-            : retryDetail.retryDelay;
+            : String(retryDetail.retryDelay);
         }
       }
       if (!retryDelayStr) {
