@@ -51,7 +51,7 @@ export function MobileNav() {
         </div>
 
         <div className="flex flex-1 flex-col gap-1 overflow-y-auto px-3 py-4">
-          {NAV_ITEMS.map(({ label, href, icon: Icon }) => {
+          {NAV_ITEMS.map(({ label, href }) => {
             const active =
               href === "/" ? pathname === "/" : pathname.startsWith(href);
             return (
@@ -73,15 +73,6 @@ export function MobileNav() {
                     active ? "opacity-100 scale-y-100" : "opacity-0 scale-y-0",
                   )}
                 />
-                {Icon && (
-                  <Icon
-                    className={cn(
-                      "h-4.5 w-4.5 transition-transform duration-200",
-                      active ? "" : "group-hover:scale-110",
-                    )}
-                    aria-hidden="true"
-                  />
-                )}
                 <span>{label}</span>
               </Link>
             );

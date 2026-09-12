@@ -10,7 +10,7 @@ export function DesktopNav() {
 
   return (
     <div className="hidden items-center gap-1 md:flex">
-      {NAV_ITEMS.map(({ label, href, icon: Icon }) => {
+      {NAV_ITEMS.map(({ label, href }) => {
         const active =
           href === "/" ? pathname === "/" : pathname.startsWith(href);
         return (
@@ -25,17 +25,6 @@ export function DesktopNav() {
             )}
             aria-current={active ? "page" : undefined}
           >
-            {Icon && (
-              <Icon
-                className={cn(
-                  "h-3.5 w-3.5 transition-transform duration-200",
-                  active
-                    ? "scale-110"
-                    : "group-hover:scale-110 group-hover:-rotate-3",
-                )}
-                aria-hidden="true"
-              />
-            )}
             <span>{label}</span>
           </Link>
         );
