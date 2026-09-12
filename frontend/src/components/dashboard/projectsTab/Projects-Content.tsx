@@ -68,9 +68,16 @@ export function Content({
             </div>
             <div className="p-4 flex-1 flex flex-col gap-3">
               <div className="flex justify-between items-start gap-2">
-                <h3 className="min-w-0 flex-1 truncate font-mono text-sm font-bold text-text-primary">
-                  {project.title}
-                </h3>
+                <div className="min-w-0 flex-1">
+                  <h3 className="truncate font-mono text-sm font-bold text-text-primary">
+                    {project.title}
+                  </h3>
+                  {project.addedAt && (
+                    <span className="font-mono text-[10px] text-text-secondary">
+                      {project.addedAt}
+                    </span>
+                  )}
+                </div>
                 <div className="flex shrink-0 gap-1">
                   {isConfirmingDelete ? (
                     <>

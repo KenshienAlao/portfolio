@@ -37,12 +37,10 @@ const projectFormSchema = z.object({
     .min(1, "Tags is required")
     .transform((val) =>
       val
-        ? val
-            .split(",")
-            .flatMap((t) => {
-              const trimmed = t.trim();
-              return trimmed ? [trimmed] : [];
-            })
+        ? val.split(",").flatMap((t) => {
+            const trimmed = t.trim();
+            return trimmed ? [trimmed] : [];
+          })
         : [],
     ),
 });
@@ -55,6 +53,7 @@ interface Project {
   tags: string[];
   github: string;
   demo: string | null;
+  addedAt?: string;
 }
 
 interface ProjectModalProps {
@@ -150,11 +149,11 @@ export function ProjectModal({
 
   const hasFieldError = Boolean(
     titleError ||
-      imageError ||
-      descriptionError ||
-      githubError ||
-      demoError ||
-      tagsError,
+    imageError ||
+    descriptionError ||
+    githubError ||
+    demoError ||
+    tagsError,
   );
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -230,6 +229,9 @@ export function ProjectModal({
         className="space-y-3 font-mono text-xs text-text-primary"
         autoComplete="off"
       >
+        {projectForm.addedAt && (
+          <input type="hidden" name="addedAt" value={projectForm.addedAt} />
+        )}
         <ProjectTitle
           defaultValue={projectForm.title}
           disabled={isLoading}

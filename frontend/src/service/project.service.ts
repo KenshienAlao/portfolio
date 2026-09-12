@@ -9,6 +9,7 @@ export interface Project {
   tags: string[];
   github: string;
   demo: string | null;
+  addedAt?: string;
 }
 
 export const projectService = {

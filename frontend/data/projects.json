@@ -4,42 +4,39 @@
     "title": "BareSway",
     "image": "https://res.cloudinary.com/lpxtww2i/image/upload/v1785685080/projects/project_5c386d6b-6fac-4a0b-a5bb-4b834c208229.png",
     "description": "A minimal tiling Wayland compositor.",
-    "tags": [
-      "Arch Linux",
-      "Hyprland",
-      "Linux",
-      "Shell"
-    ],
+    "tags": ["Arch Linux", "Hyprland", "Linux", "Shell"],
     "github": "https://github.com/KenshienAlao/BareSway",
-    "demo": null
+    "demo": null,
+    "addedAt": "2026-07-28"
   },
   {
     "id": 29,
     "title": "Green-Root-Co.",
     "image": "https://res.cloudinary.com/lpxtww2i/image/upload/v1785841647/projects/project_4a961286-21ff-4753-ae0a-5f0f36e32d8b.png",
     "description": "A comprehensive component library built with React and Tailwind CSS for enterprise applications.",
-    "tags": [
-      "React",
-      "TypeScript",
-      "Tailwind CSS",
-      "Landing Page"
-    ],
+    "tags": ["React", "TypeScript", "Tailwind CSS", "Landing Page"],
     "github": "https://github.com/KenshienAlao/Green-Roots-Co..git",
-    "demo": "https://greenrootsco.vercel.app"
+    "demo": "https://greenrootsco.vercel.app",
+    "addedAt": "2026-01-20"
   },
   {
     "id": 30,
     "title": "ELibrary-CDM",
     "image": "https://res.cloudinary.com/lpxtww2i/image/upload/v1785842380/projects/project_19e2224a-4255-404d-9f7d-262da16c48e7.png",
     "description": "A web application for the libary in the Colegio De Montalban",
-    "tags": [
-      "Next.js",
-      "TypeScript",
-      "Java",
-      "Spring Boot",
-      "Full-Stack"
-    ],
+    "tags": ["Next.js", "TypeScript", "Java", "Spring Boot", "Full-Stack"],
     "github": "https://github.com/KenshienAlao/elibrary-cdm.git",
-    "demo": "https://elibrary-cdm.vercel.app/"
+    "demo": "https://elibrary-cdm.vercel.app/",
+    "addedAt": "2026-07-30"
+  },
+  {
+    "id": 31,
+    "title": "Aurelia Estate",
+    "description": "A real-estate landing page built with React and Tailwind CSS for showcasing residential properties.",
+    "image": "https://res.cloudinary.com/lpxtww2i/image/upload/v1789206276/projects/tb3swxzperualxmtdckv.png",
+    "tags": ["Vite", "TypeScript", "Tailwind CSS"],
+    "github": "https://github.com/KenshienAlao/aurelia-estates",
+    "demo": "https://aurelia-estates-mauve.vercel.app/",
+    "addedAt": "2026-9-12"
   }
 ]

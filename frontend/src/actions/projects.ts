@@ -36,6 +36,10 @@ export async function addProjectAction(formData: FormData) {
     throw new Error("Title and description are required");
   }
 
+  const addedAt =
+    (formData.get("addedAt") as string)?.trim() ||
+    new Date().toISOString().split("T")[0];
+
   const project = await createProject({
     title,
     description,
@@ -45,6 +49,7 @@ export async function addProjectAction(formData: FormData) {
     tags,
     github,
     demo,
+    addedAt,
   });
 
   revalidatePath("/projects");
@@ -65,6 +70,7 @@ export async function editProjectAction(id: number, formData: FormData) {
     .split(",")
     .map((t) => t.trim())
     .filter(Boolean);
+  const addedAt = (formData.get("addedAt") as string)?.trim();
 
   const updates: Partial<Omit<Project, "id">> = {
     title,
@@ -72,6 +78,7 @@ export async function editProjectAction(id: number, formData: FormData) {
     github,
     demo,
     tags,
+    ...(addedAt ? { addedAt } : {}),
   };
 
   const imageField = formData.get("image");

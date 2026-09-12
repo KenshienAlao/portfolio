@@ -1,13 +1,37 @@
+"use client";
+
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { FaGithub } from "react-icons/fa";
 import Image from "next/image";
 import { SectionHeader } from "@/components/section-header";
-import { FiArrowUpRight } from "react-icons/fi";
+import {
+  FiArrowUpRight,
+  FiClock,
+  FiArrowDown,
+  FiArrowUp,
+} from "react-icons/fi";
 import Link from "next/link";
 import { type Project } from "@/service/project.service";
+import { formatProjectDate } from "@/lib/format-date";
 
 export function Projects({ projects }: { projects?: Project[] | null }) {
   const projectList = Array.isArray(projects) ? projects : [];
+  const [sortOrder, setSortOrder] = useState<"latest" | "oldest">("latest");
+
+  const sortedProjects = useMemo(() => {
+    return [...projectList].sort((a, b) => {
+      const timeA = a.addedAt ? new Date(a.addedAt).getTime() : 0;
+      const timeB = b.addedAt ? new Date(b.addedAt).getTime() : 0;
+
+      if (timeA && timeB && timeA !== timeB) {
+        return sortOrder === "latest" ? timeB - timeA : timeA - timeB;
+      }
+      return sortOrder === "latest"
+        ? (b.id ?? 0) - (a.id ?? 0)
+        : (a.id ?? 0) - (b.id ?? 0);
+    });
+  }, [projectList, sortOrder]);
 
   return (
     <section
@@ -24,8 +48,32 @@ export function Projects({ projects }: { projects?: Project[] | null }) {
           description="Selected work showcasing full-stack development, UI design, and problem solving."
         />
 
-        {projectList.length === 0 ? (
-          <div className="mt-14 flex flex-col items-center justify-center py-12 text-center rounded-2xl border border-dashed border-border bg-surface/50">
+        {projectList.length > 0 && (
+          <div className="mt-8 flex items-center justify-end border-b border-border/50 pb-4">
+            <div className="flex items-center gap-2 font-mono text-xs">
+              <label
+                htmlFor="sort-projects"
+                className="flex items-center gap-1 text-[11px] text-text-muted"
+              >
+                <FiClock className="h-3 w-3" /> Sort:
+              </label>
+              <select
+                id="sort-projects"
+                value={sortOrder}
+                onChange={(e) =>
+                  setSortOrder(e.target.value as "latest" | "oldest")
+                }
+                className="cursor-pointer rounded-lg border border-border bg-surface px-2.5 py-1 text-xs text-text-primary transition-colors hover:border-accent/50 focus:border-accent focus:outline-none"
+              >
+                <option value="latest">Latest</option>
+                <option value="oldest">Oldest</option>
+              </select>
+            </div>
+          </div>
+        )}
+
+        {sortedProjects.length === 0 ? (
+          <div className="mt-14 flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-surface/50 py-12 text-center">
             <h3 className="font-mono text-base font-bold text-text-primary">
               No projects available
             </h3>
@@ -34,9 +82,12 @@ export function Projects({ projects }: { projects?: Project[] | null }) {
             </p>
           </div>
         ) : (
-          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {projectList.map(
-              ({ id, title, description, image, tags, github, demo }, idx) => (
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {sortedProjects.map(
+              (
+                { id, title, description, image, tags, github, demo, addedAt },
+                idx,
+              ) => (
                 <article
                   key={id}
                   className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-surface hover:border-accent/40"
@@ -56,9 +107,16 @@ export function Projects({ projects }: { projects?: Project[] | null }) {
                   </div>
 
                   <div className="flex flex-1 flex-col gap-3 p-5">
-                    <h3 className="font-mono text-base font-bold text-text-primary">
-                      {title}
-                    </h3>
+                    <div className="flex items-baseline justify-between gap-2">
+                      <h3 className="font-mono text-base font-bold text-text-primary">
+                        {title}
+                      </h3>
+                      {addedAt && (
+                        <span className="shrink-0 font-mono text-[11px] text-text-secondary">
+                          {formatProjectDate(addedAt)}
+                        </span>
+                      )}
+                    </div>
 
                     <p className="line-clamp-2 text-sm leading-relaxed text-text-secondary">
                       {description}

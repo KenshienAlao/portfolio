@@ -8,12 +8,23 @@ export interface Project {
   tags: string[];
   github: string;
   demo: string | null;
+  addedAt?: string;
 }
 
 const FILE = "projects.json";
 
 export async function getAllProjects(): Promise<Project[]> {
-  return readJsonFile<Project[]>(FILE, []);
+  const projects = await readJsonFile<Project[]>(FILE, []);
+  return projects.sort((a, b) => {
+    if (a.addedAt && b.addedAt) {
+      const timeA = new Date(a.addedAt).getTime();
+      const timeB = new Date(b.addedAt).getTime();
+      if (!isNaN(timeA) && !isNaN(timeB) && timeB !== timeA) {
+        return timeB - timeA;
+      }
+    }
+    return (b.id ?? 0) - (a.id ?? 0);
+  });
 }
 
 export async function getProjectById(id: number): Promise<Project | null> {
@@ -21,16 +32,26 @@ export async function getProjectById(id: number): Promise<Project | null> {
   return projects.find((p) => p.id === id) || null;
 }
 
-export async function createProject(data: Omit<Project, "id">): Promise<Project> {
+export async function createProject(
+  data: Omit<Project, "id">,
+): Promise<Project> {
   const projects = await getAllProjects();
-  const newId = projects.length > 0 ? Math.max(...projects.map((p) => p.id)) + 1 : 1;
-  const newProject: Project = { ...data, id: newId };
+  const newId =
+    projects.length > 0 ? Math.max(...projects.map((p) => p.id)) + 1 : 1;
+  const newProject: Project = {
+    ...data,
+    id: newId,
+    addedAt: data.addedAt || new Date().toISOString(),
+  };
   projects.unshift(newProject);
   await writeJsonFile(FILE, projects);
   return newProject;
 }
 
-export async function updateProject(id: number, data: Partial<Omit<Project, "id">>): Promise<Project> {
+export async function updateProject(
+  id: number,
+  data: Partial<Omit<Project, "id">>,
+): Promise<Project> {
   const projects = await getAllProjects();
   const index = projects.findIndex((p) => p.id === id);
   if (index === -1) {
