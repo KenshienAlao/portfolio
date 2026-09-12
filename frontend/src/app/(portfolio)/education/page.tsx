@@ -17,4 +17,3 @@ export default async function EducationPage() {
   const education = await getAllEducation();
   return <Education education={education} />;
 }
-

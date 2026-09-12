@@ -1,6 +1,5 @@
 import { SectionHeader } from "@/components/section-header";
 import Link from "next/link";
-import { FiMapPin } from "react-icons/fi";
 import { type Education as EducationType } from "@/service/education.service";
 
 export function Education({
@@ -8,16 +7,16 @@ export function Education({
 }: {
   education?: EducationType[] | null;
 }) {
-  const sortedEducation = (() => {
-    if (!Array.isArray(education)) return [];
-    return education.toSorted((a, b) => {
-      const getYearValue = (y: string) =>
-        y === "Present" ? 9999 : parseInt(y) || 0;
-      const endDiff = getYearValue(b.yearEnd) - getYearValue(a.yearEnd);
-      if (endDiff !== 0) return endDiff;
-      return getYearValue(b.yearStart) - getYearValue(a.yearStart);
-    });
-  })();
+  const sortedEducation = Array.isArray(education)
+    ? education.toSorted((a, b) => {
+        const getYear = (year: string) =>
+          year === "Present" ? Infinity : Number.parseInt(year, 10) || 0;
+
+        const endDiff = getYear(b.yearEnd) - getYear(a.yearEnd);
+
+        return endDiff || getYear(b.yearStart) - getYear(a.yearStart);
+      })
+    : [];
 
   return (
     <section
@@ -54,7 +53,15 @@ export function Education({
                   className="absolute -left-3 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-surface text-accent"
                   aria-label={`View location for ${item.school}`}
                 >
-                  <FiMapPin className="h-3.5 w-3.5" aria-hidden="true" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 -960 960 960"
+                    fill="currentColor"
+                    className="h-4 w-4"
+                    aria-hidden="true"
+                  >
+                    <path d="M536.5-503.5Q560-527 560-560t-23.5-56.5Q513-640 480-640t-56.5 23.5Q400-593 400-560t23.5 56.5Q447-480 480-480t56.5-23.5ZM480-186q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z" />
+                  </svg>
                 </Link>
 
                 <Link
