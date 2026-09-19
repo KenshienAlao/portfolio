@@ -1,32 +1,58 @@
 import { useState } from "react";
 import { ThemeTogglerButton } from "../theme-toggle";
-import { LuLayoutDashboard } from "react-icons/lu";
-import { FiLayers } from "react-icons/fi";
-import {
-  FaChevronLeft,
-  FaChevronRight,
-  FaGraduationCap,
-  FaInbox,
-  FaTerminal,
-  FaWrench,
-} from "react-icons/fa";
 import { Tab } from "@/types/dashboard";
 
 interface props {
   activeTab: Tab;
   setActiveTab: (tab: Tab) => void;
 }
+interface NavProps {
+  id: Tab;
+  label: string;
+  path: string;
+  viewbox: string;
+}
 
 export function Navbar({ activeTab, setActiveTab }: props) {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
-  const NAV_ITEMS = [
-    { id: "overview", label: "Overview", icon: LuLayoutDashboard },
-    { id: "projects", label: "Projects", icon: FiLayers },
-    { id: "education", label: "Education", icon: FaGraduationCap },
-    { id: "skills", label: "Skills", icon: FaWrench },
-    { id: "setup", label: "Setup", icon: FaTerminal },
-    { id: "messages", label: "Messages", icon: FaInbox },
+  const NAV_ITEMS: NavProps[] = [
+    {
+      id: "overview",
+      label: "Overview",
+      path: "M520-600v-240h320v240H520ZM120-440v-400h320v400H120Zm400 320v-400h320v400H520Zm-400 0v-240h320v240H120Zm80-400h160v-240H200v240Zm400 320h160v-240H600v240Zm0-480h160v-80H600v80ZM200-200h160v-80H200v80Zm160-320Zm240-160Zm0 240ZM360-280Z",
+      viewbox: "0 -960 960 960",
+    },
+    {
+      id: "projects",
+      label: "Projects",
+      path: "M480-400 40-640l440-240 440 240-440 240Zm0 160L63-467l84-46 333 182 333-182 84 46-417 227Zm0 160L63-307l84-46 333 182 333-182 84 46L480-80Zm0-411 273-149-273-149-273 149 273 149Zm0-149Z",
+      viewbox: "0 -960 960 960",
+    },
+    {
+      id: "education",
+      label: "Education",
+      path: "M480-120 200-272v-240L40-600l440-240 440 240v320h-80v-276l-80 44v240L480-120Zm0-332 274-148-274-148-274 148 274 148Zm0 241 200-108v-151L480-360 280-470v151l200 108Zm0-241Zm0 90Zm0 0Z",
+      viewbox: "0 -960 960 960",
+    },
+    {
+      id: "skills",
+      label: "Skills",
+      path: "M686-132 444-376q-20 8-40.5 12t-43.5 4q-100 0-170-70t-70-170q0-36 10-68.5t28-61.5l146 146 72-72-146-146q29-18 61.5-28t68.5-10q100 0 170 70t70 170q0 23-4 43.5T584-516l244 242q12 12 12 29t-12 29l-84 84q-12 12-29 12t-29-12Zm29-85 27-27-256-256q18-20 26-46.5t8-53.5q0-60-38.5-104.5T386-758l74 74q12 12 12 28t-12 28L332-500q-12 12-28 12t-28-12l-74-74q9 57 53.5 95.5T360-440q26 0 52-8t47-25l256 256ZM472-488Z",
+      viewbox: "0 -960 960 960",
+    },
+    {
+      id: "setup",
+      label: "Setup",
+      path: "M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H160v400Zm140-40-56-56 103-104-104-104 57-56 160 160-160 160Zm180 0v-80h240v80H480Z",
+      viewbox: "0 -960 960 960",
+    },
+    {
+      id: "messages",
+      label: "Messages",
+      path: "M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-120H640q-30 38-71.5 59T480-240q-47 0-88.5-21T320-320H200v120Zm349-142q31-22 43-58h168v-360H200v360h168q12 36 43 58t69 22q38 0 69-22ZM200-200h560-560Z",
+      viewbox: "0 -960 960 960",
+    },
   ] as const;
 
   const [isMobileCollapsed, setIsMobileCollapsed] = useState(false);
@@ -53,16 +79,31 @@ export function Navbar({ activeTab, setActiveTab }: props) {
             aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             {isCollapsed ? (
-              <FaChevronRight className="h-4 w-4" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="currentColor"
+              >
+                <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
+              </svg>
             ) : (
-              <FaChevronLeft className="h-4 w-4" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="currentColor"
+              >
+                <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
+              </svg>
             )}
           </button>
         </div>
 
         <nav className="flex-1 space-y-1">
           {NAV_ITEMS.map((item) => {
-            const Icon = item.icon;
             const isActive = activeTab === item.id;
             return (
               <button
@@ -78,7 +119,14 @@ export function Navbar({ activeTab, setActiveTab }: props) {
                 }`}
               >
                 <div className="flex items-center gap-2.5">
-                  <Icon className="h-4 w-4 shrink-0" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox={item.viewbox}
+                    fill="currentColor"
+                    className="h-4 w-4 shrink-0"
+                  >
+                    <path d={item.path} />
+                  </svg>
                   <span
                     className={`transition-all duration-200 origin-left ${
                       isCollapsed
@@ -115,12 +163,17 @@ export function Navbar({ activeTab, setActiveTab }: props) {
           }`}
           aria-label="Hide Navigation"
         >
-          <FaChevronLeft className="h-3.5 w-3.5 -rotate-90" />
-          <span>Hide</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 -960 960 960"
+            fill="currentColor"
+            className="h-3.5 w-3.5 -rotate-90"
+          >
+            <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
+          </svg>
         </button>
 
         {NAV_ITEMS.map((item) => {
-          const Icon = item.icon;
           const isActive = activeTab === item.id;
           return (
             <button
@@ -131,7 +184,14 @@ export function Navbar({ activeTab, setActiveTab }: props) {
                 isActive ? "text-accent font-semibold" : "text-text-secondary"
               }`}
             >
-              <Icon className="h-5 w-5 mb-0.5" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox={item.viewbox}
+                fill="currentColor"
+                className="h-5 w-5 mb-0.5"
+              >
+                <path d={item.path} />
+              </svg>
               <span className="scale-90 font-mono">{item.label}</span>
             </button>
           );
@@ -148,7 +208,14 @@ export function Navbar({ activeTab, setActiveTab }: props) {
         }`}
         aria-label="Expand Menu"
       >
-        <LuLayoutDashboard className="h-5 w-5 animate-pulse" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 -960 960 960"
+          fill="currentColor"
+          className="h-5 w-5"
+        >
+          <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
+        </svg>
       </button>
     </>
   );
