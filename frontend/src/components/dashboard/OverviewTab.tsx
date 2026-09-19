@@ -10,6 +10,7 @@ import { Manage } from "./overviewTab/Overview-Manage";
 import { Messages } from "./overviewTab/Overview-Message";
 import { Skills } from "./overviewTab/Overview-Skills";
 import { Stack } from "./overviewTab/Overview-Stack";
+import { OverviewTabSkeleton } from "../ui/skeleton";
 import { Tab } from "@/types/dashboard";
 
 interface OverviewTabProps {
@@ -17,11 +18,25 @@ interface OverviewTabProps {
 }
 
 export function OverviewTab({ setActiveTab }: OverviewTabProps) {
-  const { data: projects = [] } = useProjectAdmin();
-  const { data: education = [] } = useEducationAdmin();
-  const { data: skills = [] } = useSkillAdmin();
-  const { data: setupCategories = [] } = useSetupAdmin();
-  const { data: messages = [] } = useMessagesAdmin();
+  const { data: projects = [], isPending: loadingProjects } = useProjectAdmin();
+  const { data: education = [], isPending: loadingEducation } =
+    useEducationAdmin();
+  const { data: skills = [], isPending: loadingSkills } = useSkillAdmin();
+  const { data: setupCategories = [], isPending: loadingSetup } =
+    useSetupAdmin();
+  const { data: messages = [], isPending: loadingMessages } =
+    useMessagesAdmin();
+
+  const isLoading =
+    loadingProjects ||
+    loadingEducation ||
+    loadingSkills ||
+    loadingSetup ||
+    loadingMessages;
+
+  if (isLoading) {
+    return <OverviewTabSkeleton />;
+  }
 
   let unreadMessagesCount = 0;
   for (const m of messages) {

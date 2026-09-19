@@ -175,3 +175,150 @@ export const SkillCardSkeleton = () => {
     </div>
   );
 };
+
+export const OverviewHeaderSkeleton = () => (
+  <div
+    className="flex flex-wrap items-center justify-between gap-3 animate-pulse"
+    aria-hidden="true"
+  >
+    <div className="h-3.5 w-56 rounded bg-muted-foreground/15" />
+    <div className="h-8 w-40 rounded-lg bg-muted-foreground/15" />
+  </div>
+);
+
+export const OverviewStatCardSkeleton = () => (
+  <div
+    className="flex flex-col justify-between rounded-2xl border border-border bg-surface p-5 animate-pulse"
+    aria-hidden="true"
+  >
+    <div className="flex items-start justify-between">
+      <div className="h-7 w-10 rounded bg-muted-foreground/15" />
+      <div className="h-9 w-9 rounded-xl bg-muted-foreground/15" />
+    </div>
+    <div className="mt-3 space-y-1.5">
+      <div className="h-2.5 w-16 rounded bg-muted-foreground/15" />
+      <div className="h-2 w-20 rounded bg-muted-foreground/15" />
+    </div>
+  </div>
+);
+
+export const OverviewManageSkeleton = () => (
+  <div
+    className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5"
+    role="status"
+    aria-busy="true"
+    aria-label="Loading overview stats"
+  >
+    {Array.from({ length: 5 }).map((_, i) => (
+      <OverviewStatCardSkeleton key={i} />
+    ))}
+  </div>
+);
+
+export const OverviewMessageSkeleton = () => (
+  <div className="lg:col-span-2 animate-pulse" aria-hidden="true">
+    <div className="rounded-2xl border border-border bg-surface p-6">
+      <div className="flex items-center justify-between border-b border-border/60 pb-4">
+        <div className="flex items-center gap-2">
+          <div className="h-4 w-4 rounded bg-muted-foreground/15" />
+          <div className="h-4 w-28 rounded bg-muted-foreground/15" />
+        </div>
+        <div className="h-3.5 w-16 rounded bg-muted-foreground/15" />
+      </div>
+      <div className="mt-4 space-y-3">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div
+            key={i}
+            className="rounded-xl border border-border bg-background p-4 space-y-2.5"
+          >
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <div className="h-3.5 w-3.5 rounded-full bg-muted-foreground/15 shrink-0" />
+                <div className="h-3 w-20 rounded bg-muted-foreground/15" />
+                <div className="h-3 w-32 rounded bg-muted-foreground/15" />
+              </div>
+              <div className="h-2.5 w-20 rounded bg-muted-foreground/15 shrink-0" />
+            </div>
+            <div className="h-3 w-2/3 rounded bg-muted-foreground/15" />
+            <div className="space-y-1.5">
+              <div className="h-2.5 w-full rounded bg-muted-foreground/15" />
+              <div className="h-2.5 w-4/5 rounded bg-muted-foreground/15" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+export const OverviewSkillsSkeleton = () => (
+  <div
+    className="rounded-2xl border border-border bg-surface p-6 animate-pulse"
+    aria-hidden="true"
+  >
+    <div className="mb-4 flex items-center justify-between">
+      <div className="h-4 w-28 rounded bg-muted-foreground/15" />
+      <div className="h-3 w-14 rounded bg-muted-foreground/15" />
+    </div>
+    <div className="space-y-3">
+      {Array.from({ length: 4 }).map((_, i) => (
+        <div key={i} className="space-y-1.5">
+          <div className="flex items-center justify-between">
+            <div className="h-3 w-20 rounded bg-muted-foreground/15" />
+            <div className="h-3 w-6 rounded bg-muted-foreground/15" />
+          </div>
+          <div className="h-1.5 w-full overflow-hidden rounded-full bg-background">
+            <div
+              className="h-full rounded-full bg-muted-foreground/15"
+              style={{ width: `${70 - i * 15}%` }}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+export const OverviewStackSkeleton = () => (
+  <div
+    className="rounded-2xl border border-border bg-surface p-6 animate-pulse"
+    aria-hidden="true"
+  >
+    <div className="mb-4 flex items-center gap-1.5">
+      <div className="h-3 w-3 rounded-full bg-muted-foreground/15" />
+      <div className="h-3 w-3 rounded-full bg-muted-foreground/15" />
+      <div className="h-3 w-3 rounded-full bg-muted-foreground/15" />
+      <div className="ml-3 h-3 w-20 rounded bg-muted-foreground/15" />
+    </div>
+    <div className="space-y-2">
+      {Array.from({ length: 4 }).map((_, i) => (
+        <div
+          key={i}
+          className={`flex justify-between pb-2 ${i < 3 ? "border-b border-border/40" : ""}`}
+        >
+          <div className="h-3 w-20 rounded bg-muted-foreground/15" />
+          <div className="h-3 w-28 rounded bg-muted-foreground/15" />
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+export const OverviewTabSkeleton = () => (
+  <div
+    className="space-y-8 font-mono"
+    role="status"
+    aria-busy="true"
+    aria-label="Loading overview"
+  >
+    <OverviewHeaderSkeleton />
+    <OverviewManageSkeleton />
+    <div className="grid gap-6 lg:grid-cols-3">
+      <OverviewMessageSkeleton />
+      <div className="space-y-6">
+        <OverviewSkillsSkeleton />
+        <OverviewStackSkeleton />
+      </div>
+    </div>
+  </div>
+);
