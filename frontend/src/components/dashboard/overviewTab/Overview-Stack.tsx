@@ -27,7 +27,9 @@ export function Stack() {
         </div>
         <div className="flex justify-between border-b border-border/40 pb-2">
           <span>Auth:</span>
-          <span className="font-semibold text-text-primary">Session Cookies</span>
+          <span className="font-semibold text-text-primary">
+            Session Cookies
+          </span>
         </div>
         <div className="flex justify-between">
           <span>Datastore:</span>
