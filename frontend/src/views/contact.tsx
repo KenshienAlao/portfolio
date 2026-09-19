@@ -24,7 +24,6 @@ export function Contact() {
         <div className="mt-14 grid gap-4 md:grid-cols-2 items-start">
           <div className="flex flex-col gap-3">
             {CONTACT_LINKS.map((link) => {
-              const Icon = link.icon;
               return (
                 <a
                   key={link.label}
@@ -34,7 +33,14 @@ export function Contact() {
                   className="flex items-center gap-4 rounded-2xl border border-border bg-surface p-4 hover:border-accent/40"
                 >
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
-                    <Icon className="h-4 w-4" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox={link.viewBox}
+                      fill="currentColor"
+                      className="h-6 w-6"
+                    >
+                      <path d={link.path} />
+                    </svg>
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="mb-0.5 font-mono text-[11px] uppercase tracking-widest text-text-secondary">

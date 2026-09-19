@@ -19,7 +19,7 @@ export function Footer() {
           </div>
 
           <div className="flex items-center gap-1">
-            {CONTACT_LINKS.map(({ value, href, icon: Icon }) => (
+            {CONTACT_LINKS.map(({ value, href, path, viewBox }) => (
               <Link
                 key={`footer-${value}`}
                 href={href}
@@ -28,7 +28,15 @@ export function Footer() {
                 className="flex h-9 w-9 items-center justify-center rounded-full text-text-secondary hover:bg-surface/80 hover:text-accent"
                 aria-label={value}
               >
-                <Icon className="h-4 w-4" aria-hidden="true" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox={viewBox}
+                  fill="currentColor"
+                  className="h-4 w-4"
+                  aria-hidden="true"
+                >
+                  <path d={path} />
+                </svg>
               </Link>
             ))}
           </div>
