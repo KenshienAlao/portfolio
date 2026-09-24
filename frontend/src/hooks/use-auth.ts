@@ -1,10 +1,10 @@
-import { ApiReponse } from "@/lib/ApiResponse";
+import { ApiResponse } from "@/lib/ApiResponse";
 import { AuthService } from "@/service/auth.service";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
 interface props<TData, TVariables> {
-  mutationFn: (data: TVariables) => Promise<ApiReponse<TData>>;
+  mutationFn: (data: TVariables) => Promise<ApiResponse<TData>>;
   redirect: string;
 }
 

@@ -1,3 +1,5 @@
+import { FieldError, fieldLabel, inputClass } from "../form-styles";
+
 interface ProjectDescriptionProps {
   defaultValue?: string;
   disabled?: boolean;
@@ -10,8 +12,8 @@ export function ProjectDescription({
   descriptionError,
 }: ProjectDescriptionProps) {
   return (
-    <div className="space-y-1">
-      <label htmlFor="description" className="text-text-secondary block">
+    <div className="space-y-1.5">
+      <label htmlFor="description" className={fieldLabel}>
         Description
       </label>
       <textarea
@@ -22,17 +24,10 @@ export function ProjectDescription({
         defaultValue={defaultValue}
         disabled={disabled}
         aria-invalid={descriptionError ? "true" : "false"}
-        className={`w-full rounded-md border bg-background px-3 py-2 outline-none disabled:cursor-not-allowed disabled:opacity-60 ${
-          descriptionError
-            ? "border-destructive/60 focus:border-destructive"
-            : "border-border focus:border-accent"
-        }`}
+        placeholder="What does this project do, and what did you build?"
+        className={`${inputClass(Boolean(descriptionError))} resize-none`}
       />
-      {descriptionError && (
-        <p role="alert" className="text-destructive">
-          {descriptionError.message}
-        </p>
-      )}
+      {descriptionError && <FieldError>{descriptionError.message}</FieldError>}
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import { Skills } from "@/views/skills";
-import { getAllSkills } from "@/lib/db/skills";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,15 +10,12 @@ export const metadata: Metadata = {
   },
 };
 
-export const dynamic = "force-dynamic";
-
 export default async function SkillsPage({
   searchParams,
 }: {
   searchParams: Promise<{ category?: string }>;
 }) {
   const { category } = await searchParams;
-  const skills = await getAllSkills();
 
-  return <Skills skills={skills} selectedCategory={category} />;
+  return <Skills selectedCategory={category} />;
 }

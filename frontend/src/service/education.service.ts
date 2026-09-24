@@ -1,5 +1,5 @@
 import api from "@/lib/api";
-import { ApiReponse } from "@/lib/ApiResponse";
+import { ApiResponse } from "@/lib/ApiResponse";
 
 export interface Education {
   id: number;
@@ -12,22 +12,22 @@ export interface Education {
 }
 
 export const educationService = {
-  getPublic: async (): Promise<ApiReponse<Education[]>> => {
+  getPublic: async (): Promise<ApiResponse<Education[]>> => {
     const res = await api.get("/api/education");
     return res.data;
   },
-  getAdmin: async (): Promise<ApiReponse<Education[]>> => {
+  getAdmin: async (): Promise<ApiResponse<Education[]>> => {
     const res = await api.get("/api/education/admin");
     return res.data;
   },
 
-  addEducation: async (data: FormData): Promise<ApiReponse<Education>> => {
+  addEducation: async (data: FormData): Promise<ApiResponse<Education>> => {
     const payload = Object.fromEntries(data.entries());
     const res = await api.post("/api/education/admin/add-education", payload);
     return res.data;
   },
 
-  deleteEducationById: async (educationId: number): Promise<ApiReponse> => {
+  deleteEducationById: async (educationId: number): Promise<ApiResponse> => {
     const res = await api.delete(
       `/api/education/admin/delete-education/${educationId}`,
     );
@@ -37,7 +37,7 @@ export const educationService = {
   editEducationById: async (
     educationId: number,
     data: FormData,
-  ): Promise<ApiReponse<Education>> => {
+  ): Promise<ApiResponse<Education>> => {
     data.delete("id");
     const payload = Object.fromEntries(data.entries());
     const res = await api.patch(

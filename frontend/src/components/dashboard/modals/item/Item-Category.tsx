@@ -1,4 +1,5 @@
 import { SetupCategory } from "@/service/setup.service";
+import { FieldError, fieldLabel, inputClass } from "../form-styles";
 
 interface props {
   selectedCategoryId: string;
@@ -16,8 +17,8 @@ export function Category({
   categories,
 }: props) {
   return (
-    <div className="space-y-1">
-      <label htmlFor="category" className="block text-text-secondary">
+    <div className="space-y-1.5">
+      <label htmlFor="category" className={fieldLabel}>
         Category
       </label>
       <select
@@ -28,11 +29,7 @@ export function Category({
         value={selectedCategoryId}
         onChange={(e) => setSelectedCategoryId(e.target.value)}
         disabled={isLoading}
-        className={`w-full rounded-md border bg-background px-3 py-2 outline-none disabled:cursor-not-allowed disabled:opacity-60 ${
-          categoryError
-            ? "border-destructive/60 focus:border-destructive"
-            : "border-border focus:border-accent"
-        }`}
+        className={inputClass(Boolean(categoryError))}
       >
         <option value="" disabled>
           Select a category
@@ -43,11 +40,7 @@ export function Category({
           </option>
         ))}
       </select>
-      {categoryError && (
-        <p role="alert" className="text-destructive">
-          {categoryError.message}
-        </p>
-      )}
+      {categoryError && <FieldError>{categoryError.message}</FieldError>}
     </div>
   );
 }

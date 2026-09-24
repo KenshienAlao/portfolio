@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ChangeEvent } from "react";
 import { ImagePlus } from "@/components/icons";
+import { FieldError, fieldLabel } from "../form-styles";
 
 interface props {
   imageDarkError?: { message?: string };
@@ -22,14 +23,14 @@ export function ImageDark({
   darkFileName,
 }: props) {
   return (
-    <div className="space-y-1">
-      <label htmlFor="itemImageDark" className="block text-text-secondary">
-        Logo / Icon (Dark Mode){" "}
-        <span className="text-text-secondary/50">— optional</span>
+    <div className="space-y-1.5">
+      <label htmlFor="itemImageDark" className={fieldLabel}>
+        Logo / icon (dark mode){" "}
+        <span className="normal-case text-text-secondary/50">— optional</span>
       </label>
       <label
         htmlFor="itemImageDark"
-        className={`flex flex-col items-center justify-center gap-2 overflow-hidden rounded-md border border-dashed bg-background px-3 py-3 text-center transition-colors ${
+        className={`flex flex-col items-center justify-center gap-2 overflow-hidden rounded-lg border border-dashed bg-input/40 px-3 py-3 text-center transition-colors ${
           isLoading
             ? "cursor-not-allowed opacity-60"
             : "cursor-pointer hover:border-accent/60"
@@ -55,7 +56,7 @@ export function ImageDark({
               className="h-4 w-4 text-text-secondary"
               aria-hidden="true"
             />
-            <span className="text-text-secondary">
+            <span className="font-mono text-xs text-text-secondary">
               Click to upload dark icon (optional)
             </span>
           </>
@@ -73,7 +74,7 @@ export function ImageDark({
         className="hidden"
       />
       {darkPreview && (
-        <div className="flex items-center justify-between text-text-secondary">
+        <div className="flex items-center justify-between font-mono text-xs text-text-secondary">
           <span className="truncate">{darkFileName ?? "Current image"}</span>
           <button
             type="button"
@@ -85,11 +86,7 @@ export function ImageDark({
           </button>
         </div>
       )}
-      {imageDarkError && (
-        <p role="alert" className="text-destructive">
-          {imageDarkError.message}
-        </p>
-      )}
+      {imageDarkError && <FieldError>{imageDarkError.message}</FieldError>}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-type props = {
+export type ContactLink = {
   label: string;
   value: string;
   href: string;
@@ -6,7 +6,7 @@ type props = {
   viewBox: string;
 };
 
-export const CONTACT_LINKS: props[] = [
+export const CONTACT_LINKS: ContactLink[] = [
   {
     label: "Gmail",
     value: "gmail.com/kenshienworkacc",

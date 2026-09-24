@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ChangeEvent, RefObject } from "react";
 import { ImagePlus } from "@/components/icons";
+import { FieldError, fieldLabel } from "../form-styles";
 
 interface SkillImageDarkProps {
   darkPreview: string | null;
@@ -22,14 +23,14 @@ export function SkillImageDark({
   onRemoveDarkImage,
 }: SkillImageDarkProps) {
   return (
-    <div className="space-y-1">
-      <label htmlFor="imageDark" className="block text-text-secondary">
-        Image (Dark Mode){" "}
-        <span className="text-text-secondary/50">— optional</span>
+    <div className="space-y-1.5">
+      <label htmlFor="imageDark" className={fieldLabel}>
+        Image (dark mode){" "}
+        <span className="normal-case text-text-secondary/50">— optional</span>
       </label>
       <label
         htmlFor="imageDark"
-        className={`flex flex-col items-center justify-center gap-2 overflow-hidden rounded-md border border-dashed bg-background px-3 py-4 text-center transition-colors ${
+        className={`flex flex-col items-center justify-center gap-2 overflow-hidden rounded-lg border border-dashed bg-input/40 px-3 py-4 text-center transition-colors ${
           disabled
             ? "cursor-not-allowed opacity-60"
             : "cursor-pointer hover:border-accent/60"
@@ -52,8 +53,8 @@ export function SkillImageDark({
               className="h-5 w-5 text-text-secondary"
               aria-hidden="true"
             />
-            <span className="text-text-secondary">
-              Click to upload dark icon (optional)
+            <span className="font-mono text-xs text-text-secondary">
+              Click to upload a dark-mode icon (optional)
             </span>
           </>
         )}
@@ -71,7 +72,7 @@ export function SkillImageDark({
         className="hidden"
       />
       {darkPreview && (
-        <div className="flex items-center justify-between text-text-secondary">
+        <div className="flex items-center justify-between font-mono text-xs text-text-secondary">
           <span className="truncate">{darkFileName ?? "Current image"}</span>
           <button
             type="button"
@@ -83,11 +84,7 @@ export function SkillImageDark({
           </button>
         </div>
       )}
-      {imageDarkError && (
-        <p role="alert" className="text-destructive">
-          {imageDarkError.message}
-        </p>
-      )}
+      {imageDarkError && <FieldError>{imageDarkError.message}</FieldError>}
     </div>
   );
 }

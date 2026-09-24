@@ -1,4 +1,4 @@
-import { ApiReponse } from "@/lib/ApiResponse";
+import { ApiResponse } from "@/lib/ApiResponse";
 import {
   messageService,
   type Message,
@@ -11,7 +11,7 @@ export type { Message, SendMessagePayload };
 const messageKey = ["message"];
 
 export const useMessagesAdmin = () => {
-  return useQuery<ApiReponse<Message[]>, Error, Message[]>({
+  return useQuery<ApiResponse<Message[]>, Error, Message[]>({
     queryKey: [...messageKey, "admin"],
     queryFn: messageService.getAdminMessages,
     select: (res) => res.data ?? [],
@@ -30,12 +30,12 @@ export const useDeleteMessageById = () => {
     onMutate: async (deletedId: number) => {
       await queryClient.cancelQueries({ queryKey: [...messageKey, "admin"] });
 
-      const prevData = queryClient.getQueryData<ApiReponse<Message[]>>([
+      const prevData = queryClient.getQueryData<ApiResponse<Message[]>>([
         ...messageKey,
         "admin",
       ]);
 
-      queryClient.setQueryData<ApiReponse<Message[]>>(
+      queryClient.setQueryData<ApiResponse<Message[]>>(
         [...messageKey, "admin"],
         (old) => {
           if (!old || !old.data) return old;
@@ -70,12 +70,12 @@ export const useToggleMessageRead = () => {
     onMutate: async (messageId: number) => {
       await queryClient.cancelQueries({ queryKey: [...messageKey, "admin"] });
 
-      const prevData = queryClient.getQueryData<ApiReponse<Message[]>>([
+      const prevData = queryClient.getQueryData<ApiResponse<Message[]>>([
         ...messageKey,
         "admin",
       ]);
 
-      queryClient.setQueryData<ApiReponse<Message[]>>(
+      queryClient.setQueryData<ApiResponse<Message[]>>(
         [...messageKey, "admin"],
         (old) => {
           if (!old || !old.data) return old;

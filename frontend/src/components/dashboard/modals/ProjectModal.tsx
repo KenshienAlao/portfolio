@@ -1,7 +1,7 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useEffect, useReducer, useRef } from "react";
-import { BaseModal } from "./BaseModal";
+import { ChangeEvent, FormEvent, useEffect, useMemo, useReducer, useRef } from "react";
+import { BaseModal, ModalFooter } from "./BaseModal";
 import z, { ZodError } from "zod";
 import { useAddProject, useEditProject } from "@/hooks/admin/use-project-admin";
 import { Save, AlertCircle, Loader } from "@/components/icons";
@@ -9,11 +9,13 @@ import { ProjectTitle } from "./project/Project-Title";
 import { ProjectImage } from "./project/Project-Image";
 import { ProjectDescription } from "./project/Project-Description";
 import { ProjectLinks } from "./project/Project-Links";
+import { Section } from "./Section";
+import { TagInput } from "./tag-input";
 
 const MAX_IMAGE_SIZE = 25 * 1024 * 1024;
 
 const projectFormSchema = z.object({
-  title: z.string().min(1, "Title is required"),
+  title: z.string().min(1, "Give the project a title"),
   image: z.union([
     z
       .instanceof(File, { message: "Image is required" })
@@ -28,12 +30,12 @@ const projectFormSchema = z.object({
       ),
     z.string().min(1, "Image is required"),
   ]),
-  description: z.string().min(1, "Description is required"),
-  github: z.url({ message: "Invalid URL" }).min(1, "GitHub URL is required"),
+  description: z.string().min(1, "Describe what this project does"),
+  github: z.url({ message: "Invalid URL" }).min(1, "Add the GitHub repository URL"),
   demo: z.union([z.url({ message: "Invalid URL" }), z.literal("")]).optional(),
   tags: z
     .string()
-    .min(1, "Tags is required")
+    .min(1, "Add at least one technology/tag")
     .transform((val) =>
       val
         ? val.split(",").flatMap((t) => {
@@ -121,6 +123,18 @@ export function ProjectModal({
 
   const { validateError, imagePreview, imageFileName } = state;
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const tagSuggestions = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          (projects ?? []).flatMap(
+            (p) => Array.isArray(p.tags) ? p.tags : [],
+          ),
+        ),
+      ).sort((a, b) => a.localeCompare(b)),
+    [projects],
+  );
 
   useEffect(() => {
     return () => {
@@ -217,20 +231,18 @@ export function ProjectModal({
   };
 
   return (
-    <BaseModal
-      title={isEdit ? "Edit Project" : "Add Project"}
-      onClose={() => setProjectForm(null)}
-      maxWidth="max-w-lg"
-    >
+    <BaseModal onClose={() => setProjectForm(null)} maxWidth="max-w-lg">
       <form
         noValidate
         onSubmit={handleSubmitProject}
-        className="space-y-3 font-mono text-xs text-text-primary"
+        className="space-y-3 text-text-primary"
         autoComplete="off"
       >
         {projectForm.addedAt && (
           <input type="hidden" name="addedAt" value={projectForm.addedAt} />
         )}
+
+        <Section title="Project details" />
         <ProjectTitle
           defaultValue={projectForm.title}
           disabled={isLoading}
@@ -253,14 +265,23 @@ export function ProjectModal({
           descriptionError={descriptionError}
         />
 
+        <Section title="Links" />
         <ProjectLinks
           githubDefault={projectForm.github}
           demoDefault={projectForm.demo || ""}
-          tagsDefault={projectForm.tags?.join(", ")}
           disabled={isLoading}
           githubError={githubError}
           demoError={demoError}
-          tagsError={tagsError}
+        />
+
+        <Section title="Technologies" />
+        <TagInput
+          name="tags"
+          label="Technologies & tags"
+          defaultValue={projectForm.tags ?? []}
+          suggestions={tagSuggestions}
+          disabled={isLoading}
+          error={tagsError}
         />
 
         {error && !hasFieldError && (
@@ -276,26 +297,31 @@ export function ProjectModal({
           </div>
         )}
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-accent py-2.5 font-semibold text-on-accent hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
+        <ModalFooter
+          onCancel={() => setProjectForm(null)}
+          cancelDisabled={isLoading}
         >
-          {isLoading ? (
-            <>
-              <Loader className="h-4 w-4 animate-spin" aria-hidden="true" />
-              Saving...
-            </>
-          ) : isEdit ? (
-            <>
-              <Save className="h-4 w-4" /> Save changes
-            </>
-          ) : (
-            <>
-              <Save className="h-4 w-4" /> Save Project
-            </>
-          )}
-        </button>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-5 py-2.5 font-mono text-sm font-semibold text-on-accent transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            {isLoading ? (
+              <>
+                <Loader className="h-4 w-4 animate-spin" aria-hidden="true" />
+                Saving...
+              </>
+            ) : isEdit ? (
+              <>
+                <Save className="h-4 w-4" /> Save changes
+              </>
+            ) : (
+              <>
+                <Save className="h-4 w-4" /> Add project
+              </>
+            )}
+          </button>
+        </ModalFooter>
       </form>
     </BaseModal>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { BaseModal } from "./BaseModal";
+import { BaseModal, ModalFooter } from "./BaseModal";
 import {
   Education,
   useAddEducation,
@@ -9,7 +9,9 @@ import {
 import { FormEvent, useState } from "react";
 import z, { ZodError } from "zod";
 import { getYears } from "@/lib/year";
-import { Save, AlertCircle, Loader } from "@/components/icons";
+import { Save, AlertCircle, Loader, MapPin } from "@/components/icons";
+import { Section } from "./Section";
+import { FieldError, fieldLabel, inputClass } from "./form-styles";
 
 const educationFormSchema = z.object({
   school: z.string().min(1, "School is required"),
@@ -104,20 +106,17 @@ export function EducationModal({
   };
 
   return (
-    <BaseModal
-      title={isEdit ? "Edit Education" : "Add Education"}
-      onClose={() => setEducationForm(null)}
-      maxWidth="max-w-lg"
-    >
+    <BaseModal onClose={() => setEducationForm(null)} maxWidth="max-w-lg">
       <form
         onSubmit={handleSubmitEducation}
         noValidate
         autoComplete="off"
-        className="space-y-3 font-mono text-xs text-text-primary"
+        className="space-y-4 text-text-primary"
       >
-        <div className="space-y-1">
-          <label htmlFor="school" className="block text-text-secondary">
-            School / Institution
+        <Section title="School" />
+        <div className="space-y-1.5">
+          <label htmlFor="school" className={fieldLabel}>
+            School / institution
           </label>
           <input
             id="school"
@@ -126,22 +125,15 @@ export function EducationModal({
             defaultValue={educationForm.school}
             disabled={isLoadingAdd || isLoadingEdit}
             aria-invalid={schoolError ? "true" : "false"}
-            className={`w-full rounded-md border bg-background px-3 py-2 outline-none disabled:cursor-not-allowed disabled:opacity-60 ${
-              schoolError
-                ? "border-destructive/60 focus:border-destructive"
-                : "border-border focus:border-accent"
-            }`}
+            placeholder="e.g. Polytechnic University of the Philippines"
+            className={inputClass(Boolean(schoolError))}
           />
-          {schoolError && (
-            <p role="alert" className="text-destructive">
-              {schoolError.message}
-            </p>
-          )}
+          {schoolError && <FieldError>{schoolError.message}</FieldError>}
         </div>
 
-        <div className="space-y-1">
-          <label htmlFor="degree" className="block text-text-secondary">
-            Degree / Course
+        <div className="space-y-1.5">
+          <label htmlFor="degree" className={fieldLabel}>
+            Degree / course
           </label>
           <input
             id="degree"
@@ -150,23 +142,17 @@ export function EducationModal({
             defaultValue={educationForm.degree}
             disabled={isLoadingAdd || isLoadingEdit}
             aria-invalid={degreeError ? "true" : "false"}
-            className={`w-full rounded-md border bg-background px-3 py-2 outline-none disabled:cursor-not-allowed disabled:opacity-60 ${
-              degreeError
-                ? "border-destructive/60 focus:border-destructive"
-                : "border-border focus:border-accent"
-            }`}
+            placeholder="e.g. Bachelor of Science in Computer Science"
+            className={inputClass(Boolean(degreeError))}
           />
-          {degreeError && (
-            <p role="alert" className="text-destructive">
-              {degreeError.message}
-            </p>
-          )}
+          {degreeError && <FieldError>{degreeError.message}</FieldError>}
         </div>
 
+        <Section title="Duration" />
         <div className="grid grid-cols-2 gap-3">
-          <div className="space-y-1">
-            <label htmlFor="yearStart" className="block text-text-secondary">
-              Start Year
+          <div className="space-y-1.5">
+            <label htmlFor="yearStart" className={fieldLabel}>
+              Start year
             </label>
             <select
               id="yearStart"
@@ -175,11 +161,7 @@ export function EducationModal({
               defaultValue={educationForm.yearStart || ""}
               disabled={isLoadingAdd || isLoadingEdit}
               aria-invalid={yearStartError ? "true" : "false"}
-              className={`w-full rounded-md border bg-background px-3 py-2 outline-none disabled:cursor-not-allowed disabled:opacity-60 ${
-                yearStartError
-                  ? "border-destructive/60 focus:border-destructive"
-                  : "border-border focus:border-accent"
-              }`}
+              className={inputClass(Boolean(yearStartError))}
             >
               <option value="" disabled>
                 Select year
@@ -190,15 +172,11 @@ export function EducationModal({
                 </option>
               ))}
             </select>
-            {yearStartError && (
-              <p role="alert" className="text-destructive">
-                {yearStartError.message}
-              </p>
-            )}
+            {yearStartError && <FieldError>{yearStartError.message}</FieldError>}
           </div>
-          <div className="space-y-1">
-            <label htmlFor="yearEnd" className="block text-text-secondary">
-              End Year
+          <div className="space-y-1.5">
+            <label htmlFor="yearEnd" className={fieldLabel}>
+              End year
             </label>
             <select
               id="yearEnd"
@@ -207,11 +185,7 @@ export function EducationModal({
               defaultValue={educationForm.yearEnd || "Present"}
               disabled={isLoadingAdd || isLoadingEdit}
               aria-invalid={yearEndError ? "true" : "false"}
-              className={`w-full rounded-md border bg-background px-3 py-2 outline-none disabled:cursor-not-allowed disabled:opacity-60 ${
-                yearEndError
-                  ? "border-destructive/60 focus:border-destructive"
-                  : "border-border focus:border-accent"
-              }`}
+              className={inputClass(Boolean(yearEndError))}
             >
               <option value="Present">Present</option>
               {years.map((y) => (
@@ -220,16 +194,13 @@ export function EducationModal({
                 </option>
               ))}
             </select>
-            {yearEndError && (
-              <p role="alert" className="text-destructive">
-                {yearEndError.message}
-              </p>
-            )}
+            {yearEndError && <FieldError>{yearEndError.message}</FieldError>}
           </div>
         </div>
 
-        <div className="space-y-1">
-          <label htmlFor="description" className="block text-text-secondary">
+        <Section title="Details" />
+        <div className="space-y-1.5">
+          <label htmlFor="description" className={fieldLabel}>
             Description
           </label>
           <textarea
@@ -240,43 +211,35 @@ export function EducationModal({
             defaultValue={educationForm.description}
             disabled={isLoadingAdd || isLoadingEdit}
             aria-invalid={descriptionError ? "true" : "false"}
-            className={`w-full rounded-md border bg-background px-3 py-2 outline-none disabled:cursor-not-allowed disabled:opacity-60 ${
-              descriptionError
-                ? "border-destructive/60 focus:border-destructive"
-                : "border-border focus:border-accent"
-            }`}
+            className={`${inputClass(Boolean(descriptionError))} resize-none`}
           />
           {descriptionError && (
-            <p role="alert" className="text-destructive">
-              {descriptionError.message}
-            </p>
+            <FieldError>{descriptionError.message}</FieldError>
           )}
         </div>
 
-        <div className="space-y-1">
-          <label htmlFor="location" className="block text-text-secondary">
-            Google Maps Location Link
+        <div className="space-y-1.5">
+          <label htmlFor="location" className={fieldLabel}>
+            Google Maps location link
           </label>
-          <input
-            id="location"
-            aria-label="Google Maps Location Link"
-            type="url"
-            name="location"
-            defaultValue={educationForm.location}
-            placeholder="https://maps.app.goo.gl/..."
-            disabled={isLoadingAdd || isLoadingEdit}
-            aria-invalid={locationError ? "true" : "false"}
-            className={`w-full rounded-md border bg-background px-3 py-2 outline-none disabled:cursor-not-allowed disabled:opacity-60 ${
-              locationError
-                ? "border-destructive/60 focus:border-destructive"
-                : "border-border focus:border-accent"
-            }`}
-          />
-          {locationError && (
-            <p role="alert" className="text-destructive">
-              {locationError.message}
-            </p>
-          )}
+          <div className="relative">
+            <MapPin
+              className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-secondary"
+              aria-hidden="true"
+            />
+            <input
+              id="location"
+              aria-label="Google Maps Location Link"
+              type="url"
+              name="location"
+              defaultValue={educationForm.location}
+              placeholder="https://maps.app.goo.gl/..."
+              disabled={isLoadingAdd || isLoadingEdit}
+              aria-invalid={locationError ? "true" : "false"}
+              className={`${inputClass(Boolean(locationError))} pl-9`}
+            />
+          </div>
+          {locationError && <FieldError>{locationError.message}</FieldError>}
         </div>
 
         {error && !hasFieldError && (
@@ -292,26 +255,31 @@ export function EducationModal({
           </div>
         )}
 
-        <button
-          type="submit"
-          disabled={isLoadingAdd || isLoadingEdit}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-accent py-2.5 font-semibold text-on-accent hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
+        <ModalFooter
+          onCancel={() => setEducationForm(null)}
+          cancelDisabled={isLoadingAdd || isLoadingEdit}
         >
-          {isLoadingAdd || isLoadingEdit ? (
-            <>
-              <Loader className="h-4 w-4 animate-spin" aria-hidden="true" />
-              Saving...
-            </>
-          ) : isEdit ? (
-            <>
-              <Save className="h-4 w-4" /> Save changes
-            </>
-          ) : (
-            <>
-              <Save className="h-4 w-4" /> Save Education
-            </>
-          )}
-        </button>
+          <button
+            type="submit"
+            disabled={isLoadingAdd || isLoadingEdit}
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-5 py-2.5 font-mono text-sm font-semibold text-on-accent transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            {isLoadingAdd || isLoadingEdit ? (
+              <>
+                <Loader className="h-4 w-4 animate-spin" aria-hidden="true" />
+                Saving...
+              </>
+            ) : isEdit ? (
+              <>
+                <Save className="h-4 w-4" /> Save changes
+              </>
+            ) : (
+              <>
+                <Save className="h-4 w-4" /> Add education
+              </>
+            )}
+          </button>
+        </ModalFooter>
       </form>
     </BaseModal>
   );

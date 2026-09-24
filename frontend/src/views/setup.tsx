@@ -1,10 +1,16 @@
-import { type SetupCategory, type SetupItem } from "@/service/setup.service";
+"use client";
+
+import { type SetupItem } from "@/service/setup.service";
 import Image from "next/image";
+import { SetupCardSkeleton } from "@/components/ui/skeleton";
+import { ArrowUpRight } from "@/components/icons";
+import { useSetupCategories } from "@/hooks/use-public-data";
 import { Button } from "@/components/ui/button";
 import { SectionHeader } from "@/components/section-header";
 import Link from "next/link";
 
-export function Setup({ setups }: { setups?: SetupCategory[] | null }) {
+export function Setup() {
+  const { data: setups, isLoading } = useSetupCategories();
   const categories = Array.isArray(setups) ? setups : [];
 
   return (
@@ -23,7 +29,18 @@ export function Setup({ setups }: { setups?: SetupCategory[] | null }) {
         />
 
         <div className="mt-14">
-          {categories.length === 0 ? (
+          {isLoading ? (
+            <div
+              className="grid gap-4 sm:grid-cols-2"
+              role="status"
+              aria-busy="true"
+              aria-label="Loading setup items"
+            >
+              {Array.from({ length: 4 }).map((_, i) => (
+                <SetupCardSkeleton key={i} />
+              ))}
+            </div>
+          ) : categories.length === 0 ? (
             <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-surface/50 py-12 text-center">
               <h3 className="font-mono text-base font-bold text-text-primary">
                 No setup items available
@@ -87,15 +104,10 @@ export function Setup({ setups }: { setups?: SetupCategory[] | null }) {
                               >
                                 {tool.value}
 
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 -960 960 960"
-                                  fill="currentColor"
+                                <ArrowUpRight
                                   className="h-4 w-4 text-text-secondary"
                                   aria-hidden="true"
-                                >
-                                  <path d="m256-240-56-56 384-384H240v-80h480v480h-80v-344L256-240Z" />
-                                </svg>
+                                />
                               </Link>
                             ) : (
                               <span className="text-base font-bold tracking-tight text-text-primary">

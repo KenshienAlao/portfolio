@@ -1,4 +1,5 @@
 import { SetupItem } from "@/service/setup.service";
+import { fieldLabel, inputClass } from "../form-styles";
 
 interface props {
   itemForm: Partial<SetupItem>;
@@ -7,11 +8,11 @@ interface props {
 
 export function SubName({ itemForm, isLoading }: props) {
   return (
-    <div className="grid grid-cols-2 gap-2">
-      <div className="space-y-1">
-        <label htmlFor="subValue" className="block text-text-secondary">
-          Sub-Button Text{" "}
-          <span className="text-text-secondary/50">(optional)</span>
+    <div className="grid grid-cols-2 gap-3">
+      <div className="space-y-1.5">
+        <label htmlFor="subValue" className={fieldLabel}>
+          Sub-button text{" "}
+          <span className="normal-case text-text-secondary/50">(optional)</span>
         </label>
         <input
           id="subValue"
@@ -20,13 +21,13 @@ export function SubName({ itemForm, isLoading }: props) {
           defaultValue={itemForm.subValue || ""}
           disabled={isLoading}
           placeholder="Download my Config"
-          className="w-full rounded-md border border-border bg-background px-3 py-2 outline-none focus:border-accent disabled:opacity-60"
+          className={inputClass()}
         />
       </div>
-      <div className="space-y-1">
-        <label htmlFor="subDownload" className="block text-text-secondary">
-          Sub-Button URL{" "}
-          <span className="text-text-secondary/50">(optional)</span>
+      <div className="space-y-1.5">
+        <label htmlFor="subDownload" className={fieldLabel}>
+          Sub-button URL{" "}
+          <span className="normal-case text-text-secondary/50">(optional)</span>
         </label>
         <input
           id="subDownload"
@@ -35,7 +36,7 @@ export function SubName({ itemForm, isLoading }: props) {
           defaultValue={itemForm.subDownload || ""}
           disabled={isLoading}
           placeholder="https://github.com/..."
-          className="w-full rounded-md border border-border bg-background px-3 py-2 outline-none focus:border-accent disabled:opacity-60"
+          className={inputClass()}
         />
       </div>
     </div>

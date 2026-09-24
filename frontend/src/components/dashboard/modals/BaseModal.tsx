@@ -1,39 +1,70 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { X } from "@/components/icons";
 
 interface BaseModalProps {
-  title: string;
   onClose: () => void;
   children: ReactNode;
   maxWidth?: string;
 }
 
 export function BaseModal({
-  title,
   onClose,
   children,
   maxWidth = "max-w-lg",
 }: BaseModalProps) {
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, []);
+
   return (
-    <div className="fixed inset-0 z-20 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+    <div className="fixed inset-0 z-20 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
       <div
-        className={`w-full ${maxWidth} rounded-2xl border border-border bg-surface p-6 shadow-2xl relative space-y-4`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Dialog"
+        className={`relative flex max-h-[92vh] w-full ${maxWidth} flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-2xl`}
       >
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 text-text-secondary hover:text-text-primary transition-colors"
-          aria-label="Close modal"
+          className="absolute right-3 top-3 z-10 rounded-lg p-2 text-text-secondary transition-colors hover:bg-background hover:text-text-primary"
+          aria-label="Close dialog"
         >
           <X className="h-5 w-5" />
         </button>
-        <h3 className="font-mono text-base font-bold text-text-primary">
-          {title}
-        </h3>
-        {children}
+
+        <div className="flex-1 overflow-y-auto px-6 py-6 pr-12">{children}</div>
       </div>
+    </div>
+  );
+}
+
+export function ModalFooter({
+  onCancel,
+  cancelDisabled = false,
+  children,
+}: {
+  onCancel: () => void;
+  cancelDisabled?: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <div className="mt-6 flex flex-col-reverse gap-2.5 border-t border-border/60 pt-4 sm:flex-row sm:items-center sm:justify-end">
+      <button
+        type="button"
+        onClick={onCancel}
+        disabled={cancelDisabled}
+        className="rounded-lg border border-border px-4 py-2.5 font-mono text-sm font-semibold text-text-secondary transition-colors hover:border-accent/50 hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        Cancel
+      </button>
+      {children}
     </div>
   );
 }

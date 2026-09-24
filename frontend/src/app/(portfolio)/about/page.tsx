@@ -1,5 +1,4 @@
 import { About } from "@/views/about";
-import { getAllProjects } from "@/lib/db/projects";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,10 +10,7 @@ export const metadata: Metadata = {
   },
 };
 
-export const dynamic = "force-dynamic";
-
-export default async function AboutPage() {
-  const projects = await getAllProjects();
-  return <About projectCount={projects.length} />;
+export default function AboutPage() {
+  return <About />;
 }
 

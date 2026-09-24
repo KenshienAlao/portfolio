@@ -1,6 +1,6 @@
 "use client";
 
-import { BaseModal } from "./BaseModal";
+import { BaseModal, ModalFooter } from "./BaseModal";
 import {
   useAddCategory,
   useEditCategory,
@@ -9,6 +9,8 @@ import {
 import { FormEvent, useState } from "react";
 import { Save, AlertCircle, Loader } from "@/components/icons";
 import z, { ZodError } from "zod";
+import { Section } from "./Section";
+import { FieldError, fieldLabel, inputClass } from "./form-styles";
 
 const categorySchema = z.object({
   category: z
@@ -83,20 +85,17 @@ export function CategoryModal({
   };
 
   return (
-    <BaseModal
-      title={isEdit ? "Edit Setup Category" : "Add Setup Category"}
-      onClose={() => setCategoryForm(null)}
-      maxWidth="max-w-md"
-    >
+    <BaseModal onClose={() => setCategoryForm(null)} maxWidth="max-w-md">
       <form
         onSubmit={handleSubmit}
         noValidate
         autoComplete="off"
-        className="space-y-4 font-mono text-xs text-text-primary"
+        className="space-y-4 text-text-primary"
       >
-        <div className="space-y-1">
-          <label htmlFor="category" className="block text-text-secondary">
-            Category Name
+        <Section title="Category" />
+        <div className="space-y-1.5">
+          <label htmlFor="category" className={fieldLabel}>
+            Category name
           </label>
           <input
             id="category"
@@ -106,21 +105,13 @@ export function CategoryModal({
             defaultValue={categoryForm.category || ""}
             disabled={isLoading}
             placeholder="Operating System, Code Editor, Terminal..."
-            className={`w-full rounded-md border bg-background px-3 py-2 outline-none disabled:cursor-not-allowed disabled:opacity-60 ${
-              categoryError
-                ? "border-destructive/60 focus:border-destructive"
-                : "border-border focus:border-accent"
-            }`}
+            className={inputClass(Boolean(categoryError))}
           />
-          {categoryError && (
-            <p role="alert" className="text-destructive text-[11px]">
-              {categoryError.message}
-            </p>
-          )}
+          {categoryError && <FieldError>{categoryError.message}</FieldError>}
         </div>
 
-        <div className="space-y-1">
-          <label htmlFor="description" className="block text-text-secondary">
+        <div className="space-y-1.5">
+          <label htmlFor="description" className={fieldLabel}>
             Description
           </label>
           <textarea
@@ -132,16 +123,10 @@ export function CategoryModal({
             defaultValue={categoryForm.description || ""}
             disabled={isLoading}
             placeholder="Describe the category, workflow, or environment..."
-            className={`w-full rounded-md border bg-background px-3 py-2 outline-none disabled:cursor-not-allowed disabled:opacity-60 ${
-              descriptionError
-                ? "border-destructive/60 focus:border-destructive"
-                : "border-border focus:border-accent"
-            }`}
+            className={`${inputClass(Boolean(descriptionError))} resize-none`}
           />
           {descriptionError && (
-            <p role="alert" className="text-destructive text-[11px]">
-              {descriptionError.message}
-            </p>
+            <FieldError>{descriptionError.message}</FieldError>
           )}
         </div>
 
@@ -158,23 +143,28 @@ export function CategoryModal({
           </div>
         )}
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-accent py-2.5 font-semibold text-on-accent transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
+        <ModalFooter
+          onCancel={() => setCategoryForm(null)}
+          cancelDisabled={isLoading}
         >
-          {isLoading ? (
-            <>
-              <Loader className="h-4 w-4 animate-spin" aria-hidden="true" />
-              Saving...
-            </>
-          ) : (
-            <>
-              <Save className="h-4 w-4" />
-              {isEdit ? "Save Changes" : "Create Category"}
-            </>
-          )}
-        </button>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-5 py-2.5 font-mono text-sm font-semibold text-on-accent transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            {isLoading ? (
+              <>
+                <Loader className="h-4 w-4 animate-spin" aria-hidden="true" />
+                Saving...
+              </>
+            ) : (
+              <>
+                <Save className="h-4 w-4" />
+                {isEdit ? "Save changes" : "Create category"}
+              </>
+            )}
+          </button>
+        </ModalFooter>
       </form>
     </BaseModal>
   );

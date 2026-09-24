@@ -1,4 +1,4 @@
-import { ApiReponse } from "@/lib/ApiResponse";
+import { ApiResponse } from "@/lib/ApiResponse";
 import { educationService, type Education } from "@/service/education.service";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -7,7 +7,7 @@ const educationKey = ["education"];
 export type { Education };
 
 interface propsQuery {
-  queryFn: () => Promise<ApiReponse<Education[]>>;
+  queryFn: () => Promise<ApiResponse<Education[]>>;
   queryKey: string[];
   staleTime?: number;
 }
@@ -19,7 +19,7 @@ function useEducation({
   queryFn,
   staleTime = DEFAULT_STALE_TIME,
 }: propsQuery) {
-  return useQuery<ApiReponse<Education[]>, Error, Education[]>({
+  return useQuery<ApiResponse<Education[]>, Error, Education[]>({
     queryKey,
     queryFn,
     select: (res) => res.data! ?? [],
@@ -45,7 +45,7 @@ export const useAddEducation = () => {
     onMutate: async (formData: FormData) => {
       await queryClient.cancelQueries({ queryKey: [...educationKey, "admin"] });
 
-      const prevData = queryClient.getQueryData<ApiReponse<Education[]>>([
+      const prevData = queryClient.getQueryData<ApiResponse<Education[]>>([
         ...educationKey,
         "admin",
       ]);
@@ -60,7 +60,7 @@ export const useAddEducation = () => {
         location: (formData.get("location") as string) ?? "Untitled",
       };
 
-      queryClient.setQueryData<ApiReponse<Education[]>>(
+      queryClient.setQueryData<ApiResponse<Education[]>>(
         [...educationKey, "admin"],
         (old) => {
           if (!old || !old.data) return old;
@@ -95,12 +95,12 @@ export const useDeleteEducationById = () => {
     onMutate: async (deletedId: number) => {
       await queryClient.cancelQueries({ queryKey: [...educationKey, "admin"] });
 
-      const prevData = queryClient.getQueryData<ApiReponse<Education[]>>([
+      const prevData = queryClient.getQueryData<ApiResponse<Education[]>>([
         ...educationKey,
         "admin",
       ]);
 
-      queryClient.setQueryData<ApiReponse<Education[]>>(
+      queryClient.setQueryData<ApiResponse<Education[]>>(
         [...educationKey, "admin"],
         (old) => {
           if (!old || !old.data) return old;
@@ -135,7 +135,7 @@ export const useEditEducation = () => {
     onMutate: async ({ id, data }: { id: number; data: FormData }) => {
       await queryClient.cancelQueries({ queryKey: [...educationKey, "admin"] });
 
-      const prevData = queryClient.getQueryData<ApiReponse<Education[]>>([
+      const prevData = queryClient.getQueryData<ApiResponse<Education[]>>([
         ...educationKey,
         "admin",
       ]);
@@ -150,7 +150,7 @@ export const useEditEducation = () => {
         location: data.get("location") as string,
       };
 
-      queryClient.setQueryData<ApiReponse<Education[]>>(
+      queryClient.setQueryData<ApiResponse<Education[]>>(
         [...educationKey, "admin"],
         (old) => {
           if (!old || !old.data) return old;

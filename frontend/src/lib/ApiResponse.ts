@@ -1,4 +1,4 @@
-export type ApiReponse<TData = void, TMeta = void> = {
+export type ApiResponse<TData = void, TMeta = void> = {
   data?: TData; // for mutation
   success: boolean;
   message: string;

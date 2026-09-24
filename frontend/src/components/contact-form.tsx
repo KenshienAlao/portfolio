@@ -59,7 +59,7 @@ export function ContactForm() {
   };
 
   const fieldClass =
-    "w-full rounded-lg border border-border bg-background px-4 py-2.5 font-mono text-sm text-text-primary placeholder:text-text-secondary/60 outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-60";
+    "w-full rounded-lg border border-border bg-background px-4 py-2.5 font-mono text-base text-text-primary placeholder:text-text-secondary/60 outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-60 sm:text-sm";
 
   const labelClass =
     "font-mono text-[11px] uppercase tracking-widest text-text-secondary";

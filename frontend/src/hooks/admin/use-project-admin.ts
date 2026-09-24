@@ -1,4 +1,4 @@
-import { ApiReponse } from "@/lib/ApiResponse";
+import { ApiResponse } from "@/lib/ApiResponse";
 import { projectService, type Project } from "@/service/project.service";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -6,7 +6,7 @@ export type { Project };
 
 interface props {
   queryKey: string[];
-  queryFn: () => Promise<ApiReponse<Project[]>>;
+  queryFn: () => Promise<ApiResponse<Project[]>>;
   staleTime?: number;
 }
 
@@ -18,7 +18,7 @@ function useProject({
   queryFn,
   staleTime = DEFAULT_STALE_TIME,
 }: props) {
-  return useQuery<ApiReponse<Project[]>, Error, Project[]>({
+  return useQuery<ApiResponse<Project[]>, Error, Project[]>({
     queryKey,
     queryFn,
     select: (res) => res.data! ?? [],
@@ -44,12 +44,12 @@ export const useDeleteProjectById = () => {
     onMutate: async (deletedId: number) => {
       await queryClient.cancelQueries({ queryKey: [...projectKey, "admin"] });
 
-      const prevData = queryClient.getQueryData<ApiReponse<Project[]>>([
+      const prevData = queryClient.getQueryData<ApiResponse<Project[]>>([
         ...projectKey,
         "admin",
       ]);
 
-      queryClient.setQueryData<ApiReponse<Project[]>>(
+      queryClient.setQueryData<ApiResponse<Project[]>>(
         [...projectKey, "admin"],
         (old) => {
           if (!old || !old.data) return old;
@@ -84,7 +84,7 @@ export const useAddProject = () => {
     onMutate: async (formData: FormData) => {
       await queryClient.cancelQueries({ queryKey: [...projectKey, "admin"] });
 
-      const prevData = queryClient.getQueryData<ApiReponse<Project[]>>([
+      const prevData = queryClient.getQueryData<ApiResponse<Project[]>>([
         ...projectKey,
         "admin",
       ]);
@@ -106,7 +106,7 @@ export const useAddProject = () => {
         demo: (formData.get("demo") as string) || null,
       };
 
-      queryClient.setQueryData<ApiReponse<Project[]>>(
+      queryClient.setQueryData<ApiResponse<Project[]>>(
         [...projectKey, "admin"],
         (old) => {
           if (!old || !old.data) return old;
@@ -141,7 +141,7 @@ export const useEditProject = () => {
     onMutate: async ({ id, data }: { id: number; data: FormData }) => {
       await queryClient.cancelQueries({ queryKey: [...projectKey, "admin"] });
 
-      const prevData = queryClient.getQueryData<ApiReponse<Project[]>>([
+      const prevData = queryClient.getQueryData<ApiResponse<Project[]>>([
         ...projectKey,
         "admin",
       ]);
@@ -164,7 +164,7 @@ export const useEditProject = () => {
         demo: data.get("demo") as string,
       };
 
-      queryClient.setQueryData<ApiReponse<Project[]>>(
+      queryClient.setQueryData<ApiResponse<Project[]>>(
         [...projectKey, "admin"],
         (old) => {
           if (!old || !old.data) return old;

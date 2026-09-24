@@ -1,3 +1,5 @@
+import { FieldError, fieldLabel, inputClass } from "../form-styles";
+
 interface SkillNameProps {
   defaultValue?: string;
   disabled?: boolean;
@@ -10,28 +12,21 @@ export function SkillName({
   nameError,
 }: SkillNameProps) {
   return (
-    <div className="space-y-1">
-      <label htmlFor="name" className="block text-text-secondary">
-        Skill Name
+    <div className="space-y-1.5">
+      <label htmlFor="name" className={fieldLabel}>
+        Skill name
       </label>
       <input
         id="name"
-        aria-label="Skill Name"
+        aria-label="Skill name"
         name="name"
         defaultValue={defaultValue}
         disabled={disabled}
         aria-invalid={nameError ? "true" : "false"}
-        className={`w-full rounded-md border bg-background px-3 py-2 outline-none disabled:cursor-not-allowed disabled:opacity-60 ${
-          nameError
-            ? "border-destructive/60 focus:border-destructive"
-            : "border-border focus:border-accent"
-        }`}
+        placeholder="e.g. React, TypeScript, Docker"
+        className={inputClass(Boolean(nameError))}
       />
-      {nameError && (
-        <p role="alert" className="text-destructive">
-          {nameError.message}
-        </p>
-      )}
+      {nameError && <FieldError>{nameError.message}</FieldError>}
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import api from "@/lib/api";
-import { ApiReponse } from "@/lib/ApiResponse";
+import { ApiResponse } from "@/lib/ApiResponse";
 
 export interface TLogin {
   code: string;
@@ -7,7 +7,7 @@ export interface TLogin {
 }
 
 export const AuthService = {
-  login: async (data: TLogin): Promise<ApiReponse> => {
+  login: async (data: TLogin): Promise<ApiResponse> => {
     const res = await api.post("/api/auth/login", data);
     return res.data;
   },

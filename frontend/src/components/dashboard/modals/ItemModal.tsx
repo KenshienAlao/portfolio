@@ -1,6 +1,6 @@
 "use client";
 
-import { BaseModal } from "./BaseModal";
+import { BaseModal, ModalFooter } from "./BaseModal";
 import {
   useAddItem,
   useEditItem,
@@ -14,8 +14,9 @@ import { Category } from "./item/Item-Category";
 import { Name } from "./item/Item-Name";
 import { WebsiteUrl } from "./item/Item-WebsiteUrl";
 import { SubName } from "./item/Item-SubName";
-import { ImageLight } from "./item/item-ImageLight";
+import { ImageLight } from "./item/Item-ImageLight";
 import { ImageDark } from "./item/Item-ImageDark";
+import { Section } from "./Section";
 
 const MAX_IMAGE_SIZE = 25 * 1024 * 1024;
 
@@ -289,17 +290,14 @@ export function ItemModal({
   };
 
   return (
-    <BaseModal
-      title={isEdit ? "Edit Setup Item" : "Add Setup Item"}
-      onClose={() => setItemForm(null)}
-      maxWidth="max-w-lg"
-    >
+    <BaseModal onClose={() => setItemForm(null)} maxWidth="max-w-lg">
       <form
         onSubmit={handleSubmit}
         noValidate
         autoComplete="off"
-        className="space-y-3 font-mono text-xs text-text-primary"
+        className="space-y-4 text-text-primary"
       >
+        <Section title="Details" />
         <Category
           selectedCategoryId={selectedCategoryId}
           setSelectedCategoryId={setSelectedCategoryId}
@@ -318,6 +316,7 @@ export function ItemModal({
           isLoading={isLoading}
         />
 
+        <Section title="Optional extras" />
         <SubName itemForm={itemForm} isLoading={isLoading} />
         <ImageLight
           imageLightError={imageLightError}
@@ -352,23 +351,28 @@ export function ItemModal({
           </div>
         )}
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-accent py-2.5 font-semibold text-on-accent transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
+        <ModalFooter
+          onCancel={() => setItemForm(null)}
+          cancelDisabled={isLoading}
         >
-          {isLoading ? (
-            <>
-              <Loader className="h-4 w-4 animate-spin" aria-hidden="true" />
-              Saving...
-            </>
-          ) : (
-            <>
-              <Save className="h-4 w-4" />
-              {isEdit ? "Save Changes" : "Save Item"}
-            </>
-          )}
-        </button>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-5 py-2.5 font-mono text-sm font-semibold text-on-accent transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            {isLoading ? (
+              <>
+                <Loader className="h-4 w-4 animate-spin" aria-hidden="true" />
+                Saving...
+              </>
+            ) : (
+              <>
+                <Save className="h-4 w-4" />
+                {isEdit ? "Save changes" : "Add item"}
+              </>
+            )}
+          </button>
+        </ModalFooter>
       </form>
     </BaseModal>
   );

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ChangeEvent, RefObject } from "react";
 import { ImagePlus } from "@/components/icons";
+import { FieldError, fieldLabel } from "../form-styles";
 
 interface ProjectImageProps {
   imagePreview: string | null;
@@ -22,13 +23,13 @@ export function ProjectImage({
   onRemoveImage,
 }: ProjectImageProps) {
   return (
-    <div className="space-y-1">
-      <label htmlFor="image" className="text-text-secondary block">
-        Image
+    <div className="space-y-1.5">
+      <label htmlFor="image" className={fieldLabel}>
+        Cover image
       </label>
       <label
         htmlFor="image"
-        className={`flex flex-col items-center justify-center gap-2 overflow-hidden rounded-md border border-dashed bg-background px-3 py-4 text-center transition-colors ${
+        className={`flex flex-col items-center justify-center gap-2 overflow-hidden rounded-lg border border-dashed bg-input/40 px-3 py-4 text-center transition-colors ${
           disabled
             ? "cursor-not-allowed opacity-60"
             : "cursor-pointer hover:border-accent/60"
@@ -51,8 +52,8 @@ export function ProjectImage({
               className="h-5 w-5 text-text-secondary"
               aria-hidden="true"
             />
-            <span className="text-text-secondary">
-              Click to upload (max 25MB)
+            <span className="font-mono text-xs text-text-secondary">
+              Click to upload a cover image (max 25MB)
             </span>
           </>
         )}
@@ -70,7 +71,7 @@ export function ProjectImage({
         className="hidden"
       />
       {imagePreview && (
-        <div className="flex items-center justify-between text-text-secondary">
+        <div className="flex items-center justify-between font-mono text-xs text-text-secondary">
           <span className="truncate">{imageFileName ?? "Current image"}</span>
           <button
             type="button"
@@ -82,11 +83,7 @@ export function ProjectImage({
           </button>
         </div>
       )}
-      {imageError && (
-        <p role="alert" className="text-destructive">
-          {imageError.message}
-        </p>
-      )}
+      {imageError && <FieldError>{imageError.message}</FieldError>}
     </div>
   );
 }

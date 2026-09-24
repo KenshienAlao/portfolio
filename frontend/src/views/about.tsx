@@ -1,24 +1,44 @@
+"use client";
+
 import { SectionHeader } from "@/components/section-header";
+import {
+  CalendarCheck,
+  Folder,
+  Layers,
+  type IconProps,
+} from "@/components/icons";
+import { useProjects } from "@/hooks/use-public-data";
+import { type ComponentType } from "react";
+
 const STACK = ["React", "Next.js", "TypeScript", "Spring Boot", "PostgreSQL"];
 
-export function About({ projectCount = 0 }: { projectCount?: number }) {
-  const STATS = [
+const CURRENT_YEAR = new Date().getFullYear();
+
+export function About() {
+  const { data: projects, isLoading } = useProjects();
+  const projectCount = Array.isArray(projects) ? projects.length : 0;
+
+  const stats: Array<{
+    label: string;
+    value: () => string | number;
+    Icon: ComponentType<IconProps>;
+  }> = [
     {
       label: "Years of Experience",
-      value: `${Math.max(1, new Date().getFullYear() - 2024)}+`,
-      path: "m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z",
+      value: () => `${Math.max(1, CURRENT_YEAR - 2024)}+`,
+      Icon: CalendarCheck,
     },
     {
       label: "Projects Completed",
-      value: projectCount,
-      path: "M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640H447l-80-80H160v480l96-320h684L837-217q-8 26-29.5 41.5T760-160H160Zm84-80h516l72-240H316l-72 240Zm0 0 72-240-72 240Zm-84-400v-80 80Z",
+      value: () => projectCount,
+      Icon: Folder,
     },
     {
       label: "Tech Stack Focus",
-      value: "NextJS",
-      path: "M480-118 120-398l66-50 294 228 294-228 66 50-360 280Zm0-202L120-600l360-280 360 280-360 280Zm0-280Zm0 178 230-178-230-178-230 178 230 178Z",
+      value: () => "NextJS",
+      Icon: Layers,
     },
-  ] as const;
+  ];
 
   return (
     <section
@@ -76,25 +96,25 @@ export function About({ projectCount = 0 }: { projectCount?: number }) {
           </div>
 
           <div className="grid gap-4 sm:grid-cols-3 lg:col-span-2 lg:grid-cols-1">
-            {STATS.map(({ label, value, path }) => (
+            {stats.map(({ label, value, Icon }) => (
               <div
                 key={label}
                 className="flex items-center gap-4 rounded-2xl border border-border bg-surface p-5 hover:border-accent/40"
               >
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent">
-                  <svg
-                    viewBox="0 -960 960 960"
-                    fill="currentColor"
-                    className="h-5 w-5"
-                    aria-hidden="true"
-                  >
-                    <path d={path} />
-                  </svg>
+                  <Icon className="h-5 w-5" aria-hidden="true" />
                 </div>
                 <div>
-                  <div className="text-2xl font-extrabold text-text-primary">
-                    {value}
-                  </div>
+                  {label === "Projects Completed" && isLoading ? (
+                    <div
+                      className="h-8 w-14 animate-pulse rounded bg-muted-foreground/15"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <div className="text-2xl font-extrabold text-text-primary">
+                      {value()}
+                    </div>
+                  )}
                   <p className="font-mono text-[11px] uppercase tracking-widest text-text-secondary">
                     {label}
                   </p>

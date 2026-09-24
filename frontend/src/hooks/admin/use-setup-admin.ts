@@ -1,4 +1,4 @@
-import { ApiReponse } from "@/lib/ApiResponse";
+import { ApiResponse } from "@/lib/ApiResponse";
 import {
   setupService,
   type SetupCategory,
@@ -12,7 +12,7 @@ export type { SetupCategory, SetupItem };
 export type Setup = SetupCategory;
 
 interface PropsQuery {
-  queryFn: () => Promise<ApiReponse<SetupCategory[]>>;
+  queryFn: () => Promise<ApiResponse<SetupCategory[]>>;
   queryKey: string[];
   staleTime?: number;
 }
@@ -24,7 +24,7 @@ function useSetup({
   queryFn,
   staleTime = DEFAULT_STALE_TIME,
 }: PropsQuery) {
-  return useQuery<ApiReponse<SetupCategory[]>, Error, SetupCategory[]>({
+  return useQuery<ApiResponse<SetupCategory[]>, Error, SetupCategory[]>({
     queryKey,
     queryFn,
     select: (res) => res.data ?? [],
@@ -50,7 +50,7 @@ export const useAddCategory = () => {
     onMutate: async (newCategoryData) => {
       await queryClient.cancelQueries({ queryKey: [...setupKey, "admin"] });
 
-      const prevData = queryClient.getQueryData<ApiReponse<SetupCategory[]>>([
+      const prevData = queryClient.getQueryData<ApiResponse<SetupCategory[]>>([
         ...setupKey,
         "admin",
       ]);
@@ -62,7 +62,7 @@ export const useAddCategory = () => {
         items: [],
       };
 
-      queryClient.setQueryData<ApiReponse<SetupCategory[]>>(
+      queryClient.setQueryData<ApiResponse<SetupCategory[]>>(
         [...setupKey, "admin"],
         (old) => {
           if (!old || !old.data) return old;
@@ -103,12 +103,12 @@ export const useEditCategory = () => {
     onMutate: async ({ id, data }) => {
       await queryClient.cancelQueries({ queryKey: [...setupKey, "admin"] });
 
-      const prevData = queryClient.getQueryData<ApiReponse<SetupCategory[]>>([
+      const prevData = queryClient.getQueryData<ApiResponse<SetupCategory[]>>([
         ...setupKey,
         "admin",
       ]);
 
-      queryClient.setQueryData<ApiReponse<SetupCategory[]>>(
+      queryClient.setQueryData<ApiResponse<SetupCategory[]>>(
         [...setupKey, "admin"],
         (old) => {
           if (!old || !old.data) return old;
@@ -151,12 +151,12 @@ export const useDeleteCategory = () => {
     onMutate: async (deletedCategoryId: number) => {
       await queryClient.cancelQueries({ queryKey: [...setupKey, "admin"] });
 
-      const prevData = queryClient.getQueryData<ApiReponse<SetupCategory[]>>([
+      const prevData = queryClient.getQueryData<ApiResponse<SetupCategory[]>>([
         ...setupKey,
         "admin",
       ]);
 
-      queryClient.setQueryData<ApiReponse<SetupCategory[]>>(
+      queryClient.setQueryData<ApiResponse<SetupCategory[]>>(
         [...setupKey, "admin"],
         (old) => {
           if (!old || !old.data) return old;
@@ -191,7 +191,7 @@ export const useAddItem = () => {
     onMutate: async (formData: FormData) => {
       await queryClient.cancelQueries({ queryKey: [...setupKey, "admin"] });
 
-      const prevData = queryClient.getQueryData<ApiReponse<SetupCategory[]>>([
+      const prevData = queryClient.getQueryData<ApiResponse<SetupCategory[]>>([
         ...setupKey,
         "admin",
       ]);
@@ -217,7 +217,7 @@ export const useAddItem = () => {
         subDownload: (formData.get("subDownload") as string) || undefined,
       };
 
-      queryClient.setQueryData<ApiReponse<SetupCategory[]>>(
+      queryClient.setQueryData<ApiResponse<SetupCategory[]>>(
         [...setupKey, "admin"],
         (old) => {
           if (!old || !old.data) return old;
@@ -260,7 +260,7 @@ export const useEditItem = () => {
     onMutate: async ({ id, data }) => {
       await queryClient.cancelQueries({ queryKey: [...setupKey, "admin"] });
 
-      const prevData = queryClient.getQueryData<ApiReponse<SetupCategory[]>>([
+      const prevData = queryClient.getQueryData<ApiResponse<SetupCategory[]>>([
         ...setupKey,
         "admin",
       ]);
@@ -307,7 +307,7 @@ export const useEditItem = () => {
           (data.get("subDownload") as string) || existingItem?.subDownload,
       };
 
-      queryClient.setQueryData<ApiReponse<SetupCategory[]>>(
+      queryClient.setQueryData<ApiResponse<SetupCategory[]>>(
         [...setupKey, "admin"],
         (old) => {
           if (!old || !old.data) return old;
@@ -375,12 +375,12 @@ export const useDeleteItem = () => {
     onMutate: async (deletedItemId: number) => {
       await queryClient.cancelQueries({ queryKey: [...setupKey, "admin"] });
 
-      const prevData = queryClient.getQueryData<ApiReponse<SetupCategory[]>>([
+      const prevData = queryClient.getQueryData<ApiResponse<SetupCategory[]>>([
         ...setupKey,
         "admin",
       ]);
 
-      queryClient.setQueryData<ApiReponse<SetupCategory[]>>(
+      queryClient.setQueryData<ApiResponse<SetupCategory[]>>(
         [...setupKey, "admin"],
         (old) => {
           if (!old || !old.data) return old;

@@ -1,6 +1,6 @@
 "use client";
 
-import { BaseModal } from "./BaseModal";
+import { BaseModal, ModalFooter } from "./BaseModal";
 import {
   Skill,
   useAddSkill,
@@ -13,6 +13,7 @@ import { SkillCategory } from "./skill/Skill-Category";
 import { SkillName } from "./skill/Skill-Name";
 import { SkillImageLight } from "./skill/Skill-ImageLight";
 import { SkillImageDark } from "./skill/Skill-ImageDark";
+import { Section } from "./Section";
 
 const MAX_IMAGE_SIZE = 25 * 1024 * 1024;
 
@@ -268,17 +269,14 @@ export function SkillModal({
   const isLoading = isLoadingAdd || isLoadingEdit;
 
   return (
-    <BaseModal
-      title={isEdit ? "Edit Skill" : "Add Skill"}
-      onClose={() => setSkillForm(null)}
-      maxWidth="max-w-md"
-    >
+    <BaseModal onClose={() => setSkillForm(null)} maxWidth="max-w-md">
       <form
         onSubmit={handleSubmitSkill}
         noValidate
         autoComplete="off"
-        className="space-y-3 font-mono text-xs text-text-primary"
+        className="space-y-4 text-text-primary"
       >
+        <Section title="Skill" />
         <SkillCategory
           defaultValue={skillForm.category || ""}
           disabled={isLoading}
@@ -291,6 +289,7 @@ export function SkillModal({
           nameError={nameError}
         />
 
+        <Section title="Icons" />
         <SkillImageLight
           lightPreview={lightPreview}
           lightFileName={lightFileName}
@@ -324,26 +323,31 @@ export function SkillModal({
           </div>
         )}
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-accent py-2.5 font-semibold text-on-accent hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
+        <ModalFooter
+          onCancel={() => setSkillForm(null)}
+          cancelDisabled={isLoading}
         >
-          {isLoading ? (
-            <>
-              <Loader className="h-4 w-4 animate-spin" aria-hidden="true" />
-              Saving...
-            </>
-          ) : isEdit ? (
-            <>
-              <Save className="h-4 w-4" /> Save changes
-            </>
-          ) : (
-            <>
-              <Save className="h-4 w-4" /> Save Skill
-            </>
-          )}
-        </button>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-5 py-2.5 font-mono text-sm font-semibold text-on-accent transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            {isLoading ? (
+              <>
+                <Loader className="h-4 w-4 animate-spin" aria-hidden="true" />
+                Saving...
+              </>
+            ) : isEdit ? (
+              <>
+                <Save className="h-4 w-4" /> Save changes
+              </>
+            ) : (
+              <>
+                <Save className="h-4 w-4" /> Add skill
+              </>
+            )}
+          </button>
+        </ModalFooter>
       </form>
     </BaseModal>
   );

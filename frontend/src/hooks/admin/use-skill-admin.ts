@@ -1,4 +1,4 @@
-import { ApiReponse } from "@/lib/ApiResponse";
+import { ApiResponse } from "@/lib/ApiResponse";
 import { skillService, type Skill } from "@/service/skill.service";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -7,7 +7,7 @@ const skillKey = ["skill"];
 export type { Skill };
 
 interface propsQuery {
-  queryFn: () => Promise<ApiReponse<Skill[]>>;
+  queryFn: () => Promise<ApiResponse<Skill[]>>;
   queryKey: string[];
   staleTime?: number;
 }
@@ -19,7 +19,7 @@ function useSkill({
   queryFn,
   staleTime = DEFAULT_STALE_TIME,
 }: propsQuery) {
-  return useQuery<ApiReponse<Skill[]>, Error, Skill[]>({
+  return useQuery<ApiResponse<Skill[]>, Error, Skill[]>({
     queryKey,
     queryFn,
     select: (res) => res.data! ?? [],
@@ -45,7 +45,7 @@ export const useAddSkill = () => {
     onMutate: async (formData: FormData) => {
       await queryClient.cancelQueries({ queryKey: [...skillKey, "admin"] });
 
-      const prevData = queryClient.getQueryData<ApiReponse<Skill[]>>([
+      const prevData = queryClient.getQueryData<ApiResponse<Skill[]>>([
         ...skillKey,
         "admin",
       ]);
@@ -69,7 +69,7 @@ export const useAddSkill = () => {
 
       console.log("temp: ", tempSkill);
 
-      queryClient.setQueryData<ApiReponse<Skill[]>>(
+      queryClient.setQueryData<ApiResponse<Skill[]>>(
         [...skillKey, "admin"],
         (old) => {
           if (!old || !old.data) return old;
@@ -104,12 +104,12 @@ export const useDeleteSkillById = () => {
     onMutate: async (deletedId: number) => {
       await queryClient.cancelQueries({ queryKey: [...skillKey, "admin"] });
 
-      const prevData = queryClient.getQueryData<ApiReponse<Skill[]>>([
+      const prevData = queryClient.getQueryData<ApiResponse<Skill[]>>([
         ...skillKey,
         "admin",
       ]);
 
-      queryClient.setQueryData<ApiReponse<Skill[]>>(
+      queryClient.setQueryData<ApiResponse<Skill[]>>(
         [...skillKey, "admin"],
         (old) => {
           if (!old || !old.data) return old;
@@ -144,7 +144,7 @@ export const useEditSkill = () => {
     onMutate: async ({ id, data }: { id: number; data: FormData }) => {
       await queryClient.cancelQueries({ queryKey: [...skillKey, "admin"] });
 
-      const prevData = queryClient.getQueryData<ApiReponse<Skill[]>>([
+      const prevData = queryClient.getQueryData<ApiResponse<Skill[]>>([
         ...skillKey,
         "admin",
       ]);
@@ -166,7 +166,7 @@ export const useEditSkill = () => {
             : existSkill?.imageDark || "",
       };
 
-      queryClient.setQueryData<ApiReponse<Skill[]>>(
+      queryClient.setQueryData<ApiResponse<Skill[]>>(
         [...skillKey, "admin"],
         (old) => {
           if (!old || !old.data) return old;

@@ -1,4 +1,4 @@
-import { CONTACT_LINKS } from "@/config/contanct";
+import { CONTACT_LINKS } from "@/config/contact";
 import Link from "next/link";
 
 export function Footer() {

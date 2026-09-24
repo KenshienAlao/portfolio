@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ChangeEvent } from "react";
 import { ImagePlus } from "@/components/icons";
+import { FieldError, fieldLabel } from "../form-styles";
 
 interface props {
   imageLightError?: { message?: string };
@@ -22,13 +23,13 @@ export function ImageLight({
   lightFileName,
 }: props) {
   return (
-    <div className="space-y-1">
-      <label htmlFor="itemImageLight" className="block text-text-secondary">
-        Logo / Icon (Light Mode)
+    <div className="space-y-1.5">
+      <label htmlFor="itemImageLight" className={fieldLabel}>
+        Logo / icon (light mode)
       </label>
       <label
         htmlFor="itemImageLight"
-        className={`flex flex-col items-center justify-center gap-2 overflow-hidden rounded-md border border-dashed bg-background px-3 py-3 text-center transition-colors ${
+        className={`flex flex-col items-center justify-center gap-2 overflow-hidden rounded-lg border border-dashed bg-input/40 px-3 py-3 text-center transition-colors ${
           isLoading
             ? "cursor-not-allowed opacity-60"
             : "cursor-pointer hover:border-accent/60"
@@ -54,7 +55,7 @@ export function ImageLight({
               className="h-4 w-4 text-text-secondary"
               aria-hidden="true"
             />
-            <span className="text-text-secondary">
+            <span className="font-mono text-xs text-text-secondary">
               Click to upload light icon (max 25MB)
             </span>
           </>
@@ -72,7 +73,7 @@ export function ImageLight({
         className="hidden"
       />
       {lightPreview && (
-        <div className="flex items-center justify-between text-text-secondary">
+        <div className="flex items-center justify-between font-mono text-xs text-text-secondary">
           <span className="truncate">{lightFileName ?? "Current image"}</span>
           <button
             type="button"
@@ -84,11 +85,7 @@ export function ImageLight({
           </button>
         </div>
       )}
-      {imageLightError && (
-        <p role="alert" className="text-destructive">
-          {imageLightError.message}
-        </p>
-      )}
+      {imageLightError && <FieldError>{imageLightError.message}</FieldError>}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
+import { Filter } from "@/components/icons";
 
 export function ProjectSort() {
   const router = useRouter();
@@ -14,15 +15,7 @@ export function ProjectSort() {
           htmlFor="sort-projects"
           className="flex items-center gap-1 text-[11px] text-text-muted"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 -960 960 960"
-            className="h-4 w-4 text-foreground"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path d="M120-240v-80h240v80H120Zm0-200v-80h480v80H120Zm0-200v-80h720v80H120Z" />
-          </svg>
+          <Filter className="h-4 w-4 text-foreground" aria-hidden="true" />
         </label>
         <select
           id="sort-projects"

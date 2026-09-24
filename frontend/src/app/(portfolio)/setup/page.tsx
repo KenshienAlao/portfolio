@@ -1,5 +1,4 @@
 import { Setup } from "@/views/setup";
-import { getAllSetupCategories } from "@/lib/db/setup";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,10 +10,6 @@ export const metadata: Metadata = {
   },
 };
 
-export const dynamic = "force-dynamic";
-
-export default async function SetupPage() {
-  const setups = await getAllSetupCategories();
-  return <Setup setups={setups} />;
+export default function SetupPage() {
+  return <Setup />;
 }
-

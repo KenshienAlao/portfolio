@@ -1,5 +1,5 @@
 import api from "@/lib/api";
-import { ApiReponse } from "@/lib/ApiResponse";
+import { ApiResponse } from "@/lib/ApiResponse";
 
 export interface Project {
   id: number;
@@ -13,26 +13,26 @@ export interface Project {
 }
 
 export const projectService = {
-  getPublic: async (): Promise<ApiReponse<Project[]>> => {
+  getPublic: async (): Promise<ApiResponse<Project[]>> => {
     const res = await api.get("/api/project");
     return res.data;
   },
-  getAdmin: async (): Promise<ApiReponse<Project[]>> => {
+  getAdmin: async (): Promise<ApiResponse<Project[]>> => {
     const res = await api.get("/api/project/admin");
     return res.data;
   },
-  addProject: async (data: FormData): Promise<ApiReponse<Project>> => {
+  addProject: async (data: FormData): Promise<ApiResponse<Project>> => {
     const res = await api.post("/api/project/admin/add-project", data);
     return res.data;
   },
   editProject: async (
     id: number,
     data: FormData,
-  ): Promise<ApiReponse<Project>> => {
+  ): Promise<ApiResponse<Project>> => {
     const res = await api.patch(`/api/project/admin/edit-project/${id}`, data);
     return res.data;
   },
-  deleteProjectById: async (id: number): Promise<ApiReponse> => {
+  deleteProjectById: async (id: number): Promise<ApiResponse> => {
     const res = await api.delete(`/api/project/admin/delete-project/${id}`);
     return res.data;
   },

@@ -1,5 +1,4 @@
 import { Projects } from "@/views/projects";
-import { getAllProjects } from "@/lib/db/projects";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,16 +10,13 @@ export const metadata: Metadata = {
   },
 };
 
-export const dynamic = "force-dynamic";
-
 export default async function ProjectsPage({
   searchParams,
 }: {
   searchParams: Promise<{ sort?: string }>;
 }) {
   const { sort } = await searchParams;
-  const projects = await getAllProjects();
   const sortOrder = sort === "oldest" ? "oldest" : "latest";
 
-  return <Projects projects={projects} sort={sortOrder} />;
+  return <Projects sort={sortOrder} />;
 }

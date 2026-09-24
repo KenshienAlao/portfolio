@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ChangeEvent, RefObject } from "react";
 import { ImagePlus } from "@/components/icons";
+import { FieldError, fieldLabel } from "../form-styles";
 
 interface SkillImageLightProps {
   lightPreview: string | null;
@@ -22,13 +23,13 @@ export function SkillImageLight({
   onRemoveLightImage,
 }: SkillImageLightProps) {
   return (
-    <div className="space-y-1">
-      <label htmlFor="imageLight" className="block text-text-secondary">
-        Image (Light Mode)
+    <div className="space-y-1.5">
+      <label htmlFor="imageLight" className={fieldLabel}>
+        Image (light mode)
       </label>
       <label
         htmlFor="imageLight"
-        className={`flex flex-col items-center justify-center gap-2 overflow-hidden rounded-md border border-dashed bg-background px-3 py-4 text-center transition-colors ${
+        className={`flex flex-col items-center justify-center gap-2 overflow-hidden rounded-lg border border-dashed bg-input/40 px-3 py-4 text-center transition-colors ${
           disabled
             ? "cursor-not-allowed opacity-60"
             : "cursor-pointer hover:border-accent/60"
@@ -51,8 +52,8 @@ export function SkillImageLight({
               className="h-5 w-5 text-text-secondary"
               aria-hidden="true"
             />
-            <span className="text-text-secondary">
-              Click to upload (max 25MB)
+            <span className="font-mono text-xs text-text-secondary">
+              Click to upload a light-mode icon (max 25MB)
             </span>
           </>
         )}
@@ -70,7 +71,7 @@ export function SkillImageLight({
         className="hidden"
       />
       {lightPreview && (
-        <div className="flex items-center justify-between text-text-secondary">
+        <div className="flex items-center justify-between font-mono text-xs text-text-secondary">
           <span className="truncate">{lightFileName ?? "Current image"}</span>
           <button
             type="button"
@@ -82,11 +83,7 @@ export function SkillImageLight({
           </button>
         </div>
       )}
-      {imageLightError && (
-        <p role="alert" className="text-destructive">
-          {imageLightError.message}
-        </p>
-      )}
+      {imageLightError && <FieldError>{imageLightError.message}</FieldError>}
     </div>
   );
 }

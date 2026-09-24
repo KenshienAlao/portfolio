@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { CONTACT_LINKS } from "@/config/contanct";
+import { CONTACT_LINKS } from "@/config/contact";
 import { SectionHeader } from "@/components/section-header";
 import { ContactForm } from "@/components/contact-form";
 import Link from "next/link";

@@ -1,6 +1,10 @@
+"use client";
+
 import { SectionHeader } from "@/components/section-header";
 import { ProjectCard } from "@/components/projects/project-card";
 import { ProjectSort } from "@/components/projects/project-sort";
+import { ProjectCardSkeleton } from "@/components/ui/skeleton";
+import { useProjects } from "@/hooks/use-public-data";
 import { type Project } from "@/service/project.service";
 
 function sortProjects(
@@ -21,12 +25,11 @@ function sortProjects(
 }
 
 export function Projects({
-  projects,
   sort = "latest",
 }: {
-  projects?: Project[] | null;
   sort?: "latest" | "oldest";
 }) {
+  const { data: projects, isLoading } = useProjects();
   const projectList = Array.isArray(projects) ? projects : [];
   const sortedProjects = sortProjects(projectList, sort);
 
@@ -47,7 +50,18 @@ export function Projects({
 
         {projectList.length > 0 && <ProjectSort />}
 
-        {sortedProjects.length === 0 ? (
+        {isLoading ? (
+          <div
+            className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+            role="status"
+            aria-busy="true"
+            aria-label="Loading projects"
+          >
+            {Array.from({ length: 6 }).map((_, i) => (
+              <ProjectCardSkeleton key={i} />
+            ))}
+          </div>
+        ) : sortedProjects.length === 0 ? (
           <div className="mt-14 flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-surface/50 py-12 text-center">
             <h3 className="font-mono text-base font-bold text-text-primary">
               No projects available
