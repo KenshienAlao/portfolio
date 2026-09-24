@@ -1,5 +1,5 @@
 import { Project } from "@/service/project.service";
-import { FaPlus } from "react-icons/fa";
+import { Plus } from "@/components/icons";
 
 interface props {
   projects: Project[] | undefined;
@@ -56,7 +56,7 @@ export function Header({
         onClick={() => setProjectForm({})}
         className="flex items-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-xs font-semibold text-on-accent hover:opacity-90 font-mono transition-opacity"
       >
-        <FaPlus className="h-4 w-4" /> Add Project
+        <Plus className="h-4 w-4" /> Add Project
       </button>
     </div>
   );

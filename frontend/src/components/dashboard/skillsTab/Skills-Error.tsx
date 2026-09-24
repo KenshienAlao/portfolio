@@ -1,4 +1,4 @@
-import { FiAlertCircle } from "react-icons/fi";
+import { AlertCircle } from "@/components/icons";
 
 interface FetchErrorProps {
   skillError: Error;
@@ -9,7 +9,7 @@ export function FetchError({ skillError, refetchSkill }: FetchErrorProps) {
   return (
     <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-destructive/30 bg-destructive/5 px-6 py-16 text-center">
       <div className="flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10">
-        <FiAlertCircle className="h-6 w-6 text-destructive" />
+        <AlertCircle className="h-6 w-6 text-destructive" />
       </div>
       <div className="space-y-1">
         <h3 className="font-mono text-sm font-bold text-text-primary">

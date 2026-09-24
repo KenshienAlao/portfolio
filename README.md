@@ -52,7 +52,7 @@ The portfolio is built as a unified, lightweight full-stack **Next.js** applicat
 
 - **Tailwind CSS**
 - **Next Themes** — Seamless dark/light mode toggling
-- **React Icons** — Optimized icon imports via `@react-icons`
+- **Inline SVG Icons** — Zero-dependency icon set rendered as raw SVG components
 
 ### Data Storage & Media
 

@@ -1,7 +1,6 @@
 import { Education } from "@/service/education.service";
 import { Dispatch, SetStateAction } from "react";
-import { FaExternalLinkAlt, FaMapPin, FaTrash } from "react-icons/fa";
-import { FiEdit3, FiLoader } from "react-icons/fi";
+import { ExternalLink, MapPin, Trash, Edit, Loader } from "@/components/icons";
 
 interface props {
   sortedEducation: Education[] | undefined;
@@ -60,8 +59,8 @@ export function Content({
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 font-mono text-[10px] text-text-secondary transition-colors hover:text-accent"
                 >
-                  <FaMapPin className="h-3 w-3" /> Map Location{" "}
-                  <FaExternalLinkAlt className="h-2.5 w-2.5" />
+                  <MapPin className="h-3 w-3" /> Map Location{" "}
+                  <ExternalLink className="h-2.5 w-2.5" />
                 </a>
               )}
             </div>
@@ -99,7 +98,7 @@ export function Content({
                     disabled={actionsDisabled}
                     className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 font-mono text-xs text-text-secondary transition-colors hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    <FiEdit3 className="h-3.5 w-3.5" /> Edit
+                    <Edit className="h-3.5 w-3.5" /> Edit
                   </button>
                   <button
                     type="button"
@@ -109,12 +108,12 @@ export function Content({
                   >
                     {isDeletingThis ? (
                       <>
-                        <FiLoader className="h-3.5 w-3.5 animate-spin" />{" "}
+                        <Loader className="h-3.5 w-3.5 animate-spin" />{" "}
                         Deleting...
                       </>
                     ) : (
                       <>
-                        <FaTrash className="h-3.5 w-3.5" /> Delete
+                        <Trash className="h-3.5 w-3.5" /> Delete
                       </>
                     )}
                   </button>

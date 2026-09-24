@@ -1,14 +1,14 @@
 import Image from "next/image";
 import {
-  FiArrowUpRight,
-  FiEdit3,
-  FiExternalLink,
-  FiLoader,
-  FiPlus,
-  FiTerminal,
-  FiTrash2,
-} from "react-icons/fi";
-import { LuPackagePlus } from "react-icons/lu";
+  ArrowUpRight,
+  Edit,
+  ExternalLink,
+  Loader,
+  Plus,
+  Terminal,
+  Trash,
+  PackagePlus,
+} from "@/components/icons";
 import type { SetupCategory, SetupItem } from "@/hooks/admin/use-setup-admin";
 
 interface props {
@@ -75,7 +75,7 @@ export function Content({
                   </span>
                   {isPendingCategory && (
                     <span className="flex items-center gap-1 text-[10px] text-accent">
-                      <FiLoader className="h-3 w-3 animate-spin" /> Saving
+                      <Loader className="h-3 w-3 animate-spin" /> Saving
                     </span>
                   )}
                 </div>
@@ -92,7 +92,7 @@ export function Content({
                   className="flex items-center gap-1 rounded-md border border-border bg-background px-2.5 py-1 text-[11px] font-medium text-text-primary transition-colors hover:border-accent/50 hover:bg-accent/10 disabled:opacity-50"
                   title="Add item to this category"
                 >
-                  <FiPlus className="h-3 w-3 text-accent" /> Add Item
+                  <Plus className="h-3 w-3 text-accent" /> Add Item
                 </button>
 
                 <button
@@ -102,7 +102,7 @@ export function Content({
                   className="rounded-md border border-border bg-background p-1.5 text-text-secondary transition-colors hover:border-accent hover:text-accent disabled:opacity-50"
                   title="Edit Category"
                 >
-                  <FiEdit3 className="h-3.5 w-3.5" />
+                  <Edit className="h-3.5 w-3.5" />
                 </button>
 
                 {isConfirmingDeleteCategory ? (
@@ -133,7 +133,7 @@ export function Content({
                     className="rounded-md border border-border bg-background p-1.5 text-text-secondary transition-colors hover:border-destructive hover:text-destructive disabled:opacity-50"
                     title="Delete Category"
                   >
-                    <FiTrash2 className="h-3.5 w-3.5" />
+                    <Trash className="h-3.5 w-3.5" />
                   </button>
                 )}
               </div>
@@ -148,7 +148,7 @@ export function Content({
                     onClick={() => setItemForm({ categoryId: cat.id })}
                     className="flex items-center gap-1 font-semibold text-accent hover:underline"
                   >
-                    <LuPackagePlus className="h-3.5 w-3.5" /> Add first item
+                    <PackagePlus className="h-3.5 w-3.5" /> Add first item
                   </button>
                 </div>
               ) : (
@@ -196,7 +196,7 @@ export function Content({
                               </div>
                             ) : (
                               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-border bg-surface text-text-secondary">
-                                <FiTerminal className="h-4 w-4" />
+                                <Terminal className="h-4 w-4" />
                               </div>
                             )}
 
@@ -209,7 +209,7 @@ export function Content({
                                 title={item.download}
                               >
                                 <span className="truncate">{item.value}</span>
-                                <FiArrowUpRight className="h-3 w-3 shrink-0 text-text-secondary" />
+                                <ArrowUpRight className="h-3 w-3 shrink-0 text-text-secondary" />
                               </a>
                             </div>
                           </div>
@@ -217,7 +217,7 @@ export function Content({
                           <div className="flex items-center gap-1 shrink-0">
                             {isPendingItem ? (
                               <span className="flex items-center gap-1 text-[10px] text-accent font-medium">
-                                <FiLoader className="h-3 w-3 animate-spin" />
+                                <Loader className="h-3 w-3 animate-spin" />
                               </span>
                             ) : (
                               <>
@@ -233,7 +233,7 @@ export function Content({
                                   className="rounded border border-transparent p-1 text-text-secondary transition-colors hover:border-border hover:text-accent"
                                   title="Edit Item"
                                 >
-                                  <FiEdit3 className="h-3 w-3" />
+                                  <Edit className="h-3 w-3" />
                                 </button>
 
                                 {isConfirmingDeleteItem ? (
@@ -268,7 +268,7 @@ export function Content({
                                     className="rounded border border-transparent p-1 text-text-secondary transition-colors hover:border-border hover:text-destructive"
                                     title="Delete Item"
                                   >
-                                    <FiTrash2 className="h-3 w-3" />
+                                    <Trash className="h-3 w-3" />
                                   </button>
                                 )}
                               </>
@@ -284,7 +284,7 @@ export function Content({
                               rel="noopener noreferrer"
                               className="inline-flex items-center gap-1 rounded-md border border-accent/30 bg-accent/5 px-2 py-0.5 text-[10px] text-accent transition-colors hover:bg-accent/10"
                             >
-                              <FiExternalLink className="h-2.5 w-2.5" />
+                              <ExternalLink className="h-2.5 w-2.5" />
                               <span className="truncate">{item.subValue}</span>
                             </a>
                           </div>

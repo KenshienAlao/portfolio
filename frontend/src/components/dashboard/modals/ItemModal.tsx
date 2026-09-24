@@ -9,8 +9,7 @@ import {
 } from "@/hooks/admin/use-setup-admin";
 import { ChangeEvent, FormEvent, useEffect, useReducer, useRef } from "react";
 import z, { ZodError } from "zod";
-import { FiAlertCircle, FiLoader } from "react-icons/fi";
-import { FaSave } from "react-icons/fa";
+import { Save, AlertCircle, Loader } from "@/components/icons";
 import { Category } from "./item/Item-Category";
 import { Name } from "./item/Item-Name";
 import { WebsiteUrl } from "./item/Item-WebsiteUrl";
@@ -345,7 +344,7 @@ export function ItemModal({
             role="alert"
             className="flex items-start gap-2 rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2.5 text-destructive"
           >
-            <FiAlertCircle
+            <AlertCircle
               className="mt-0.5 h-3.5 w-3.5 shrink-0"
               aria-hidden="true"
             />
@@ -360,12 +359,12 @@ export function ItemModal({
         >
           {isLoading ? (
             <>
-              <FiLoader className="h-4 w-4 animate-spin" aria-hidden="true" />
+              <Loader className="h-4 w-4 animate-spin" aria-hidden="true" />
               Saving...
             </>
           ) : (
             <>
-              <FaSave className="h-4 w-4" />
+              <Save className="h-4 w-4" />
               {isEdit ? "Save Changes" : "Save Item"}
             </>
           )}

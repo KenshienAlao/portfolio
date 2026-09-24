@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { ChangeEvent } from "react";
-import { LuImagePlus } from "react-icons/lu";
+import { ImagePlus } from "@/components/icons";
 
 interface props {
   imageLightError?: { message?: string };
@@ -50,7 +50,7 @@ export function ImageLight({
           </div>
         ) : (
           <>
-            <LuImagePlus
+            <ImagePlus
               className="h-4 w-4 text-text-secondary"
               aria-hidden="true"
             />

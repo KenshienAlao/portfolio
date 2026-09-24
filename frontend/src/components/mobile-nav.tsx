@@ -6,8 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NAV_ITEMS } from "@/config/navigation.config";
 import { cn } from "@/lib/utils";
-import { FiMenu } from "react-icons/fi";
-import { FaX } from "react-icons/fa6";
+import { X, Menu } from "@/components/icons";
 
 const emptySubscribe = () => () => {};
 
@@ -46,7 +45,7 @@ export function MobileNav() {
             className="flex h-8 w-8 items-center justify-center rounded-lg bg-surface/60 text-text-secondary hover:bg-surface hover:text-text-primary"
             aria-label="Close menu"
           >
-            <FaX className="h-4 w-4" aria-hidden="true" />
+            <X className="h-4 w-4" aria-hidden="true" />
           </button>
         </div>
 
@@ -96,7 +95,7 @@ export function MobileNav() {
         aria-label="Toggle menu"
         aria-expanded={isOpen}
       >
-        <FiMenu className="h-4 w-4" aria-hidden="true" />
+        <Menu className="h-4 w-4" aria-hidden="true" />
       </button>
 
       {mounted && createPortal(drawerOverlay, document.body)}

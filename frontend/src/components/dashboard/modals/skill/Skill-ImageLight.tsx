@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { ChangeEvent, RefObject } from "react";
-import { LuImagePlus } from "react-icons/lu";
+import { ImagePlus } from "@/components/icons";
 
 interface SkillImageLightProps {
   lightPreview: string | null;
@@ -47,7 +47,7 @@ export function SkillImageLight({
           </div>
         ) : (
           <>
-            <LuImagePlus
+            <ImagePlus
               className="h-5 w-5 text-text-secondary"
               aria-hidden="true"
             />

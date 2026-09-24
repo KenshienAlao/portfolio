@@ -7,8 +7,7 @@ import {
   useMessagesAdmin,
   useToggleMessageRead,
 } from "@/hooks/admin/use-message-admin";
-import { FiAlertCircle, FiLoader } from "react-icons/fi";
-import { FaCheckCircle, FaCircle, FaInbox, FaTrash } from "react-icons/fa";
+import { CheckCircle, Circle, Inbox, Trash, AlertCircle, Loader } from "@/components/icons";
 
 function formatDate(isoString: string) {
   try {
@@ -67,7 +66,7 @@ export function MessagesTab() {
       {messagesError ? (
         <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-destructive/30 bg-destructive/5 px-6 py-16 text-center">
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10">
-            <FiAlertCircle className="h-6 w-6 text-destructive" />
+            <AlertCircle className="h-6 w-6 text-destructive" />
           </div>
           <div className="space-y-1">
             <h3 className="font-mono text-sm font-bold text-text-primary">
@@ -97,7 +96,7 @@ export function MessagesTab() {
         </div>
       ) : !hasMessages ? (
         <div className="rounded-xl border border-dashed border-border bg-surface p-12 text-center">
-          <FaInbox className="h-10 w-10 text-text-secondary/40 mx-auto mb-3" />
+          <Inbox className="h-10 w-10 text-text-secondary/40 mx-auto mb-3" />
           <h3 className="font-mono text-sm font-bold text-text-primary mb-1">
             Your inbox is empty
           </h3>
@@ -129,9 +128,9 @@ export function MessagesTab() {
                       className="mt-0.5 text-text-secondary hover:text-accent transition-colors"
                     >
                       {msg.isRead ? (
-                        <FaCheckCircle className="h-4 w-4 text-accent/70" />
+                        <CheckCircle className="h-4 w-4 text-accent/70" />
                       ) : (
-                        <FaCircle className="h-4 w-4 fill-accent/20 text-accent" />
+                        <Circle className="h-4 w-4 fill-accent/20 text-accent" />
                       )}
                     </button>
                     <div>
@@ -188,9 +187,9 @@ export function MessagesTab() {
                         aria-label="Delete message"
                       >
                         {isDeletingThis ? (
-                          <FiLoader className="h-4 w-4 animate-spin" />
+                          <Loader className="h-4 w-4 animate-spin" />
                         ) : (
-                          <FaTrash className="h-4 w-4" />
+                          <Trash className="h-4 w-4" />
                         )}
                       </button>
                     )}

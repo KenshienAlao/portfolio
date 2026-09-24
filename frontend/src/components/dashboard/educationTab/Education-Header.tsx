@@ -1,6 +1,6 @@
 import { Education } from "@/service/education.service";
 import { Dispatch, SetStateAction } from "react";
-import { FiPlus } from "react-icons/fi";
+import { Plus } from "@/components/icons";
 
 interface props {
   sortedEducation: Education[] | undefined;
@@ -30,7 +30,7 @@ export function Header({
         onClick={() => setEducationForm({})}
         className="flex items-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-xs font-semibold text-on-accent hover:opacity-90 font-mono transition-opacity"
       >
-        <FiPlus className="h-4 w-4" /> Add Education
+        <Plus className="h-4 w-4" /> Add Education
       </button>
     </div>
   );

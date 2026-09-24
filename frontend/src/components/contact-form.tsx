@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { messageService } from "@/service/message.service";
-import { FiAlertCircle, FiCheck, FiLoader, FiSend } from "react-icons/fi";
+import { AlertCircle, Check, Loader, Send } from "@/components/icons";
 
 interface FormState {
   name: string;
@@ -142,7 +142,7 @@ export function ContactForm() {
           role="alert"
           className="flex items-start gap-2 rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs font-mono text-destructive"
         >
-          <FiAlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+          <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
           <span>{errorMsg}</span>
         </div>
       )}
@@ -155,17 +155,17 @@ export function ContactForm() {
       >
         {isSending ? (
           <>
-            <FiLoader className="h-4 w-4 animate-spin" />
+            <Loader className="h-4 w-4 animate-spin" />
             Sending...
           </>
         ) : sent ? (
           <>
-            <FiCheck className="h-4 w-4" />
+            <Check className="h-4 w-4" />
             Message Sent!
           </>
         ) : (
           <>
-            <FiSend className="h-4 w-4" />
+            <Send className="h-4 w-4" />
             Send Message
           </>
         )}

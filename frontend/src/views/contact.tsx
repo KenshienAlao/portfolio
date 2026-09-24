@@ -3,7 +3,7 @@ import { CONTACT_LINKS } from "@/config/contanct";
 import { SectionHeader } from "@/components/section-header";
 import { ContactForm } from "@/components/contact-form";
 import Link from "next/link";
-import { FiDownload, FiExternalLink } from "react-icons/fi";
+import { Download, ExternalLink } from "@/components/icons";
 
 export function Contact() {
   return (
@@ -50,7 +50,7 @@ export function Contact() {
                       {link.value}
                     </p>
                   </div>
-                  <FiExternalLink className="h-3.5 w-3.5 shrink-0 text-text-secondary" />
+                  <ExternalLink className="h-3.5 w-3.5 shrink-0 text-text-secondary" />
                 </a>
               );
             })}
@@ -63,7 +63,7 @@ export function Contact() {
               className="w-full gap-2 rounded-2xl border-border text-text-primary hover:border-accent/50 hover:bg-surface active:scale-95"
             >
               <Link href="/resume.pdf" download>
-                <FiDownload className="h-4 w-4" />
+                <Download className="h-4 w-4" />
                 Download Resume
               </Link>
             </Button>

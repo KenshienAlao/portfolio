@@ -1,6 +1,6 @@
 import { SetupCategory } from "@/service/setup.service";
 import { Dispatch, SetStateAction } from "react";
-import { FiFolderPlus, FiTerminal } from "react-icons/fi";
+import { FolderPlus, Terminal } from "@/components/icons";
 
 interface props {
   setCategoryForm: Dispatch<SetStateAction<Partial<SetupCategory> | null>>;
@@ -10,7 +10,7 @@ export function Empty({ setCategoryForm }: props) {
   return (
     <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border px-6 py-20 text-center">
       <div className="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-surface">
-        <FiTerminal className="h-6 w-6 text-text-secondary" />
+        <Terminal className="h-6 w-6 text-text-secondary" />
       </div>
       <div className="space-y-1">
         <h3 className="text-sm font-semibold text-text-primary">
@@ -26,7 +26,7 @@ export function Empty({ setCategoryForm }: props) {
         onClick={() => setCategoryForm({})}
         className="mt-2 flex items-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-xs font-semibold text-on-accent transition-opacity hover:opacity-90"
       >
-        <FiFolderPlus className="h-4 w-4" /> Create First Category
+        <FolderPlus className="h-4 w-4" /> Create First Category
       </button>
     </div>
   );

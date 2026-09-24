@@ -7,8 +7,7 @@ import {
   type SetupCategory,
 } from "@/hooks/admin/use-setup-admin";
 import { FormEvent, useState } from "react";
-import { FaSave } from "react-icons/fa";
-import { FiAlertCircle, FiLoader } from "react-icons/fi";
+import { Save, AlertCircle, Loader } from "@/components/icons";
 import z, { ZodError } from "zod";
 
 const categorySchema = z.object({
@@ -151,7 +150,7 @@ export function CategoryModal({
             role="alert"
             className="flex items-start gap-2 rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2.5 text-destructive"
           >
-            <FiAlertCircle
+            <AlertCircle
               className="mt-0.5 h-3.5 w-3.5 shrink-0"
               aria-hidden="true"
             />
@@ -166,12 +165,12 @@ export function CategoryModal({
         >
           {isLoading ? (
             <>
-              <FiLoader className="h-4 w-4 animate-spin" aria-hidden="true" />
+              <Loader className="h-4 w-4 animate-spin" aria-hidden="true" />
               Saving...
             </>
           ) : (
             <>
-              <FaSave className="h-4 w-4" />
+              <Save className="h-4 w-4" />
               {isEdit ? "Save Changes" : "Create Category"}
             </>
           )}

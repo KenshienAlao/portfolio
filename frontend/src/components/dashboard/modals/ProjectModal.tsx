@@ -4,8 +4,7 @@ import { ChangeEvent, FormEvent, useEffect, useReducer, useRef } from "react";
 import { BaseModal } from "./BaseModal";
 import z, { ZodError } from "zod";
 import { useAddProject, useEditProject } from "@/hooks/admin/use-project-admin";
-import { FiAlertCircle, FiLoader } from "react-icons/fi";
-import { FaSave } from "react-icons/fa";
+import { Save, AlertCircle, Loader } from "@/components/icons";
 import { ProjectTitle } from "./project/Project-Title";
 import { ProjectImage } from "./project/Project-Image";
 import { ProjectDescription } from "./project/Project-Description";
@@ -269,7 +268,7 @@ export function ProjectModal({
             role="alert"
             className="flex items-start gap-2 rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2.5 text-destructive"
           >
-            <FiAlertCircle
+            <AlertCircle
               className="mt-0.5 h-3.5 w-3.5 shrink-0"
               aria-hidden="true"
             />
@@ -284,16 +283,16 @@ export function ProjectModal({
         >
           {isLoading ? (
             <>
-              <FiLoader className="h-4 w-4 animate-spin" aria-hidden="true" />
+              <Loader className="h-4 w-4 animate-spin" aria-hidden="true" />
               Saving...
             </>
           ) : isEdit ? (
             <>
-              <FaSave className="h-4 w-4" /> Save changes
+              <Save className="h-4 w-4" /> Save changes
             </>
           ) : (
             <>
-              <FaSave className="h-4 w-4" /> Save Project
+              <Save className="h-4 w-4" /> Save Project
             </>
           )}
         </button>

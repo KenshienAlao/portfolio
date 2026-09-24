@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FaExternalLinkAlt } from "react-icons/fa";
+
 
 export function Header({
   unreadMessagesCount,
@@ -39,5 +39,4 @@ export function Header({
       </Link>
     </div>
   );
-  1;
 }

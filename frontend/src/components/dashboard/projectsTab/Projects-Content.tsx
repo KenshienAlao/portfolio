@@ -1,6 +1,5 @@
 import Image from "next/image";
-import { FaTrash } from "react-icons/fa";
-import { FiEdit3, FiLoader } from "react-icons/fi";
+import { Trash, Edit, Loader } from "@/components/icons";
 import { Project } from "@/hooks/admin/use-project-admin";
 
 interface props {
@@ -52,13 +51,13 @@ export function Content({
                   />
                   {isPendingCreate && (
                     <div className="absolute inset-0 flex items-center justify-center bg-background/20 backdrop-blur-[1px]">
-                      <FiLoader className="h-6 w-6 text-accent animate-spin" />
+                      <Loader className="h-6 w-6 text-accent animate-spin" />
                     </div>
                   )}
                 </div>
               ) : isPendingCreate ? (
                 <div className="w-full h-full bg-accent/20 animate-pulse flex items-center justify-center">
-                  <FiLoader className="h-6 w-6 text-accent animate-spin opacity-50" />
+                  <Loader className="h-6 w-6 text-accent animate-spin opacity-50" />
                 </div>
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-text-secondary font-mono text-xs">
@@ -108,7 +107,7 @@ export function Content({
                         aria-label="Edit project"
                         className="p-1.5 hover:bg-background rounded-md text-text-secondary hover:text-accent transition-colors disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:text-text-secondary"
                       >
-                        <FiEdit3 className="h-3.5 w-3.5" />
+                        <Edit className="h-3.5 w-3.5" />
                       </button>
                       <button
                         type="button"
@@ -118,9 +117,9 @@ export function Content({
                         className="p-1.5 hover:bg-destructive/10 rounded-md text-text-secondary hover:text-destructive transition-colors disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:text-text-secondary"
                       >
                         {isDeletingThis ? (
-                          <FiLoader className="h-3.5 w-3.5 animate-spin" />
+                          <Loader className="h-3.5 w-3.5 animate-spin" />
                         ) : (
-                          <FaTrash className="h-3.5 w-3.5" />
+                          <Trash className="h-3.5 w-3.5" />
                         )}
                       </button>
                     </>

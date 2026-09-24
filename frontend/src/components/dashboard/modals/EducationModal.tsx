@@ -9,8 +9,7 @@ import {
 import { FormEvent, useState } from "react";
 import z, { ZodError } from "zod";
 import { getYears } from "@/lib/year";
-import { FiAlertCircle, FiLoader } from "react-icons/fi";
-import { FaSave } from "react-icons/fa";
+import { Save, AlertCircle, Loader } from "@/components/icons";
 
 const educationFormSchema = z.object({
   school: z.string().min(1, "School is required"),
@@ -285,7 +284,7 @@ export function EducationModal({
             role="alert"
             className="flex items-start gap-2 rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2.5 text-destructive"
           >
-            <FiAlertCircle
+            <AlertCircle
               className="mt-0.5 h-3.5 w-3.5 shrink-0"
               aria-hidden="true"
             />
@@ -300,16 +299,16 @@ export function EducationModal({
         >
           {isLoadingAdd || isLoadingEdit ? (
             <>
-              <FiLoader className="h-4 w-4 animate-spin" aria-hidden="true" />
+              <Loader className="h-4 w-4 animate-spin" aria-hidden="true" />
               Saving...
             </>
           ) : isEdit ? (
             <>
-              <FaSave className="h-4 w-4" /> Save changes
+              <Save className="h-4 w-4" /> Save changes
             </>
           ) : (
             <>
-              <FaSave className="h-4 w-4" /> Save Education
+              <Save className="h-4 w-4" /> Save Education
             </>
           )}
         </button>

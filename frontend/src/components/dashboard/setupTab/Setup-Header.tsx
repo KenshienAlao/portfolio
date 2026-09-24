@@ -1,6 +1,6 @@
 import { SetupCategory, SetupItem } from "@/service/setup.service";
 import { Dispatch, SetStateAction } from "react";
-import { FiFolderPlus, FiPlus } from "react-icons/fi";
+import { FolderPlus, Plus } from "@/components/icons";
 
 interface props {
   categoryList: SetupCategory[];
@@ -37,7 +37,7 @@ export function Header({
           onClick={() => setCategoryForm({})}
           className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-2 text-xs font-semibold text-text-primary transition-colors hover:border-accent/50 hover:bg-surface"
         >
-          <FiFolderPlus className="h-4 w-4 text-accent" /> Add Category
+          <FolderPlus className="h-4 w-4 text-accent" /> Add Category
         </button>
 
         <button
@@ -51,7 +51,7 @@ export function Header({
           }}
           className="flex items-center gap-1.5 rounded-lg bg-accent px-3 py-2 text-xs font-semibold text-on-accent transition-opacity hover:opacity-90"
         >
-          <FiPlus className="h-4 w-4" /> Add Item
+          <Plus className="h-4 w-4" /> Add Item
         </button>
       </div>
     </div>

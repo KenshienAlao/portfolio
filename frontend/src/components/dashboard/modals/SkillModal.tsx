@@ -8,8 +8,7 @@ import {
 } from "@/hooks/admin/use-skill-admin";
 import { ChangeEvent, FormEvent, useEffect, useReducer, useRef } from "react";
 import z, { ZodError } from "zod";
-import { FiAlertCircle, FiLoader } from "react-icons/fi";
-import { FaSave } from "react-icons/fa";
+import { Save, AlertCircle, Loader } from "@/components/icons";
 import { SkillCategory } from "./skill/Skill-Category";
 import { SkillName } from "./skill/Skill-Name";
 import { SkillImageLight } from "./skill/Skill-ImageLight";
@@ -317,7 +316,7 @@ export function SkillModal({
             role="alert"
             className="flex items-start gap-2 rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2.5 text-destructive"
           >
-            <FiAlertCircle
+            <AlertCircle
               className="mt-0.5 h-3.5 w-3.5 shrink-0"
               aria-hidden="true"
             />
@@ -332,16 +331,16 @@ export function SkillModal({
         >
           {isLoading ? (
             <>
-              <FiLoader className="h-4 w-4 animate-spin" aria-hidden="true" />
+              <Loader className="h-4 w-4 animate-spin" aria-hidden="true" />
               Saving...
             </>
           ) : isEdit ? (
             <>
-              <FaSave className="h-4 w-4" /> Save changes
+              <Save className="h-4 w-4" /> Save changes
             </>
           ) : (
             <>
-              <FaSave className="h-4 w-4" /> Save Skill
+              <Save className="h-4 w-4" /> Save Skill
             </>
           )}
         </button>

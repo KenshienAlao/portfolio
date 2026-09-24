@@ -1,6 +1,6 @@
 import { Skill } from "@/service/skill.service";
 import Image from "next/image";
-import { FiEdit3, FiLoader, FiTrash2 } from "react-icons/fi";
+import { Edit, Loader, Trash } from "@/components/icons";
 
 interface props {
   groupedSkills: Record<string, Skill[]>;
@@ -92,7 +92,7 @@ export function Content({
                   <div className="flex gap-1">
                     {isPendingCreate ? (
                       <span className="flex items-center gap-1 font-mono text-[10px] font-medium text-accent">
-                        <FiLoader className="h-3 w-3 animate-spin" />
+                        <Loader className="h-3 w-3 animate-spin" />
                         Saving
                       </span>
                     ) : isConfirmingDelete ? (
@@ -128,7 +128,7 @@ export function Content({
                           disabled={actionsDisabled}
                           className="p-1 hover:bg-background rounded text-text-secondary hover:text-accent transition-colors disabled:cursor-not-allowed disabled:opacity-50"
                         >
-                          <FiEdit3 className="h-3.5 w-3.5" />
+                          <Edit className="h-3.5 w-3.5" />
                         </button>
                         <button
                           type="button"
@@ -137,9 +137,9 @@ export function Content({
                           className="p-1 hover:bg-destructive/10 rounded text-text-secondary hover:text-destructive transition-colors disabled:cursor-not-allowed disabled:opacity-50"
                         >
                           {isDeletingThis ? (
-                            <FiLoader className="h-3.5 w-3.5 animate-spin" />
+                            <Loader className="h-3.5 w-3.5 animate-spin" />
                           ) : (
-                            <FiTrash2 className="h-3.5 w-3.5" />
+                            <Trash className="h-3.5 w-3.5" />
                           )}
                         </button>
                       </>
