@@ -79,7 +79,13 @@ export async function POST(req: NextRequest) {
       try {
         const ai = new GoogleGenAI({
           apiKey: key,
-          httpOptions: { timeout: 15_000 },
+          httpOptions: {
+            // Covers the WHOLE streaming body read, not just the initial
+            // connect. 15s would abort any reply that streams for longer
+            // (e.g. project answers with an embed) mid-write, which surfaces
+            // on the client as a "network error" bubble. Generous ceiling.
+            timeout: 120_000,
+          },
         });
         responseStream = await ai.models.generateContentStream({
           model: "gemini-3.6-flash",
