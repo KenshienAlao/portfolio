@@ -1,24 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 
 import { ThemeProvider } from "@/provider/theme-provider";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-  preload: true,
-  adjustFontFallback: true,
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains-mono",
-  display: "swap",
-  preload: true,
-  adjustFontFallback: true,
-});
 
 const siteUrl = "https://kenshien.is-a.dev";
 const siteName = "Kenshien Alao";
@@ -274,7 +259,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable} bg-background font-sans`}
+      className={`${GeistSans.variable} ${GeistMono.variable} bg-background font-sans`}
       suppressHydrationWarning
     >
       <head>
