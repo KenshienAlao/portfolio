@@ -20,7 +20,7 @@ export function DesktopNav() {
             className={cn(
               "group relative flex items-center gap-1.5 px-3.5 py-1.5 text-[13px] font-semibold tracking-wide rounded-xl transition-all duration-200",
               active
-                ? "bg-accent/10 text-accent"
+                ? "bg-accent text-on-accent"
                 : "text-text-secondary hover:bg-surface/60 hover:text-text-primary",
             )}
             aria-current={active ? "page" : undefined}

@@ -113,7 +113,7 @@ export function Content({
                         deleteCategory(cat.id);
                         setConfirmDeleteCategoryId(null);
                       }}
-                      className="rounded-md bg-destructive px-2 py-1 text-[10px] font-semibold text-white transition-opacity hover:opacity-90"
+                      className="rounded-md bg-destructive px-2 py-1 text-[10px] font-semibold text-destructive-foreground transition-opacity hover:opacity-90"
                     >
                       Confirm
                     </button>
@@ -244,7 +244,7 @@ export function Content({
                                         deleteItem(item.id);
                                         setConfirmDeleteItemId(null);
                                       }}
-                                      className="rounded bg-destructive px-1.5 py-0.5 text-[9px] font-semibold text-white"
+                                      className="rounded bg-destructive px-1.5 py-0.5 text-[9px] font-semibold text-destructive-foreground"
                                     >
                                       Del
                                     </button>

@@ -26,7 +26,7 @@ export default function NotFound() {
             type="button"
             asChild
             size="lg"
-            className="rounded-full bg-accent text-white"
+            className="rounded-full bg-accent text-on-accent"
           >
             <Link href="/">Return</Link>
           </Button>
