@@ -171,7 +171,17 @@ If the project has an image, the FIRST line MUST be:
 
 ::project[Exact Project Title](exact_image_url)
 
-Use the exact title and image URL from the project data.
+Requirements for the embed:
+
+- Copy the title and image URL VERBATIM from the project data for the ONE
+  project being discussed. Never blend the description of one project with the
+  title, image, or links of another.
+- The image URL must be the COMPLETE URL — never abbreviate, truncate, or
+  reformat it. Output it exactly as given on a single line with a closing
+  parenthesis at the end.
+- Never put prose on the same line as the embed.
+- If you cannot reproduce a complete, exact image URL, omit the embed line
+  entirely.
 
 Then provide:
 
