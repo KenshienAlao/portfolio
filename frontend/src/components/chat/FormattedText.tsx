@@ -31,8 +31,8 @@ export function FormattedText({
           className={cn(
             "font-medium underline decoration-1 underline-offset-2 transition-colors inline-flex items-center gap-0.5",
             isUser
-              ? "text-white decoration-white/50 hover:decoration-white"
-              : "text-accent decoration-accent/40 hover:decoration-accent",
+              ? "decoration-current/50 hover:decoration-current"
+              : "text-chat-link-text decoration-chat-link-text/40 hover:decoration-chat-link-text",
           )}
         >
           {match[2]}
@@ -66,8 +66,8 @@ export function FormattedText({
           className={cn(
             "font-medium underline decoration-1 underline-offset-2 transition-colors break-all",
             isUser
-              ? "text-white decoration-white/50 hover:decoration-white"
-              : "text-accent decoration-accent/40 hover:decoration-accent",
+              ? "decoration-current/50 hover:decoration-current"
+              : "text-chat-link-text decoration-chat-link-text/40 hover:decoration-chat-link-text",
           )}
         >
           {token}
@@ -77,7 +77,7 @@ export function FormattedText({
       parts.push(
         <strong
           key={match.index}
-          className={cn("font-semibold", !isUser && "text-text-primary")}
+          className={cn("font-semibold", !isUser && "text-chat-bot-text")}
         >
           {token.slice(2, -2)}
         </strong>,
@@ -89,7 +89,7 @@ export function FormattedText({
       parts.push(
         <em
           key={match.index}
-          className={cn("italic opacity-90", !isUser && "text-text-secondary")}
+          className={cn("italic opacity-90", !isUser && "text-chat-bot-text")}
         >
           {token.slice(1, -1)}
         </em>,

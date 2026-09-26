@@ -4,11 +4,35 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { FormattedMessage } from "./FormattedMessage";
 import { ThinkingIndicator } from "./ThinkingIndicator";
+import { useDraggableChatbot } from "./use-draggable-chatbot";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
+  createdAt?: number;
+  createdAtIso?: string;
+  timeLabel?: string;
 }
+
+const timeFormatter = new Intl.DateTimeFormat(undefined, {
+  hour: "numeric",
+  minute: "2-digit",
+});
+
+const createMessage = (
+  role: Message["role"],
+  content: string,
+  ts: number = Date.now(),
+): Message => {
+  const date = new Date(ts);
+  return {
+    role,
+    content,
+    createdAt: ts,
+    createdAtIso: date.toISOString(),
+    timeLabel: timeFormatter.format(date),
+  };
+};
 
 const SUGGESTED_PROMPTS = [
   "What are Kenshien's top projects?",
@@ -31,6 +55,21 @@ export function ChatWidget() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
+  const launcherButtonRef = useRef<HTMLButtonElement>(null);
+
+  const {
+    containerRef,
+    isDragging,
+    isPositioned,
+    dragHandleProps,
+    launcherDragHandleProps,
+    consumeDrag,
+  } = useDraggableChatbot(isOpen);
+
+  const closeChat = () => {
+    setIsOpen(false);
+    window.setTimeout(() => launcherButtonRef.current?.focus(), 0);
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -47,7 +86,7 @@ export function ChatWidget() {
   useEffect(() => {
     if (!isOpen) return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsOpen(false);
+      if (e.key === "Escape") closeChat();
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
@@ -100,7 +139,7 @@ export function ChatWidget() {
     const abortController = new AbortController();
     abortControllerRef.current = abortController;
 
-    const userMessage: Message = { role: "user", content: text };
+    const userMessage = createMessage("user", text);
     const newMessages = [...messages, userMessage];
 
     setMessages(newMessages);
@@ -132,7 +171,8 @@ export function ChatWidget() {
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder("utf-8");
-      setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
+      const assistantMsg = createMessage("assistant", "");
+      setMessages((prev) => [...prev, assistantMsg]);
 
       let assistantReply = "";
       while (true) {
@@ -145,10 +185,8 @@ export function ChatWidget() {
 
         setMessages((prev) => {
           const updated = [...prev];
-          updated[updated.length - 1] = {
-            role: "assistant",
-            content: currentReply,
-          };
+          const lastIdx = updated.length - 1;
+          updated[lastIdx] = { ...updated[lastIdx], content: currentReply };
           return updated;
         });
       }
@@ -156,15 +194,12 @@ export function ChatWidget() {
       if (err instanceof DOMException && err.name === "AbortError") {
         return;
       }
-      const errMsg =
-        err instanceof Error ? err.message : "Something went wrong.";
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          content: errMsg,
-        },
-      ]);
+      console.error("[Chat] request failed:", err);
+      const errorMsg = createMessage(
+        "assistant",
+        "There was a connection problem and that reply got cut off. Could you ask again?",
+      );
+      setMessages((prev) => [...prev, errorMsg]);
     } finally {
       setIsLoading(false);
       abortControllerRef.current = null;
@@ -186,22 +221,52 @@ export function ChatWidget() {
   };
 
   return (
-    <div className="fixed bottom-0 right-0 sm:bottom-5 sm:right-5 z-50 flex flex-col items-end">
+    <div
+      ref={containerRef}
+      className={cn(
+        "fixed z-50 flex flex-col items-end pointer-events-none transition-[scale] duration-200",
+        isDragging && "md:scale-[1.01] chat-shadow-dragging",
+        isPositioned
+          ? "left-0 top-0"
+          : "bottom-0 right-0 sm:bottom-5 sm:right-5",
+      )}
+    >
       {isOpen && (
         <div
           role="dialog"
-          aria-label="Kenshien AI chat"
+          aria-labelledby="chat-widget-title"
           className={cn(
-            "relative flex flex-col w-screen sm:w-96",
+            "relative flex flex-col w-screen sm:w-96 pointer-events-auto",
             "h-dvh sm:h-136 sm:max-h-[80vh]",
             "border-0 sm:border border-border bg-surface sm:shadow-xl",
             "sm:mb-3 sm:rounded-2xl overflow-hidden",
+            "chat-window-enter",
           )}
         >
-          {/* Header */}
-          <div className="flex items-center justify-between border-b border-border px-4 py-3 bg-surface">
-            <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-white">
+          {/* Header (desktop drag handle / keyboard reposition target) */}
+          <div
+            {...dragHandleProps}
+            role="button"
+            tabIndex={0}
+            aria-grabbed={isDragging}
+            aria-label="Chat window. Press the arrow keys to move it."
+            className={cn(
+              "flex items-center justify-between border-b border-border px-3.5 py-3 bg-surface",
+              isDragging ? "md:cursor-grabbing select-none" : "md:cursor-grab",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+            )}
+          >
+            <div className="flex items-center gap-3 min-w-0">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="hidden md:block h-4 w-4 text-text-secondary/70 shrink-0"
+                aria-hidden="true"
+              >
+                <path d="M7 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 6a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 6a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm6-8a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 6a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z" />
+              </svg>
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-on-accent">
                 {/* Sparkles Icon */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -218,7 +283,10 @@ export function ChatWidget() {
                 </svg>
               </div>
               <div className="min-w-0">
-                <h3 className="text-sm font-semibold text-text-primary leading-none truncate">
+                <h3
+                  id="chat-widget-title"
+                  className="text-sm font-semibold text-text-primary leading-none truncate"
+                >
                   Kenshien AI
                 </h3>
                 <p className="mt-1 flex items-center gap-1.5 text-[11px] text-text-secondary leading-none">
@@ -235,7 +303,7 @@ export function ChatWidget() {
                   onClick={handleClear}
                   title="Clear conversation"
                   aria-label="Clear chat"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-text-secondary hover:text-destructive hover:bg-destructive/10 transition-colors focus-visible:outline-2 focus-visible:outline-accent cursor-pointer"
+                  className="flex h-11 w-11 md:h-9 md:w-9 items-center justify-center rounded-lg text-text-secondary hover:text-destructive hover:bg-destructive/10 transition-colors focus-visible:outline-2 focus-visible:outline-accent cursor-pointer"
                 >
                   {/* Trash Icon */}
                   <svg
@@ -255,10 +323,10 @@ export function ChatWidget() {
               )}
               <button
                 type="button"
-                onClick={() => setIsOpen(false)}
+                onClick={closeChat}
                 title="Close chat"
                 aria-label="Close chat"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-text-secondary hover:text-text-primary hover:bg-border/50 transition-colors focus-visible:outline-2 focus-visible:outline-accent cursor-pointer"
+                className="flex h-11 w-11 md:h-9 md:w-9 items-center justify-center rounded-lg text-text-secondary hover:text-text-primary hover:bg-border/50 transition-colors focus-visible:outline-2 focus-visible:outline-accent cursor-pointer"
               >
                 {/* Close X Icon */}
                 <svg
@@ -276,7 +344,9 @@ export function ChatWidget() {
 
           {/* Messages list */}
           <div
+            role="log"
             aria-live="polite"
+            aria-busy={isLoading}
             className="chat-scroll flex-1 overflow-y-auto overscroll-contain p-4 space-y-3.5 text-xs sm:text-sm"
           >
             {messages.map((msg, idx) => {
@@ -288,7 +358,7 @@ export function ChatWidget() {
                 <div
                   key={idx}
                   className={cn(
-                    "flex gap-2.5 items-start",
+                    "msg-enter flex gap-2.5 items-start",
                     isUser ? "flex-row-reverse" : "flex-row",
                   )}
                 >
@@ -327,25 +397,41 @@ export function ChatWidget() {
 
                   <div
                     className={cn(
-                      "rounded-2xl px-4 py-3 max-w-[85%] leading-relaxed wrap-break-word text-xs sm:text-[13px]",
-                      isUser
-                        ? "bg-accent text-white rounded-tr-sm"
-                        : "bg-background border border-border text-text-primary rounded-tl-sm",
+                      "flex flex-col gap-1 max-w-[85%]",
+                      isUser ? "items-end" : "items-start",
                     )}
                   >
-                    {msg.content ? (
-                      <>
-                        <FormattedMessage
-                          content={msg.content}
-                          isUser={isUser}
-                        />
-                        {isLastAssistant && (
-                          <span className="inline-block ml-0.5 w-1.5 h-3.5 bg-accent/70 rounded-sm animate-pulse align-middle" />
-                        )}
-                      </>
-                    ) : !isUser ? (
-                      <ThinkingIndicator />
-                    ) : null}
+                    <div
+                      className={cn(
+                        "rounded-2xl px-4 py-3 leading-relaxed wrap-break-word text-xs sm:text-[13px]",
+                        isUser
+                          ? "bg-chat-user-surface text-chat-user-text rounded-tr-sm"
+                          : "bg-chat-bot-surface text-chat-bot-text rounded-tl-sm",
+                      )}
+                    >
+                      {msg.content ? (
+                        <>
+                          <FormattedMessage
+                            content={msg.content}
+                            isUser={isUser}
+                          />
+                          {isLastAssistant && (
+                            <span className="inline-block ml-0.5 w-1.5 h-3.5 bg-accent/70 rounded-sm animate-pulse align-middle" />
+                          )}
+                        </>
+                      ) : !isUser ? (
+                        <ThinkingIndicator />
+                      ) : null}
+                    </div>
+                    {msg.createdAt && msg.createdAtIso && msg.timeLabel && (
+                      <time
+                        dateTime={msg.createdAtIso}
+                        title={msg.createdAtIso}
+                        className="px-1 text-[12px] text-chat-timestamp-text"
+                      >
+                        {msg.timeLabel}
+                      </time>
+                    )}
                   </div>
                 </div>
               );
@@ -364,7 +450,7 @@ export function ChatWidget() {
                     <path d="M12 2a1 1 0 0 1 1 1v1.055A9.004 9.004 0 0 1 20.945 11H22a1 1 0 1 1 0 2h-1.055A9.004 9.004 0 0 1 13 19.945V21a1 1 0 1 1-2 0v-1.055A9.004 9.004 0 0 1 3.055 13H2a1 1 0 1 1 0-2h1.055A9.004 9.004 0 0 1 11 4.055V3a1 1 0 0 1 1-1Zm0 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14Zm-3.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm7 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm-7 5a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5A.75.75 0 0 1 8.5 15Z" />
                   </svg>
                 </div>
-                <div className="rounded-2xl px-4 py-3 bg-background border border-border text-text-primary rounded-tl-sm text-xs sm:text-[13px]">
+                <div className="rounded-2xl px-4 py-3 bg-chat-bot-surface text-chat-bot-text rounded-tl-sm text-xs sm:text-[13px]">
                   <ThinkingIndicator />
                 </div>
               </div>
@@ -416,6 +502,7 @@ export function ChatWidget() {
                 }
               }}
               placeholder="Ask about Kenshien..."
+              aria-label="Type your message"
               disabled={isLoading}
               className="flex-1 resize-none bg-background border border-border focus:border-accent rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-text-primary placeholder:text-text-secondary/60 focus:outline-none focus:ring-2 focus:ring-accent/30 disabled:opacity-60 transition-colors leading-relaxed max-h-30 overflow-y-auto"
             />
@@ -423,7 +510,7 @@ export function ChatWidget() {
               type="submit"
               disabled={!input.trim() || isLoading}
               aria-label="Send message"
-              className="flex h-11 w-11 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl bg-accent text-white hover:opacity-90 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent cursor-pointer"
+              className="flex h-11 w-11 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl bg-accent text-on-accent hover:opacity-90 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent cursor-pointer"
             >
               {/* Paper airplane send icon */}
               <svg
@@ -444,15 +531,23 @@ export function ChatWidget() {
       {!isOpen && (
         <button
           type="button"
-          onClick={() => setIsOpen(true)}
+          ref={launcherButtonRef}
+          {...launcherDragHandleProps}
+          onClick={() => {
+            if (consumeDrag()) return;
+            setIsOpen(true);
+          }}
           aria-label="Open AI chat"
-          className="m-5 flex items-center justify-center gap-2 rounded-full px-4 py-3 shadow-lg transition-colors bg-accent text-white hover:opacity-90 active:scale-95 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          className={cn(
+            "m-5 flex items-center justify-center gap-2 rounded-full px-4 py-3 shadow-lg bg-accent text-on-accent hover:opacity-90 transition-colors touch-none select-none [-webkit-touch-callout:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent pointer-events-auto",
+            isDragging ? "cursor-grabbing" : "cursor-grab",
+          )}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            className="h-5 w-5 text-white"
+            className="h-5 w-5 text-on-accent"
             aria-hidden="true"
           >
             <path
