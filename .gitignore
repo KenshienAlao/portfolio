@@ -53,3 +53,5 @@ frontend/public/uploads/
 *.ipr
 
 frontend/tools/
+
+decision.md
