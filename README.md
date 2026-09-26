@@ -38,6 +38,7 @@ The portfolio is built as a unified, lightweight full-stack **Next.js** applicat
 - **Contact & Messaging** — Interactive contact form with automated feedback and admin notification inbox.
 - **Media & Image Optimization** — Integrated Cloudinary image storage with custom transformation loaders.
 - **Aesthetic UI & Themes** — Clean terminal/code-inspired aesthetic, fluid responsive layout, and full dark/light theme support.
+- **Native Fade-In Page Transitions** — Zero-dependency CSS-only page fade-in animation (opacity + transform, compositor-friendly) triggered on every client-side navigation, with `prefers-reduced-motion` support.
 - **SEO & Social Previews** — Automated Open Graph metadata, dynamic sitemap, robots.txt, and semantic HTML structure.
 
 ## Tech Stack
@@ -53,6 +54,7 @@ The portfolio is built as a unified, lightweight full-stack **Next.js** applicat
 - **Tailwind CSS**
 - **Next Themes** — Seamless dark/light mode toggling
 - **Inline SVG Icons** — Zero-dependency icon set rendered as raw SVG components
+- **Native CSS Animations** — Page fade-in transitions and UI micro-animations defined in plain CSS, no animation libraries
 
 ### Data Storage & Media
 
