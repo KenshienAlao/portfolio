@@ -107,7 +107,7 @@ export function Content({
                               deleteSkill(skill.id);
                               setConfirmDeleteId(null);
                             }}
-                            className="rounded-md bg-destructive px-2 py-1 font-mono text-[10px] font-semibold text-white transition-opacity hover:opacity-90"
+                            className="rounded-md bg-destructive px-2 py-1 font-mono text-[10px] font-semibold text-destructive-foreground transition-opacity hover:opacity-90"
                           >
                             Yes
                           </button>

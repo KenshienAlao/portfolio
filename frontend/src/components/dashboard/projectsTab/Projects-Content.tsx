@@ -86,7 +86,7 @@ export function Content({
                           deleteProject(project.id);
                           setConfirmDeleteId(null);
                         }}
-                        className="rounded-md bg-destructive px-2 py-1 font-mono text-[10px] font-semibold text-white hover:opacity-90 transition-opacity"
+                        className="rounded-md bg-destructive px-2 py-1 font-mono text-[10px] font-semibold text-destructive-foreground hover:opacity-90 transition-opacity"
                       >
                         Confirm
                       </button>

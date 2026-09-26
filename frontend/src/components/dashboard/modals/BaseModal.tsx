@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import { X } from "@/components/icons";
 
 interface BaseModalProps {
@@ -14,14 +14,6 @@ export function BaseModal({
   children,
   maxWidth = "max-w-lg",
 }: BaseModalProps) {
-  useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, []);
-
   return (
     <div className="fixed inset-0 z-20 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
       <div
@@ -39,7 +31,7 @@ export function BaseModal({
           <X className="h-5 w-5" />
         </button>
 
-        <div className="flex-1 overflow-y-auto px-6 py-6 pr-12">{children}</div>
+        <div className="no-scrollbar flex-1 overflow-y-auto px-6 py-6 pr-12">{children}</div>
       </div>
     </div>
   );

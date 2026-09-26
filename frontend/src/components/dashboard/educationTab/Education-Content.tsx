@@ -77,7 +77,7 @@ export function Content({
                         deleteEducation(item.id);
                         setConfirmDeleteId(null);
                       }}
-                      className="rounded-md bg-destructive px-3 py-1.5 font-mono text-xs font-semibold text-white transition-opacity hover:opacity-90"
+                      className="rounded-md bg-destructive px-3 py-1.5 font-mono text-xs font-semibold text-destructive-foreground transition-opacity hover:opacity-90"
                     >
                       Yes
                     </button>
