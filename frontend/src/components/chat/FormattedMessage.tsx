@@ -13,11 +13,7 @@ export function FormattedMessage({
   isUser: boolean;
 }) {
   if (isUser) {
-    return (
-      <p className="whitespace-pre-wrap leading-relaxed text-white font-medium">
-        {content}
-      </p>
-    );
+    return <p className="text-chat-user-text">{content}</p>;
   }
 
   const lines = content.split("\n");
@@ -77,6 +73,11 @@ export function FormattedMessage({
       return;
     }
 
+    if (trimmed.startsWith("::project[")) {
+      flushList(`list-${index}`);
+      return;
+    }
+
     const bulletMatch = line.match(/^(\s*)(?:[*+-]|\d+\.)\s+(.+)$/);
     if (bulletMatch) {
       const indent = bulletMatch[1].length;
@@ -84,7 +85,7 @@ export function FormattedMessage({
     } else {
       flushList(`list-${index}`);
       blocks.push(
-        <p key={`p-${index}`} className="leading-relaxed">
+        <p key={`p-${index}`} className="text-chat-ai-text leading-relaxed">
           <FormattedText text={line} isUser={isUser} />
         </p>,
       );

@@ -22,6 +22,13 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-on-accent: var(--on-accent);
+  --color-chat-user-surface: var(--chat-user-surface);
+  --color-chat-user-text: var(--chat-user-text);
+  --color-chat-bot-surface: var(--chat-bot-surface);
+  --color-chat-bot-text: var(--chat-bot-text);
+  --color-chat-link-text: var(--chat-link-text);
+  --color-chat-timestamp-text: var(--chat-timestamp-text);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -40,9 +47,9 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --font-heading: var(--font-inter), system-ui, sans-serif;
-  --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-heading: var(--font-geist-sans), system-ui, sans-serif;
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
   --color-surface: var(--surface);
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
@@ -55,37 +62,37 @@
   --background: #f7f3ed;
   --surface: #ffffff;
   --text-primary: #3d342b;
-  --text-secondary: #7a6e61;
+  --text-secondary: #655a4d;
   --border: #e8dfd5;
-  --accent: #b08968;
+  --accent: #8f6a45;
   --on-accent: #ffffff;
 
-  --primary: #b08968;
+  --primary: #8f6a45;
   --primary-foreground: #ffffff;
   --secondary: #f0eadf;
   --secondary-foreground: #3d342b;
   --muted: #f0eadf;
   --muted-foreground: #7a6e61;
-  --accent-color: #b08968;
+  --accent-color: #8f6a45;
   --accent-foreground: #ffffff;
-  --destructive: #ef4444;
+  --destructive: #dc2626;
   --destructive-foreground: #ffffff;
   --card: #ffffff;
   --card-foreground: #3d342b;
   --popover: #ffffff;
   --popover-foreground: #3d342b;
   --input: #f7f3ed;
-  --ring: #b08968;
+  --ring: #8f6a45;
   --border-color: #e8dfd5;
 
   --sidebar: #ffffff;
   --sidebar-foreground: #3d342b;
-  --sidebar-primary: #b08968;
+  --sidebar-primary: #8f6a45;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #f7f3ed;
   --sidebar-accent-foreground: #3d342b;
   --sidebar-border: #e8dfd5;
-  --sidebar-ring: #b08968;
+  --sidebar-ring: #8f6a45;
 
   --chart-1: #b08968;
   --chart-2: #c4a484;
@@ -95,6 +102,26 @@
 
   --radius: 0.625rem;
   --foreground: #3d342b;
+
+  /* Read by use-draggable-chatbot to keep the floating launcher clear of the
+     notch/home indicator. 0 on desktop, so it only affects mobile. */
+  --chat-safe-top: env(safe-area-inset-top, 0px);
+  --chat-safe-right: env(safe-area-inset-right, 0px);
+  --chat-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --chat-safe-left: env(safe-area-inset-left, 0px);
+
+  /* Chat paired surface/text tokens (chatbot.md §2/§3) mapped onto the existing
+     design system (per the spec's "map onto global.css, no parallel palette").
+     Bot bubble = soft neutral chip (border tone) + text-primary in each theme;
+     user bubble = accent pair with white text (4.72:1 light / 6.4:1 dark);
+     links = deep brown on the light chip, accent tan on the dark chip. */
+  --chat-user-surface: #8f6a45;
+  --chat-user-text: #ffffff;
+  --chat-bot-surface: var(--border);
+  --chat-bot-text: var(--text-primary);
+  --chat-link-text: #7a5334;
+  --chat-timestamp-text: var(--text-secondary);
+  --chat-shadow-dragging: 0 12px 28px rgba(16, 24, 40, 0.22);
 }
 
 .dark {
@@ -140,6 +167,18 @@
   --chart-5: #eaddcf;
 
   --foreground: #e0e0e0;
+
+  /* Chat tokens — dark theme: bot bubble resolves to the border tone (#2e2e2e)
+     with soft off-white text (#e0e0e0) instead of the glaring #141414/#ffffff
+     pair; user bubble stays a deep brown so white text reads 6.4:1 and the
+     accent tan is reserved for links. Timestamp maps to text-secondary. */
+  --chat-user-surface: #7a5836;
+  --chat-user-text: #ffffff;
+  --chat-bot-surface: var(--border);
+  --chat-bot-text: var(--text-primary);
+  --chat-link-text: var(--accent);
+  --chat-timestamp-text: var(--text-secondary);
+  --chat-shadow-dragging: 0 12px 28px rgba(16, 24, 40, 0.28);
 }
 
 @layer base {
@@ -306,6 +345,55 @@
   contain: strict;
 }
 
+/* Page fade-in. Opacity + transform only, so it stays on the compositor and never
+   triggers layout or paint. (portfolio)/template.tsx remounts per navigation,
+   which is what re-triggers this. */
+@keyframes page-fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.page-fade {
+  animation: page-fade 400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Chat window open + individual message entrance. Subtle, transform/opacity only. */
+@keyframes chat-window-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.chat-window-enter {
+  animation: chat-window-enter 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes msg-enter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.msg-enter {
+  animation: msg-enter 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 .font-mono {
   font-family: var(--font-mono);
 }
@@ -332,7 +420,20 @@
   background-color: var(--text-secondary);
 }
 
+/* Elevated shadow while dragging (chatbot.md §6). Applied to the wrapper,
+   never the dialog, so it can't be clobbered by the .chat-window-enter
+   animation's fill-mode. */
+.chat-shadow-dragging {
+  box-shadow: var(--chat-shadow-dragging);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .page-fade,
+  .chat-window-enter,
+  .msg-enter {
+    animation: none;
+  }
+
   .chat-scroll * {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
@@ -354,4 +455,25 @@
 
 .dark .chat-input::placeholder {
   color: #a3a3a3 !important;
+}
+
+/* Hide scrollbars site-wide while keeping scrolling functional */
+html,
+body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
