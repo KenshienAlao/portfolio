@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Education | Kenshien Alao",
   description:
-    "Academic journey and milestones that shaped Kenshien Alao's path in technology.",
+    "Educational background and learning journey of Kenshien Alao — a web developer building modern web applications.",
   alternates: {
     canonical: "/education",
   },

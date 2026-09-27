@@ -2,22 +2,72 @@
 
 import { SectionHeader } from "@/components/section-header";
 import { EducationCardSkeleton } from "@/components/ui/skeleton";
-import { MapPin } from "@/components/icons";
-import { useEducation } from "@/hooks/use-public-data";
+import { ArrowUpRight } from "@/components/icons";
+import { useEducation, type Education } from "@/hooks/use-public-data";
 import Link from "next/link";
+
+function getYearValue(year: string) {
+  return year === "Present" ? Infinity : Number.parseInt(year, 10) || 0;
+}
+
+function sortByMostRecent(education: Education[]): Education[] {
+  return education.toSorted((a, b) => {
+    const endDiff = getYearValue(b.yearEnd) - getYearValue(a.yearEnd);
+    return endDiff || getYearValue(b.yearStart) - getYearValue(a.yearStart);
+  });
+}
+
+function EducationEntry({ item }: { item: Education }) {
+  return (
+    <li className="relative pl-8">
+      <span
+        aria-hidden="true"
+        className="absolute -left-3 top-5 flex h-6 w-6 items-center justify-center"
+      >
+        <span className="h-2.5 w-2.5 rounded-full bg-accent" />
+      </span>
+
+      <div className="rounded-2xl border border-border bg-surface p-5 hover:border-accent/40">
+        <h3 className="break-words text-base font-bold text-text-primary">
+          {item.school}
+        </h3>
+
+        <p className="mt-1 font-mono text-xs text-text-secondary">
+          {item.degree} · {item.yearStart} — {item.yearEnd}
+        </p>
+
+        <p className="mt-3 text-sm leading-relaxed text-text-secondary">
+          {item.description}
+        </p>
+
+        <Link
+          href={item.location}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-4 inline-flex items-center gap-1.5 font-mono text-xs font-medium text-accent transition-colors hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        >
+          View location
+          <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+          <span className="sr-only"> for {item.school} on Google Maps</span>
+        </Link>
+      </div>
+    </li>
+  );
+}
+
+function EducationTimeline({ items }: { items: Education[] }) {
+  return (
+    <ol className="relative mt-14 ml-3 space-y-8 border-l border-border">
+      {items.map((item) => (
+        <EducationEntry key={`${item.id}-${item.school}`} item={item} />
+      ))}
+    </ol>
+  );
+}
 
 export function Education() {
   const { data: education, isLoading } = useEducation();
-  const sortedEducation = Array.isArray(education)
-    ? education.toSorted((a, b) => {
-        const getYear = (year: string) =>
-          year === "Present" ? Infinity : Number.parseInt(year, 10) || 0;
-
-        const endDiff = getYear(b.yearEnd) - getYear(a.yearEnd);
-
-        return endDiff || getYear(b.yearStart) - getYear(a.yearStart);
-      })
-    : [];
+  const sortedEducation = Array.isArray(education) ? sortByMostRecent(education) : [];
 
   return (
     <section
@@ -29,9 +79,9 @@ export function Education() {
       <div className="container relative z-10 mx-auto max-w-3xl px-4">
         <SectionHeader
           path="~/education"
-          command="git log --reverse"
+          command="cat education.md"
           title="Education"
-          description="My academic journey and the milestones that shaped my path in technology."
+          description="My academic background and learning journey."
         />
 
         {isLoading ? (
@@ -46,55 +96,13 @@ export function Education() {
             ))}
           </ol>
         ) : sortedEducation.length === 0 ? (
-          <div className="mt-14 flex flex-col items-center justify-center py-12 text-center rounded-2xl border border-dashed border-border bg-surface/50">
+          <div className="mt-14 flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-surface/50 py-12 text-center">
             <h3 className="font-mono text-base font-bold text-text-primary">
-              No education history
+              No education entries available yet.
             </h3>
-            <p className="mt-1 text-sm text-text-secondary">
-              Check back later for updates to this section.
-            </p>
           </div>
         ) : (
-          <ol className="relative mt-14 ml-3 space-y-8 border-l border-border">
-            {sortedEducation.map((item) => (
-              <li key={`${item.id}-${item.school}`} className="relative pl-8">
-                <Link
-                  href={item.location}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="absolute -left-3 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-surface text-accent"
-                  aria-label={`View location for ${item.school}`}
-                >
-                  <MapPin className="h-4 w-4" aria-hidden="true" />
-                </Link>
-
-                <Link
-                  href={item.location}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <div className="rounded-2xl border border-border bg-surface p-5 hover:border-accent/40">
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                      <h3 className="text-base font-bold text-text-primary">
-                        {item.school}
-                      </h3>
-                      <span className="w-fit shrink-0 rounded-md bg-accent/10 px-2.5 py-0.5 font-mono text-[11px] font-semibold text-accent">
-                        {item.yearStart} — {item.yearEnd}
-                      </span>
-                    </div>
-
-                    <p className="mt-1 font-mono text-sm font-semibold text-text-secondary">
-                      {item.degree}
-                    </p>
-
-                    <p className="mt-3 text-sm leading-relaxed text-text-secondary">
-                      {item.description}
-                    </p>
-                  </div>
-                </Link>
-              </li>
-            ))}
-          </ol>
+          <EducationTimeline items={sortedEducation} />
         )}
       </div>
     </section>

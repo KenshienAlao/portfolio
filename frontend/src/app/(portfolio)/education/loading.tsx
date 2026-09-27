@@ -12,9 +12,9 @@ export default function EducationLoading() {
       <div className="container relative z-10 mx-auto max-w-3xl px-4">
         <SectionHeader
           path="~/education"
-          command="git log --reverse"
+          command="cat education.md"
           title="Education"
-          description="My academic journey and the milestones that shaped my path in technology."
+          description="My academic background and learning journey."
         />
 
         <ol
