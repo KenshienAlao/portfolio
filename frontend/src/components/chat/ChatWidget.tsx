@@ -225,7 +225,7 @@ export function ChatWidget() {
       ref={containerRef}
       className={cn(
         "fixed z-50 flex flex-col items-end pointer-events-none transition-[scale] duration-200",
-        isDragging && "md:scale-[1.01] chat-shadow-dragging",
+        isDragging && isOpen && "md:scale-[1.01] chat-shadow-dragging",
         isPositioned
           ? "left-0 top-0"
           : "bottom-0 right-0 sm:bottom-5 sm:right-5",
@@ -539,8 +539,10 @@ export function ChatWidget() {
           }}
           aria-label="Open AI chat"
           className={cn(
-            "m-5 flex items-center justify-center gap-2 rounded-full px-4 py-3 shadow-lg bg-accent text-on-accent hover:opacity-90 transition-colors touch-none select-none [-webkit-touch-callout:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent pointer-events-auto",
-            isDragging ? "cursor-grabbing" : "cursor-grab",
+            "m-5 flex items-center justify-center gap-2 rounded-full px-4 py-3 shadow-lg bg-accent text-on-accent transition-colors touch-none select-none [-webkit-touch-callout:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent pointer-events-auto",
+            isDragging
+              ? "cursor-grabbing"
+              : "cursor-grab hover:opacity-90",
           )}
         >
           <svg
