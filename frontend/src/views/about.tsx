@@ -1,45 +1,38 @@
-"use client";
-
+import { Button } from "@/components/ui/button";
 import { SectionHeader } from "@/components/section-header";
-import {
-  CalendarCheck,
-  Folder,
-  Layers,
-  type IconProps,
-} from "@/components/icons";
-import { useProjects } from "@/hooks/use-public-data";
-import { type ComponentType } from "react";
+import { Check, ChevronRight } from "@/components/icons";
+import Link from "next/link";
 
-const STACK = ["React", "Next.js", "TypeScript", "Spring Boot", "PostgreSQL"];
+const WHAT_I_DO = [
+  {
+    label: "Websites",
+    description: "Fast, responsive websites that help businesses grow online.",
+  },
+  {
+    label: "Landing Pages",
+    description:
+      "Focused pages designed to present your offer and drive action.",
+  },
+  {
+    label: "Web Applications",
+    description:
+      "Practical web apps built around real workflows and everyday needs.",
+  },
+];
 
-const CURRENT_YEAR = new Date().getFullYear();
+const HOW_I_WORK = [
+  "Simple and maintainable code",
+  "Responsive by default",
+  "Performance-focused",
+  "Practical solutions over unnecessary complexity",
+];
+
+const INTRO = [
+  "I'm Kenshien, a web developer focused on building modern, responsive websites and web applications.",
+  "I build practical digital experiences for businesses and individuals, with a focus on clean interfaces, reliable functionality, and good performance.",
+];
 
 export function About() {
-  const { data: projects, isLoading } = useProjects();
-  const projectCount = Array.isArray(projects) ? projects.length : 0;
-
-  const stats: Array<{
-    label: string;
-    value: () => string | number;
-    Icon: ComponentType<IconProps>;
-  }> = [
-    {
-      label: "Years of Experience",
-      value: () => `${Math.max(1, CURRENT_YEAR - 2024)}+`,
-      Icon: CalendarCheck,
-    },
-    {
-      label: "Projects Completed",
-      value: () => projectCount,
-      Icon: Folder,
-    },
-    {
-      label: "Tech Stack Focus",
-      value: () => "NextJS",
-      Icon: Layers,
-    },
-  ];
-
   return (
     <section
       id="about"
@@ -47,80 +40,100 @@ export function About() {
     >
       <div className="absolute inset-0 bg-grid opacity-40" aria-hidden="true" />
 
-      <div className="container relative z-10 mx-auto max-w-5xl px-4">
+      <div className="container relative z-10 mx-auto max-w-3xl px-4">
         <SectionHeader
           path="~/about"
           command="cat about.md"
           title="About Me"
-          description="A developer who cares about clean interfaces, reliable backends, and software that solves real problems."
+          description="I'm a web developer focused on building modern, responsive websites and web applications."
         />
 
-        <div className="mt-14 grid gap-6 lg:grid-cols-5">
-          <div className="lg:col-span-3">
-            <div className="rounded-2xl border border-border bg-surface p-6 md:p-8">
-              <div className="mb-6 flex items-center gap-1.5">
-                <span className="h-3 w-3 rounded-full bg-destructive/70" />
-                <span className="h-3 w-3 rounded-full bg-accent/40" />
-                <span className="h-3 w-3 rounded-full bg-accent/70" />
-                <span className="ml-3 font-mono text-xs text-text-secondary">
-                  about.md
-                </span>
-              </div>
-              <div className="space-y-5 text-base leading-relaxed text-text-secondary">
-                <p>
-                  I&apos;m a web developer passionate about building modern web
-                  applications.
-                </p>
-
-                <p>
-                  I focus on creating responsive user interfaces, reliable
-                  backend systems, and clean, maintainable code.
-                </p>
-              </div>
-              <div className="mt-8">
-                <p className="mb-3 font-mono text-[11px] uppercase tracking-widest text-text-secondary">
-                  core stack
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {STACK.map((tech) => (
-                    <span
-                      key={tech}
-                      className="rounded-md border border-border bg-background px-3 py-1 font-mono text-xs font-medium text-text-primary"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
+        <div className="mt-14 rounded-2xl border border-border bg-surface p-6 md:p-8">
+          <div className="mb-6 flex items-center gap-1.5">
+            <span className="h-3 w-3 rounded-full bg-destructive/70" />
+            <span className="h-3 w-3 rounded-full bg-accent/40" />
+            <span className="h-3 w-3 rounded-full bg-accent/70" />
+            <span className="ml-3 font-mono text-xs text-text-secondary">
+              about.md
+            </span>
           </div>
+          <div className="space-y-5 text-lg leading-relaxed text-text-secondary md:text-xl">
+            {INTRO.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
+        </div>
 
-          <div className="grid gap-4 sm:grid-cols-3 lg:col-span-2 lg:grid-cols-1">
-            {stats.map(({ label, value, Icon }) => (
-              <div
-                key={label}
-                className="flex items-center gap-4 rounded-2xl border border-border bg-surface p-5 hover:border-accent/40"
-              >
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent">
-                  <Icon className="h-5 w-5" aria-hidden="true" />
-                </div>
-                <div>
-                  {label === "Projects Completed" && isLoading ? (
-                    <div
-                      className="h-8 w-14 animate-pulse rounded bg-muted-foreground/15"
-                      aria-hidden="true"
-                    />
-                  ) : (
-                    <div className="text-2xl font-extrabold text-text-primary">
-                      {value()}
-                    </div>
-                  )}
-                  <p className="font-mono text-[11px] uppercase tracking-widest text-text-secondary">
-                    {label}
-                  </p>
-                </div>
+        <div className="mt-16">
+          <h3 className="font-mono text-xs uppercase tracking-widest text-text-secondary">
+            What I Do
+          </h3>
+          <div className="mt-6 grid gap-8 sm:grid-cols-3">
+            {WHAT_I_DO.map(({ label, description }) => (
+              <div key={label} className="border-t border-border/60 pt-4">
+                <p className="font-mono text-[11px] uppercase tracking-widest text-accent">
+                  {label}
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+                  {description}
+                </p>
               </div>
             ))}
+          </div>
+        </div>
+
+        <div className="mt-16">
+          <h3 className="font-mono text-xs uppercase tracking-widest text-text-secondary">
+            How I Work
+          </h3>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            {HOW_I_WORK.map((principle) => (
+              <div key={principle} className="flex items-start gap-3">
+                <Check
+                  className="mt-1 h-4 w-4 shrink-0 text-accent"
+                  aria-hidden="true"
+                />
+                <span className="text-base leading-relaxed text-text-primary">
+                  {principle}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-16 border-l-2 border-accent pl-5">
+          <h3 className="font-mono text-xs uppercase tracking-widest text-text-secondary">
+            Current Focus
+          </h3>
+          <p className="mt-4 text-base leading-relaxed text-text-secondary">
+            Currently focused on building practical web applications and
+            improving my skills across frontend and backend development.
+          </p>
+        </div>
+
+        <div className="mt-20 flex flex-col items-center text-center">
+          <h3 className="text-2xl font-extrabold tracking-tight text-text-primary md:text-3xl">
+            Have a project in mind?
+          </h3>
+          <div className="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+            <Button
+              asChild
+              size="lg"
+              className="w-full rounded-full bg-accent px-8 font-semibold text-on-accent hover:bg-accent/90 active:scale-95 sm:w-auto"
+            >
+              <Link href="/projects">
+                View Projects
+                <ChevronRight className="ml-2 h-4 w-4" aria-hidden="true" />
+              </Link>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="w-full rounded-full border-border bg-transparent px-8 font-semibold text-text-primary hover:border-accent/50 hover:bg-surface active:scale-95 sm:w-auto"
+            >
+              <Link href="/contact">Get in Touch</Link>
+            </Button>
           </div>
         </div>
       </div>
