@@ -504,7 +504,7 @@ export function ChatWidget() {
               placeholder="Ask about Kenshien..."
               aria-label="Type your message"
               disabled={isLoading}
-              className="flex-1 resize-none bg-background border border-border focus:border-accent rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-text-primary placeholder:text-text-secondary/60 focus:outline-none focus:ring-2 focus:ring-accent/30 disabled:opacity-60 transition-colors leading-relaxed max-h-30 overflow-y-auto"
+              className="flex-1 scrollbar-hidden resize-none bg-background border border-border focus:border-accent rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-text-primary placeholder:text-text-secondary/60 focus:outline-none focus:ring-2 focus:ring-accent/30 disabled:opacity-60 transition-colors leading-relaxed max-h-30 overflow-y-auto"
             />
             <button
               type="submit"
@@ -540,9 +540,7 @@ export function ChatWidget() {
           aria-label="Open AI chat"
           className={cn(
             "m-5 flex items-center justify-center gap-2 rounded-full px-4 py-3 shadow-lg bg-accent text-on-accent transition-colors touch-none select-none [-webkit-touch-callout:none] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent pointer-events-auto",
-            isDragging
-              ? "cursor-grabbing"
-              : "cursor-grab hover:opacity-90",
+            isDragging ? "cursor-grabbing" : "cursor-grab hover:opacity-90",
           )}
         >
           <svg
