@@ -1,6 +1,6 @@
 # Kenshien Alao — Personal Portfolio
 
-Personal portfolio website showcasing my work, skills, education, and experience as a web developer.
+Personal portfolio website showcasing my work, skills, education, and experience as a backend developer.
 
 [**Visit Portfolio**](https://kenshien.is-a.dev)
 

@@ -1,32 +1,30 @@
 import { SectionHeader } from "@/components/section-header";
-import { ProjectCardSkeleton } from "@/components/ui/skeleton";
 
 export default function ProjectsLoading() {
   return (
-    <section
-      id="projects"
-      className="relative overflow-hidden bg-background py-24 md:py-32"
-    >
-      <div className="absolute inset-0 bg-grid opacity-40" aria-hidden="true" />
+    <section className="container max-w-5xl mx-auto py-24 px-4 sm:px-6">
+      <SectionHeader
+        title="Projects"
+        description="APIs, databases, and backend systems I've engineered."
+      />
 
-      <div className="container relative z-10 mx-auto max-w-5xl px-4">
-        <SectionHeader
-          path="~/projects"
-          command="ls -la"
-          title="Projects"
-          description="Selected work showcasing full-stack development, UI design, and problem solving."
-        />
-
-        <div
-          className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
-          role="status"
-          aria-busy="true"
-          aria-label="Loading projects"
-        >
-          {Array.from({ length: 6 }).map((_, i) => (
-            <ProjectCardSkeleton key={i} />
-          ))}
-        </div>
+      <div
+        className="mt-12 border-t border-border skeleton-scope"
+        role="status"
+        aria-busy="true"
+        aria-label="Loading projects"
+      >
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="border-b border-border py-8 space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 sm:gap-4">
+              <div className="h-5 w-56 skeleton" />
+              <div className="h-3 w-24 skeleton" />
+            </div>
+            <div className="h-4 w-full max-w-[65ch] skeleton" />
+            <div className="h-3 w-48 skeleton pt-2" />
+            <div className="h-3 w-32 skeleton mt-4" />
+          </div>
+        ))}
       </div>
     </section>
   );

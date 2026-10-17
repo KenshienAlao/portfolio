@@ -1,140 +1,134 @@
-import { Button } from "@/components/ui/button";
 import { SectionHeader } from "@/components/section-header";
-import { Check, ChevronRight } from "@/components/icons";
 import Link from "next/link";
 
 const WHAT_I_DO = [
   {
-    label: "Websites",
-    description: "Fast, responsive websites that help businesses grow online.",
+    label: "API Development",
+    description:
+      "Building REST APIs with input validation, authentication, and error handling.",
   },
   {
-    label: "Landing Pages",
+    label: "Algorithms",
     description:
-      "Focused pages designed to present your offer and drive action.",
+      "Using Big O notation to understand how code performs as data grows.",
   },
   {
-    label: "Web Applications",
+    label: "Database Design",
     description:
-      "Practical web apps built around real workflows and everyday needs.",
+      "Designing tables, using indexes, and improving database queries.",
+  },
+  {
+    label: "Caching & Load Balancing",
+    description:
+      "Learning how to reduce server workload and handle more incoming requests.",
+  },
+  {
+    label: "Security",
+    description:
+      "Working with authentication, permissions, and safe data handling.",
+  },
+  {
+    label: "Backend Architecture",
+    description:
+      "Organizing code into clear, manageable parts as an application grows.",
   },
 ];
 
 const HOW_I_WORK = [
-  "Simple and maintainable code",
-  "Responsive by default",
-  "Performance-focused",
-  "Practical solutions over unnecessary complexity",
-];
-
-const INTRO = [
-  "I'm Kenshien, a web developer focused on building modern, responsive websites and web applications.",
-  "I build practical digital experiences for businesses and individuals, with a focus on clean interfaces, reliable functionality, and good performance.",
+  "Keep code simple and readable.",
+  "Choose the right tools for the problem.",
+  "Check inputs and handle errors properly.",
+  "Keep data consistent and secure.",
+  "Test code before relying on it.",
+  "Look for ways to improve performance.",
 ];
 
 export function About() {
   return (
-    <section
-      id="about"
-      className="relative overflow-hidden bg-background py-24 md:py-32"
-    >
-      <div className="absolute inset-0 bg-grid opacity-40" aria-hidden="true" />
+    <section className="container max-w-5xl mx-auto py-24 px-4 sm:px-6">
+      <SectionHeader
+        title="About"
+        description="I'm a backend developer focused on engineering server-side architecture."
+      />
 
-      <div className="container relative z-10 mx-auto max-w-3xl px-4">
-        <SectionHeader
-          path="~/about"
-          command="cat about.md"
-          title="About Me"
-          description="I'm a web developer focused on building modern, responsive websites and web applications."
-        />
+      <div className="mt-12 space-y-5 text-base leading-relaxed text-text-secondary max-w-[65ch]">
+        <p>
+          I&apos;m{" "}
+          <span className="text-text-primary font-medium">Kenshien Alao</span>,
+          a backend developer from Marikina, Philippines. I enjoy working on the
+          backend, especially APIs, databases, and understanding how to make
+          applications faster, safer, and easier to maintain.
+        </p>
+      </div>
 
-        <div className="mt-14 rounded-2xl border border-border bg-surface p-6 md:p-8">
-          <div className="mb-6 flex items-center gap-1.5">
-            <span className="h-3 w-3 rounded-full bg-destructive/70" />
-            <span className="h-3 w-3 rounded-full bg-accent/40" />
-            <span className="h-3 w-3 rounded-full bg-accent/70" />
-            <span className="ml-3 font-mono text-xs text-text-secondary">
-              about.md
-            </span>
-          </div>
-          <div className="space-y-5 text-lg leading-relaxed text-text-secondary md:text-xl">
-            {INTRO.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-16">
-          <h3 className="font-mono text-xs uppercase tracking-widest text-text-secondary">
-            What I Do
-          </h3>
-          <div className="mt-6 grid gap-8 sm:grid-cols-3">
-            {WHAT_I_DO.map(({ label, description }) => (
-              <div key={label} className="border-t border-border/60 pt-4">
-                <p className="font-mono text-[11px] uppercase tracking-widest text-accent">
-                  {label}
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-text-secondary">
-                  {description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-16">
-          <h3 className="font-mono text-xs uppercase tracking-widest text-text-secondary">
-            How I Work
-          </h3>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            {HOW_I_WORK.map((principle) => (
-              <div key={principle} className="flex items-start gap-3">
-                <Check
-                  className="mt-1 h-4 w-4 shrink-0 text-accent"
-                  aria-hidden="true"
-                />
-                <span className="text-base leading-relaxed text-text-primary">
-                  {principle}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-16 border-l-2 border-accent pl-5">
-          <h3 className="font-mono text-xs uppercase tracking-widest text-text-secondary">
-            Current Focus
-          </h3>
-          <p className="mt-4 text-base leading-relaxed text-text-secondary">
-            Currently focused on building practical web applications and
-            improving my skills across frontend and backend development.
-          </p>
-        </div>
-
-        <div className="mt-20 flex flex-col items-center text-center">
-          <h3 className="text-2xl font-extrabold tracking-tight text-text-primary md:text-3xl">
-            Have a project in mind?
-          </h3>
-          <div className="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-            <Button
-              asChild
-              size="lg"
-              className="w-full rounded-full bg-accent px-8 font-semibold text-on-accent hover:bg-accent/90 active:scale-95 sm:w-auto"
+      <div className="mt-20">
+        <h3 className="text-xl font-bold tracking-tight text-text-primary">
+          What I do
+        </h3>
+        <ul className="mt-6 border-t border-border">
+          {WHAT_I_DO.map(({ label, description }) => (
+            <li
+              key={label}
+              className="border-b border-border py-6 grid grid-cols-1 sm:grid-cols-[16rem_1fr] gap-2 sm:gap-6 items-baseline"
             >
-              <Link href="/projects">
-                View Projects
-                <ChevronRight className="ml-2 h-4 w-4" aria-hidden="true" />
-              </Link>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="w-full rounded-full border-border bg-transparent px-8 font-semibold text-text-primary hover:border-accent/50 hover:bg-surface active:scale-95 sm:w-auto"
+              <span className="text-sm font-mono font-medium text-text-primary">
+                {label}
+              </span>
+              <p className="text-sm leading-relaxed text-text-secondary m-0 text-pretty">
+                {description}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="mt-20">
+        <h3 className="text-xl font-bold tracking-tight text-text-primary">
+          How I work
+        </h3>
+        <ul className="mt-6 border-t border-border">
+          {HOW_I_WORK.map((principle, index) => (
+            <li
+              key={principle}
+              className="border-b border-border py-4 flex items-center gap-4 text-sm text-text-primary"
             >
-              <Link href="/contact">Get in Touch</Link>
-            </Button>
-          </div>
+              <span className="font-mono text-xs text-text-secondary shrink-0">
+                0{index + 1}
+              </span>
+              <span className="text-pretty">{principle}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="mt-20">
+        <h3 className="text-xl font-bold tracking-tight text-text-primary">
+          Current focus
+        </h3>
+        <p className="mt-4 text-base leading-relaxed text-text-secondary max-w-[65ch] text-pretty">
+          Currently learning FastAPI, PostgreSQL, and backend system design,
+          while improving my understanding of security, database performance,
+          and scalability.
+        </p>
+      </div>
+
+      <div className="mt-20 border-t border-border pt-12">
+        <h3 className="text-xl font-bold tracking-tight text-text-primary">
+          Have a project or system in mind?
+        </h3>
+        <div className="mt-6 flex flex-wrap gap-4">
+          <Link
+            href="/projects"
+            className="inline-flex items-center justify-center px-6 py-3 bg-background text-text-primary font-medium text-sm border border-border transition-colors hover:border-text-primary rounded-lg"
+          >
+            View projects
+          </Link>
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center px-6 py-3 bg-text-primary text-background font-medium text-sm border border-transparent transition-colors hover:opacity-90 rounded-lg"
+          >
+            Get in touch
+          </Link>
         </div>
       </div>
     </section>

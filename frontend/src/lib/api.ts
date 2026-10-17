@@ -8,7 +8,6 @@ export class SessionExpiredError extends Error {
   }
 }
 
-// In Next.js full-stack mode, default baseURL to "" (same origin)
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "",
   withCredentials: true,

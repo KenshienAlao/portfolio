@@ -1,17 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import {
-  projectService,
-  type Project,
-} from "@/service/project.service";
+import { projectService, type Project } from "@/service/project.service";
 import { skillService, type Skill } from "@/service/skill.service";
 import {
   educationService,
   type Education,
 } from "@/service/education.service";
-import {
-  setupService,
-  type SetupCategory,
-} from "@/service/setup.service";
 
 function usePortfolioQuery<T>(queryKey: string[], queryFn: () => Promise<T>) {
   return useQuery<T>({
@@ -43,14 +36,6 @@ export function useEducation() {
   });
 }
 
-export function useSetupCategories() {
-  return usePortfolioQuery(["setup", "public"], async () => {
-    const res = await setupService.getPublic();
-    return res.data ?? [];
-  });
-}
-
 export type { Project };
 export type { Skill };
 export type { Education };
-export type { SetupCategory };

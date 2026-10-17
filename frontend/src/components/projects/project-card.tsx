@@ -1,100 +1,99 @@
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { ArrowUpRight, GitHub } from "@/components/icons";
 import Link from "next/link";
+import Image from "next/image";
 import { type Project } from "@/service/project.service";
 import { formatProjectDate } from "@/lib/format-date";
 
-export function ProjectCard({
-  project,
-  priority = false,
-}: {
-  project: Project;
-  priority?: boolean;
-}) {
-  const { title, description, image, tags, github, demo, addedAt } = project;
+export function ProjectCard({ project }: { project: Project }) {
+  const { title, image, description, tags, github, demo, addedAt } = project;
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-surface hover:border-accent/40">
-      <div className="relative aspect-video overflow-hidden border-b border-border">
-        <Image
-          src={image}
-          alt={title}
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 340px"
-          priority={priority}
-          loading={priority ? "eager" : "lazy"}
-          fetchPriority={priority ? "high" : "auto"}
-          decoding="async"
-          className="h-full w-full object-cover"
-        />
-      </div>
-
-      <div className="flex flex-1 flex-col gap-3 p-5">
-        <div className="flex items-baseline justify-between gap-2">
-          <h3 className="font-mono text-base font-bold text-text-primary">
-            {title}
-          </h3>
-          {addedAt && (
-            <span className="shrink-0 font-mono text-[11px] text-text-secondary">
-              {formatProjectDate(addedAt)}
-            </span>
-          )}
-        </div>
-
-        <p className="line-clamp-2 text-sm leading-relaxed text-text-secondary">
-          {description}
-        </p>
-
-        <div className="flex flex-wrap gap-1.5">
-          {tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-md bg-accent/10 px-2.5 py-0.5 font-mono text-[11px] font-semibold text-accent"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        <div className="mt-auto flex gap-2 pt-2">
-          <Button
-            type="button"
-            asChild
-            size="sm"
-            variant="outline"
-            className="rounded-lg border-border text-text-primary hover:border-accent/50 hover:bg-background"
-          >
+    <article className="border-b border-border py-8">
+      <div className="flex flex-col sm:flex-row gap-6">
+        {image && (
+          <div className="sm:w-56 md:w-64 shrink-0">
             <Link
-              href={github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="gap-2"
-              aria-label={`View ${title} on GitHub`}
+              href={demo || github || "#"}
+              target={demo || github ? "_blank" : undefined}
+              rel={demo || github ? "noopener noreferrer" : undefined}
+              className="group block relative aspect-video w-full overflow-hidden border border-border bg-subtle rounded-lg cursor-pointer"
+              tabIndex={demo || github ? 0 : -1}
             >
-              <GitHub className="h-4 w-4" aria-hidden="true" />{" "}
-              Code
+              <Image
+                src={image}
+                alt={title}
+                fill
+                sizes="(max-width: 640px) 100vw, 256px"
+                className="object-cover"
+              />
             </Link>
-          </Button>
-          {demo && (
-            <Button
-              type="button"
-              asChild
-              size="sm"
-              className="rounded-lg bg-accent text-on-accent hover:bg-accent/90"
-            >
+          </div>
+        )}
+
+        <div className="flex-1 min-w-0 flex flex-col justify-between">
+          <div>
+            <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
+              <h3>
+                <Link
+                  href={demo || github || "#"}
+                  target={demo || github ? "_blank" : undefined}
+                  rel={demo || github ? "noopener noreferrer" : undefined}
+                  className="text-lg font-bold tracking-tight text-text-primary hover:text-accent transition-colors cursor-pointer"
+                >
+                  {title}
+                </Link>
+              </h3>
+              {addedAt && (
+                <time className="shrink-0 font-mono text-xs text-text-secondary uppercase tracking-wider">
+                  {formatProjectDate(addedAt)}
+                </time>
+              )}
+            </div>
+
+            <p className="mt-2 text-sm leading-relaxed text-text-secondary max-w-[65ch] text-pretty">
+              {description}
+            </p>
+
+            {tags && tags.length > 0 && (
+              <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-text-secondary">
+                {tags.map((tag, idx) => (
+                  <span key={tag} className="inline-flex items-center gap-3">
+                    <span>{tag}</span>
+                    {idx < tags.length - 1 && (
+                      <span
+                        className="text-border select-none"
+                        aria-hidden="true"
+                      >
+                        /
+                      </span>
+                    )}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="mt-5 flex items-center gap-6 font-mono text-xs">
+            {github && (
+              <Link
+                href={github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-text-primary underline underline-offset-4 hover:text-accent transition-colors cursor-pointer"
+              >
+                <span>Source Code</span>
+              </Link>
+            )}
+            {demo && (
               <Link
                 href={demo}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="gap-1.5"
-                aria-label={`View ${title} demo`}
+                className="inline-flex items-center gap-1.5 text-text-primary underline underline-offset-4 hover:text-accent transition-colors cursor-pointer"
               >
-                Demo{" "}
-                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                <span>Live Demo</span>
               </Link>
-            </Button>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </article>

@@ -106,7 +106,6 @@ export async function removeUploadedFile(
       );
       await fs.unlink(filePath).catch(() => {});
     } catch {
-      // ignore
     }
   }
 }

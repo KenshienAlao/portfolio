@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useEffect, useRef, useState } from "react";
 import { messageService } from "@/service/message.service";
-import { AlertCircle, Check, Loader, Send } from "@/components/icons";
+import { AnimatedSubmitButton } from "@/components/ui/animated-submit-button";
 
 interface FormState {
   name: string;
@@ -19,11 +18,51 @@ const INITIAL_STATE: FormState = {
   message: "",
 };
 
+type SubmitStatus = "idle" | "loading" | "success" | "error";
+
+const BUTTON_LABEL: Record<SubmitStatus, string> = {
+  idle: "Send message",
+  loading: "Sending…",
+  success: "Message sent",
+  error: "Failed to send",
+};
+
+const MIN_LOADING_MS = 600;
+const SUCCESS_HOLD_MS = 1800;
+const ERROR_HOLD_MS = 1600;
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+function errorMessage(err: unknown) {
+  const e = err as {
+    response?: { data?: { message?: string } };
+    message?: string;
+  };
+  return (
+    e?.response?.data?.message ||
+    e?.message ||
+    "Failed to send message. Please try again."
+  );
+}
+
 export function ContactForm() {
   const [form, setForm] = useState<FormState>(INITIAL_STATE);
-  const [sent, setSent] = useState(false);
-  const [isSending, setIsSending] = useState(false);
+  const [status, setStatus] = useState<SubmitStatus>("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const alive = useRef(true);
+  const busy = useRef(false);
+  const holdTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    alive.current = true;
+    return () => {
+      alive.current = false;
+      if (holdTimer.current) clearTimeout(holdTimer.current);
+    };
+  }, []);
+
+  const isSending = status === "loading";
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -33,44 +72,49 @@ export function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isSending) return;
+    if (busy.current) return;
+
+    busy.current = true;
     setErrorMsg(null);
-    setIsSending(true);
+    setStatus("loading");
+
+    const startedAt = Date.now();
+    const settle = async () => {
+      const remaining = MIN_LOADING_MS - (Date.now() - startedAt);
+      if (remaining > 0) await sleep(remaining);
+      return alive.current;
+    };
 
     try {
       await messageService.sendMessage(form);
-      setSent(true);
+      if (!(await settle())) return;
       setForm(INITIAL_STATE);
-      setIsSending(false);
-      setTimeout(() => setSent(false), 5000);
-    } catch (err: unknown) {
-      setErrorMsg(
-        (
-          err as {
-            response?: { data?: { message?: string } };
-            message?: string;
-          }
-        )?.response?.data?.message ||
-          (err as { message?: string })?.message ||
-          "Failed to send message. Please try again.",
-      );
-      setIsSending(false);
+      setStatus("success");
+      holdTimer.current = setTimeout(() => {
+        busy.current = false;
+        setStatus("idle");
+      }, SUCCESS_HOLD_MS);
+    } catch (err) {
+      if (!(await settle())) return;
+      setErrorMsg(errorMessage(err));
+      setStatus("error");
+      holdTimer.current = setTimeout(() => {
+        busy.current = false;
+        setStatus("idle");
+      }, ERROR_HOLD_MS);
     }
   };
 
-  const fieldClass =
-    "w-full rounded-lg border border-border bg-background px-4 py-2.5 font-mono text-base text-text-primary placeholder:text-text-secondary/60 outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-60 sm:text-sm";
-
-  const labelClass =
-    "font-mono text-[11px] uppercase tracking-widest text-text-secondary";
+  const inputClass =
+    "w-full border border-border bg-background px-4 py-3 text-sm font-mono text-text-primary transition-colors duration-150 placeholder:text-text-secondary/60 focus:border-text-primary focus:outline-none rounded-lg disabled:opacity-60";
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col gap-4 rounded-2xl border border-border bg-surface p-6"
-    >
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor="name" className={labelClass}>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+      <div className="flex flex-col gap-2">
+        <label
+          htmlFor="name"
+          className="text-xs font-mono uppercase tracking-wider text-text-secondary"
+        >
           Name
         </label>
         <input
@@ -81,13 +125,16 @@ export function ContactForm() {
           disabled={isSending}
           value={form.name}
           onChange={handleChange}
-          placeholder="Your name"
-          className={fieldClass}
+          placeholder="Enter your name"
+          className={inputClass}
         />
       </div>
 
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor="email" className={labelClass}>
+      <div className="flex flex-col gap-2">
+        <label
+          htmlFor="email"
+          className="text-xs font-mono uppercase tracking-wider text-text-secondary"
+        >
           Email
         </label>
         <input
@@ -98,13 +145,16 @@ export function ContactForm() {
           disabled={isSending}
           value={form.email}
           onChange={handleChange}
-          placeholder="you@example.com"
-          className={fieldClass}
+          placeholder="Enter your email address"
+          className={inputClass}
         />
       </div>
 
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor="subject" className={labelClass}>
+      <div className="flex flex-col gap-2">
+        <label
+          htmlFor="subject"
+          className="text-xs font-mono uppercase tracking-wider text-text-secondary"
+        >
           Subject
         </label>
         <input
@@ -115,13 +165,16 @@ export function ContactForm() {
           disabled={isSending}
           value={form.subject}
           onChange={handleChange}
-          placeholder="Project Inquiry, Job Opportunity..."
-          className={fieldClass}
+          placeholder="What is this about"
+          className={inputClass}
         />
       </div>
 
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor="message" className={labelClass}>
+      <div className="flex flex-col gap-2">
+        <label
+          htmlFor="message"
+          className="text-xs font-mono uppercase tracking-wider text-text-secondary"
+        >
           Message
         </label>
         <textarea
@@ -129,47 +182,49 @@ export function ContactForm() {
           name="message"
           required
           disabled={isSending}
-          rows={4}
+          rows={5}
           value={form.message}
           onChange={handleChange}
-          placeholder="Tell me about your project or opportunity..."
-          className={`${fieldClass} resize-none`}
+          placeholder="Write your message here..."
+          className={`${inputClass} resize-none`}
         />
       </div>
 
+      <p role="status" className="sr-only">
+        {status === "loading"
+          ? "Sending your message"
+          : status === "success"
+            ? "Message sent"
+            : ""}
+      </p>
+
       {errorMsg && (
-        <div
-          role="alert"
-          className="flex items-start gap-2 rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs font-mono text-destructive"
-        >
-          <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-          <span>{errorMsg}</span>
-        </div>
+        <p role="alert" className="text-xs font-mono text-destructive">
+          {errorMsg}
+        </p>
       )}
 
-      <Button
-        type="submit"
-        size="lg"
-        disabled={isSending}
-        className="w-full gap-2 rounded-lg bg-accent font-semibold text-on-accent hover:bg-accent/90 active:scale-95 disabled:opacity-70"
-      >
-        {isSending ? (
-          <>
-            <Loader className="h-4 w-4 animate-spin" />
-            Sending...
-          </>
-        ) : sent ? (
-          <>
-            <Check className="h-4 w-4" />
-            Message Sent!
-          </>
-        ) : (
-          <>
-            <Send className="h-4 w-4" />
-            Send Message
-          </>
-        )}
-      </Button>
+      <AnimatedSubmitButton
+        action={async () => {
+          const startedAt = Date.now();
+          const settle = async () => {
+            const remaining = MIN_LOADING_MS - (Date.now() - startedAt);
+            if (remaining > 0) await sleep(remaining);
+          };
+
+          try {
+            await messageService.sendMessage(form);
+            await settle();
+            setForm(INITIAL_STATE);
+            return true;
+          } catch (err) {
+            await settle();
+            setErrorMsg(errorMessage(err));
+            return false;
+          }
+        }}
+        label="Send message"
+      />
     </form>
   );
 }

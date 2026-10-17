@@ -1,5 +1,6 @@
 import { Project } from "@/service/project.service";
 import { Plus } from "@/components/icons";
+import { btnPrimary } from "../modals/form-styles";
 
 interface props {
   projects: Project[] | undefined;
@@ -19,7 +20,7 @@ export function Header({
   return (
     <div className="flex flex-wrap items-center justify-between gap-3">
       <div className="flex items-center gap-3">
-        <h2 className="flex items-center gap-2 text-lg font-bold text-text-primary">
+        <h2 className="flex items-center gap-2 text-sm font-bold text-text-primary">
           {projects?.length !== 1 ? "Totals" : "Total"}
           {hasProjects && (
             <span className="font-mono text-xs font-normal text-text-secondary">
@@ -32,7 +33,7 @@ export function Header({
           <div className="flex items-center gap-1.5 font-mono text-xs">
             <label
               htmlFor="dashboard-sort-projects"
-              className="text-[11px] text-text-muted"
+              className="text-xs font-mono uppercase tracking-wider text-text-secondary"
             >
               Sort:
             </label>
@@ -42,7 +43,7 @@ export function Header({
               onChange={(e) =>
                 setSortOrder(e.target.value as "latest" | "oldest")
               }
-              className="cursor-pointer rounded-lg border border-border bg-surface px-2 py-1 text-xs text-text-primary transition-colors hover:border-accent/50 focus:border-accent focus:outline-none"
+              className="cursor-pointer rounded-lg border border-border bg-background px-2 py-1 text-xs text-text-primary transition-colors hover:border-text-primary"
             >
               <option value="latest">Latest</option>
               <option value="oldest">Oldest</option>
@@ -54,7 +55,7 @@ export function Header({
       <button
         type="button"
         onClick={() => setProjectForm({})}
-        className="flex items-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-xs font-semibold text-on-accent hover:opacity-90 font-mono transition-opacity"
+        className={btnPrimary}
       >
         <Plus className="h-4 w-4" /> Add Project
       </button>

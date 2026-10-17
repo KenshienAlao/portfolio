@@ -1,44 +1,36 @@
 import { SectionHeader } from "@/components/section-header";
-import { SkillCardSkeleton } from "@/components/ui/skeleton";
 
 export default function SkillsLoading() {
   return (
-    <section
-      id="skills"
-      className="relative overflow-hidden bg-background py-24 md:py-32"
-    >
-      <div className="absolute inset-0 bg-grid opacity-40" aria-hidden="true" />
+    <section className="container max-w-5xl mx-auto py-24 px-4 sm:px-6">
+      <SectionHeader
+        title="Skills"
+        description="Tools, languages, and technologies I work with across the stack."
+      />
 
-      <div className="container relative z-10 mx-auto max-w-5xl px-4">
-        <SectionHeader
-          path="~/skills"
-          command="npm ls --global"
-          title="Skills"
-          description="Tools and technologies I work with across the stack."
-        />
+      <div className="mt-12 space-y-8 skeleton-scope">
+        <div className="flex flex-wrap gap-2">
+          <div className="h-8 w-16 skeleton" />
+          <div className="h-8 w-24 skeleton" />
+          <div className="h-8 w-20 skeleton" />
+          <div className="h-8 w-28 skeleton" />
+        </div>
 
-        <div className="mt-12 space-y-10">
-          <div
-            className="flex flex-wrap gap-2 animate-pulse"
-            aria-hidden="true"
-          >
-            <div className="h-7 w-14 rounded-full bg-muted-foreground/15" />
-            <div className="h-7 w-20 rounded-full bg-muted-foreground/15" />
-            <div className="h-7 w-24 rounded-full bg-muted-foreground/15" />
-            <div className="h-7 w-16 rounded-full bg-muted-foreground/15" />
-            <div className="h-7 w-20 rounded-full bg-muted-foreground/15" />
-          </div>
-
-          <div
-            className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-            role="status"
-            aria-busy="true"
-            aria-label="Loading skills"
-          >
-            {Array.from({ length: 6 }).map((_, i) => (
-              <SkillCardSkeleton key={i} />
-            ))}
-          </div>
+        <div
+          className="border-t border-border"
+          role="status"
+          aria-busy="true"
+          aria-label="Loading skills"
+        >
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div
+              key={i}
+              className="border-b border-border py-8 grid grid-cols-1 sm:grid-cols-[14rem_1fr] gap-4 sm:gap-6 items-baseline"
+            >
+              <div className="h-3 w-28 skeleton" />
+              <div className="h-4 w-full max-w-md skeleton" />
+            </div>
+          ))}
         </div>
       </div>
     </section>

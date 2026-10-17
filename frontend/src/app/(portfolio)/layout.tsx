@@ -1,7 +1,6 @@
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import { ChatWidget } from "@/components/chat/ChatWidget";
-import { QueryProvider } from "@/provider/query-provider";
+import { Starfield } from "@/components/starfield";
 
 export default function PortfolioLayout({
   children,
@@ -9,13 +8,13 @@ export default function PortfolioLayout({
   children: React.ReactNode;
 }) {
   return (
-    <QueryProvider>
-      <div className="flex flex-col min-h-screen bg-background text-foreground">
+    <>
+      <Starfield />
+      <div className="relative z-1 flex flex-col min-h-screen text-foreground">
         <Navigation />
         <main className="flex-1">{children}</main>
         <Footer />
-        <ChatWidget />
       </div>
-    </QueryProvider>
+    </>
   );
 }

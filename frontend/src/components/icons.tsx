@@ -51,15 +51,6 @@ export function AlertCircle(props: IconProps) {
   );
 }
 
-export function ArrowUpRight(props: IconProps) {
-  return (
-    <StrokeIcon {...props}>
-      <line x1="7" y1="17" x2="17" y2="7" />
-      <polyline points="7 7 17 7 17 17" />
-    </StrokeIcon>
-  );
-}
-
 export function Check(props: IconProps) {
   return (
     <StrokeIcon {...props}>
@@ -81,16 +72,6 @@ export function Circle(props: IconProps) {
     <FilledIcon viewBox="0 0 512 512" {...props}>
       <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z" />
     </FilledIcon>
-  );
-}
-
-export function Download(props: IconProps) {
-  return (
-    <StrokeIcon {...props}>
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-      <polyline points="7 10 12 15 17 10" />
-      <line x1="12" y1="15" x2="12" y2="3" />
-    </StrokeIcon>
   );
 }
 
@@ -118,16 +99,6 @@ export function FolderOpen(props: IconProps) {
     <FilledIcon viewBox="0 0 576 512" {...props}>
       <path d="M572.694 292.093L500.27 416.248A63.997 63.997 0 0 1 444.989 448H45.025c-18.523 0-30.064-20.093-20.731-36.093l72.424-124.155A64 64 0 0 1 152 256h399.964c18.523 0 30.064 20.093 20.73 36.093zM152 224h328v-48c0-26.51-21.49-48-48-48H272l-64-64H48C21.49 64 0 85.49 0 112v278.046l69.077-118.418C86.214 242.25 117.989 224 152 224z" />
     </FilledIcon>
-  );
-}
-
-export function FolderPlus(props: IconProps) {
-  return (
-    <StrokeIcon {...props}>
-      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
-      <line x1="12" y1="11" x2="12" y2="17" />
-      <line x1="9" y1="14" x2="15" y2="14" />
-    </StrokeIcon>
   );
 }
 
@@ -192,19 +163,6 @@ export function Menu(props: IconProps) {
   );
 }
 
-export function PackagePlus(props: IconProps) {
-  return (
-    <StrokeIcon {...props}>
-      <path d="M16 16h6" />
-      <path d="M19 13v6" />
-      <path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14" />
-      <path d="m7.5 4.27 9 5.15" />
-      <polyline points="3.29 7 12 12 20.71 7" />
-      <line x1="12" x2="12" y1="22" y2="12" />
-    </StrokeIcon>
-  );
-}
-
 export function Plus(props: IconProps) {
   return (
     <StrokeIcon {...props}>
@@ -224,21 +182,13 @@ export function Save(props: IconProps) {
 
 export function Send(props: IconProps) {
   return (
-    <StrokeIcon {...props}>
-      <line x1="22" y1="2" x2="11" y2="13" />
-      <polygon points="22 2 15 22 11 13 2 9 22 2" />
-    </StrokeIcon>
+    <FilledIcon viewBox={MATERIAL_VIEWBOX} {...props}>
+      <path d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z" />
+    </FilledIcon>
   );
 }
 
-export function Terminal(props: IconProps) {
-  return (
-    <StrokeIcon {...props}>
-      <polyline points="4 17 10 11 4 5" />
-      <line x1="12" y1="19" x2="20" y2="19" />
-    </StrokeIcon>
-  );
-}
+export const SendIcon = Send;
 
 export function Trash(props: IconProps) {
   return (
@@ -267,52 +217,12 @@ export function Zap(props: IconProps) {
   );
 }
 
-export function ChevronRight(props: IconProps) {
-  return (
-    <FilledIcon viewBox={MATERIAL_VIEWBOX} {...props}>
-      <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
-    </FilledIcon>
-  );
-}
-
 const MATERIAL_VIEWBOX = "0 -960 960 960";
 
 export function Code(props: IconProps) {
   return (
     <FilledIcon viewBox={MATERIAL_VIEWBOX} {...props}>
       <path d="M240-280 40-480l200-200 56 56-143 144 143 144-56 56Zm178 132-76-24 200-640 76 24-200 640Zm302-132-56-56 143-144-143-144 56-56 200 200-200 200Z" />
-    </FilledIcon>
-  );
-}
-
-export function Layers(props: IconProps) {
-  return (
-    <FilledIcon viewBox={MATERIAL_VIEWBOX} {...props}>
-      <path d="M480-118 120-398l66-50 294 228 294-228 66 50-360 280Zm0-202L120-600l360-280 360 280-360 280Zm0-280Zm0 178 230-178-230-178-230 178 230 178Z" />
-    </FilledIcon>
-  );
-}
-
-export function Bolt(props: IconProps) {
-  return (
-    <FilledIcon viewBox={MATERIAL_VIEWBOX} {...props}>
-      <path d="m520-120 40-280H319l321-440h40l-40 280h241L560-120h-40ZM120-240v-80h348l-12 80H120ZM80-440v-80h228l-58 80H80Zm80-200v-80h294l-58 80H160Z" />
-    </FilledIcon>
-  );
-}
-
-export function Accessibility(props: IconProps) {
-  return (
-    <FilledIcon viewBox={MATERIAL_VIEWBOX} {...props}>
-      <path d="M423.5-743.5Q400-767 400-800t23.5-56.5Q447-880 480-880t56.5 23.5Q560-833 560-800t-23.5 56.5Q513-720 480-720t-56.5-23.5ZM360-80v-520H120v-80h720v80H600v520h-80v-240h-80v240h-80Z" />
-    </FilledIcon>
-  );
-}
-
-export function CalendarCheck(props: IconProps) {
-  return (
-    <FilledIcon viewBox={MATERIAL_VIEWBOX} {...props}>
-      <path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z" />
     </FilledIcon>
   );
 }
@@ -329,22 +239,6 @@ export function Filter(props: IconProps) {
   return (
     <FilledIcon viewBox={MATERIAL_VIEWBOX} {...props}>
       <path d="M120-240v-80h240v80H120Zm0-200v-80h480v80H120Zm0-200v-80h720v80H120Z" />
-    </FilledIcon>
-  );
-}
-
-export function Key(props: IconProps) {
-  return (
-    <FilledIcon viewBox={MATERIAL_VIEWBOX} {...props}>
-      <path d="M223.5-423.5Q200-447 200-480t23.5-56.5Q247-560 280-560t56.5 23.5Q360-513 360-480t-23.5 56.5Q313-400 280-400t-56.5-23.5ZM280-240q-100 0-170-70T40-480q0-100 70-170t170-70q67 0 121.5 33t86.5 87h352l120 120-180 180-80-60-80 60-85-60h-47q-32 54-86.5 87T280-240Zm0-80q56 0 98.5-34t56.5-86h125l58 41 82-61 71 55 75-75-40-40H435q-14-52-56.5-86T280-640q-66 0-113 47t-47 113q0 66 47 113t113 47Z" />
-    </FilledIcon>
-  );
-}
-
-export function Lock(props: IconProps) {
-  return (
-    <FilledIcon viewBox={MATERIAL_VIEWBOX} {...props}>
-      <path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm0-80h480v-400H240v400Zm296.5-143.5Q560-327 560-360t-23.5-56.5Q513-440 480-440t-56.5 23.5Q400-393 400-360t23.5 56.5Q447-280 480-280t56.5-23.5ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80ZM240-160v-400 400Z" />
     </FilledIcon>
   );
 }
@@ -381,10 +275,52 @@ export function Moon(props: IconProps) {
   );
 }
 
+export function Monitor(props: IconProps) {
+  return (
+    <StrokeIcon {...props}>
+      <rect width="20" height="14" x="2" y="3" rx="2" />
+      <line x1="8" x2="16" y1="21" y2="21" />
+      <line x1="12" x2="12" y1="17" y2="21" />
+    </StrokeIcon>
+  );
+}
+
 export function GitHub(props: IconProps) {
   return (
     <FilledIcon viewBox="0 0 16 16" {...props}>
-      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8" />
+      <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-1.13-1.74-1.15-.35-.01-.05.16.07.23.09.05.41.19.7.9.31.75 1.07 1.24 2.12.98.01.62.07 1.12.09 1.28.02.21-.11.46-.55.38A8.013 8.013 0 0 1 0 8c0-4.42 3.58-8 8-8Z" />
+    </FilledIcon>
+  );
+}
+
+export function Gmail(props: IconProps) {
+  return (
+    <FilledIcon viewBox="0 0 32 32" {...props}>
+      <path d="M30.996 7.824v17.381c0 0 0 0 0 0.001 0 1.129-0.915 2.044-2.044 2.044-0 0-0 0-0.001 0h-4.772v-11.587l-8.179 6.136-8.179-6.136v11.588h-4.772c0 0 0 0-0 0-1.129 0-2.044-0.915-2.044-2.044 0-0 0-0.001 0-0.001v0-17.381c0-0 0-0.001 0-0.001 0-1.694 1.373-3.067 3.067-3.067 0.694 0 1.334 0.231 1.848 0.619l-0.008-0.006 10.088 7.567 10.088-7.567c0.506-0.383 1.146-0.613 1.84-0.613 1.694 0 3.067 1.373 3.067 3.067v0z" />
+    </FilledIcon>
+  );
+}
+
+export function Linkedin(props: IconProps) {
+  return (
+    <FilledIcon viewBox="0 0 32 32" {...props}>
+      <path d="M23,0H9C4,0,0,4,0,9v14c0,5,4,9,9,9h14c5,0,9-4,9-9V9C32,4,28,0,23,0z M12,25c0,0.6-0.4,1-1,1H7c-0.6,0-1-0.4-1-1V13 c0-0.6,0.4-1,1-1h4c0.6,0,1,0.4,1,1V25z M9,11c-1.7,0-3-1.3-3-3s1.3-3,3-3s3,1.3,3,3S10.7,11,9,11z M26,25c0,0.6-0.4,1-1,1h-3 c-0.6,0-1-0.4-1-1v-3.5v-1v-2c0-0.8-0.7-1.5-1.5-1.5S18,17.7,18,18.5v2v1V25c0,0.6-0.4,1-1,1h-3c-0.6,0-1-0.4-1-1V13 c0-0.6,0.4-1,1-1h4c0.3,0,0.5,0.1,0.7,0.3c0.6-0.2,1.2-0.3,1.8-0.3c3,0,5.5,2.5,5.5,5.5V25z" />
+    </FilledIcon>
+  );
+}
+
+export function Facebook(props: IconProps) {
+  return (
+    <FilledIcon viewBox="0 0 24 24" {...props}>
+      <path d="M23.9981 11.9991C23.9981 5.37216 18.626 0 11.9991 0C5.37216 0 0 5.37216 0 11.9991C0 17.9882 4.38789 22.9522 10.1242 23.8524V15.4676H7.07758V11.9991H10.1242V9.35553C10.1242 6.34826 11.9156 4.68714 14.6564 4.68714C15.9692 4.68714 17.3424 4.92149 17.3424 4.92149V7.87439H15.8294C14.3388 7.87439 13.8739 8.79933 13.8739 9.74824V11.9991H17.2018L16.6698 15.4676H13.8739V23.8524C19.6103 22.9522 23.9981 17.9882 23.9981 11.9991Z" />
+    </FilledIcon>
+  );
+}
+
+export function Outlook(props: IconProps) {
+  return (
+    <FilledIcon viewBox="0 0 24 24" {...props}>
+      <path d="M22,8v8a.94.94,0,0,1-1,1H14v4L2,19.2V4.8L14,3V7h7a.94.94,0,0,1,1,1m-1,.1-4,2.3L14,8.7v1.6L17,12l4-2.3V8.1m-13.08,0c-2.1-.07-3.13,1.78-3.13,4s1.07,4,3.13,4c1.87,0,3.08-1.69,3.08-3.89s-.87-4-3.08-4.08M7.61,9.7c.84,0,1.59.74,1.59,2.25s-.75,2.36-1.59,2.36S6.1,13.2,6.1,12,6.78,9.7,7.61,9.7Z" />
     </FilledIcon>
   );
 }
@@ -444,5 +380,22 @@ export function Mail(props: IconProps) {
     <FilledIcon viewBox={MATERIAL_VIEWBOX} {...props}>
       <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-120H640q-30 38-71.5 59T480-240q-47 0-88.5-21T320-320H200v120Zm349-142q31-22 43-58h168v-360H200v360h168q12 36 43 58t69 22q38 0 69-22ZM200-200h560-560Z" />
     </FilledIcon>
+  );
+}
+
+export function Phone(props: IconProps) {
+  return (
+    <StrokeIcon {...props}>
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+    </StrokeIcon>
+  );
+}
+
+export function Headphones(props: IconProps) {
+  return (
+    <StrokeIcon {...props}>
+      <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+      <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+    </StrokeIcon>
   );
 }

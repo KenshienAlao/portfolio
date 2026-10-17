@@ -1,9 +1,16 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import Link from "next/link";
 import z, { ZodError } from "zod";
 import { useLoginMutation } from "@/hooks/use-auth";
-import { AlertCircle, Eye, EyeOff, Key, Loader, Lock } from "@/components/icons";
+import {
+  AlertCircle,
+  ChevronLeft,
+  Eye,
+  EyeOff,
+  Loader,
+} from "@/components/icons";
 
 const validate = z.object({
   code: z.string().min(1, "Code is required").trim(),
@@ -11,6 +18,17 @@ const validate = z.object({
 });
 
 export type TLogin = z.infer<typeof validate>;
+
+const LABEL_CLASS =
+  "text-xs font-mono uppercase tracking-wider text-text-secondary";
+
+function inputClass(invalid: boolean) {
+  return `w-full border bg-background px-4 py-3 text-sm font-mono text-text-primary transition-colors duration-150 placeholder:text-text-secondary/60 focus:outline-none rounded-lg disabled:cursor-not-allowed disabled:opacity-60 ${
+    invalid
+      ? "border-destructive focus:border-destructive"
+      : "border-border focus:border-text-primary"
+  }`;
+}
 
 export function Login() {
   const {
@@ -45,148 +63,126 @@ export function Login() {
   };
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-4 py-24">
-      <div className="absolute inset-0 bg-grid opacity-40" aria-hidden="true" />
-      <div className="gradient-mesh" aria-hidden="true" />
+    <main className="flex min-h-dvh items-center justify-center px-4 sm:px-6 py-16">
+      <div className="w-full max-w-sm">
+        <header className="mb-8">
+          <h1 className="mt-2 text-2xl font-bold tracking-tight text-text-primary text-balance">
+            Log in
+          </h1>
+          <p className="mt-2 text-sm leading-relaxed text-text-secondary text-pretty">
+            Workspace to manage the portfolio, projects, and messages.
+          </p>
+        </header>
 
-      <div className="relative z-10 w-full max-w-md">
-        <p className="mb-8 flex flex-wrap items-center justify-center gap-2 font-mono text-xs text-accent sm:text-sm">
-          <span className="text-text-secondary">~/auth</span>
-          <span className="text-text-secondary">$</span>
-          <span>./login --admin</span>
-        </p>
-
-        <div className="rounded-2xl border border-border bg-surface p-6 shadow-soft-lg md:p-8">
-          <div className="mb-6 flex items-center gap-1.5">
-            <span className="h-3 w-3 rounded-full bg-destructive/70" />
-            <span className="h-3 w-3 rounded-full bg-accent/40" />
-            <span className="h-3 w-3 rounded-full bg-accent/70" />
-            <span className="ml-3 font-mono text-xs text-text-secondary">
-              login.sh
-            </span>
+        <form
+          autoComplete="off"
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-6"
+        >
+          <div className="flex flex-col gap-2">
+            <label htmlFor="code" className={LABEL_CLASS}>
+              Code
+            </label>
+            <input
+              id="code"
+              name="code"
+              type="text"
+              placeholder="Enter access code"
+              disabled={isLoadingLogin}
+              aria-invalid={codeError ? "true" : "false"}
+              aria-describedby={codeError ? "code-error" : undefined}
+              className={inputClass(Boolean(codeError))}
+            />
+            {codeError && (
+              <p
+                id="code-error"
+                role="alert"
+                className="text-xs font-mono text-destructive text-pretty"
+              >
+                {codeError.message}
+              </p>
+            )}
           </div>
 
-          <h1 className="text-2xl font-extrabold tracking-tight text-text-primary md:text-3xl">
-            Portfolio Command Center
-          </h1>
-
-          <p className="mt-2 text-sm leading-relaxed text-text-secondary">
-            A private workspace to manage my portfolio, projects, and incoming
-            feedback.
-          </p>
-
-          <form
-            autoComplete="off"
-            onSubmit={handleSubmit}
-            className="mt-8 space-y-5"
-          >
-            <div>
-              <label
-                htmlFor="code"
-                className="mb-2 block font-mono text-[11px] uppercase tracking-widest text-text-secondary"
+          <div className="flex flex-col gap-2">
+            <label htmlFor="password" className={LABEL_CLASS}>
+              Password
+            </label>
+            <div className="relative">
+              <input
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter password"
+                disabled={isLoadingLogin}
+                aria-invalid={passwordError ? "true" : "false"}
+                aria-describedby={passwordError ? "password-error" : undefined}
+                className={`${inputClass(Boolean(passwordError))} pr-11`}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                disabled={isLoadingLogin}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                className="absolute inset-y-0 right-0 flex items-center px-3 text-text-secondary transition-colors hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
               >
-                code
-              </label>
-              <div className="relative">
-                <Key className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-text-secondary" aria-hidden="true" />
-                <input
-                  type="text"
-                  name="code"
-                  id="code"
-                  placeholder="enter code here"
-                  disabled={isLoadingLogin}
-                  aria-invalid={codeError ? "true" : "false"}
-                  className={`w-full rounded-md border bg-background py-2.5 pl-10 pr-3 text-base text-text-primary outline-none transition-colors placeholder:text-text-secondary/60 focus:ring-2 disabled:cursor-not-allowed disabled:opacity-60 sm:text-sm ${
-                    codeError
-                      ? "border-destructive/60 focus:border-destructive focus:ring-destructive/30"
-                      : "border-border focus:border-accent focus:ring-accent/30"
-                  }`}
-                />
-              </div>
-              {codeError && (
-                <p
-                  role="alert"
-                  className="mt-1.5 font-mono text-xs text-destructive"
-                >
-                  {codeError.message}
-                </p>
-              )}
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4" aria-hidden="true" />
+                ) : (
+                  <Eye className="h-4 w-4" aria-hidden="true" />
+                )}
+              </button>
             </div>
-            <div>
-              <div className="mb-2 flex items-center justify-between">
-                <label
-                  htmlFor="password"
-                  className="block font-mono text-[11px] uppercase tracking-widest text-text-secondary"
-                >
-                  password
-                </label>
-              </div>
-              <div className="relative">
-                <Lock className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-text-secondary" aria-hidden="true" />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  id="password"
-                  placeholder="••••••••"
-                  disabled={isLoadingLogin}
-                  aria-invalid={passwordError ? "true" : "false"}
-                  className={`w-full rounded-md border bg-background py-2.5 pl-10 pr-10 text-base text-text-primary outline-none transition-colors placeholder:text-text-secondary/60 focus:ring-2 disabled:cursor-not-allowed disabled:opacity-60 sm:text-sm ${
-                    passwordError
-                      ? "border-destructive/60 focus:border-destructive focus:ring-destructive/30"
-                      : "border-border focus:border-accent focus:ring-accent/30"
-                  }`}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((prev) => !prev)}
-                  disabled={isLoadingLogin}
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-60"
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5" aria-hidden="true" />
-                  ) : (
-                    <Eye className="h-5 w-5" aria-hidden="true" />
-                  )}
-                </button>
-              </div>
-              {passwordError && (
-                <p
-                  role="alert"
-                  className="mt-1.5 font-mono text-xs text-destructive"
-                >
-                  {passwordError.message}
-                </p>
-              )}
-            </div>
-
-            {error && !codeError && !passwordError && (
-              <div
+            {passwordError && (
+              <p
+                id="password-error"
                 role="alert"
-                className="flex items-start gap-2 rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2.5 font-mono text-xs text-destructive"
+                className="text-xs font-mono text-destructive text-pretty"
               >
-                <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-                <span>{error.message}</span>
-              </div>
+                {passwordError.message}
+              </p>
             )}
+          </div>
 
-            <button
-              type="submit"
-              disabled={isLoadingLogin}
-              className="flex w-full items-center justify-center gap-2 rounded-md bg-primary py-2.5 font-mono text-xs font-semibold uppercase tracking-widest text-primary-foreground hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
+          {error && !codeError && !passwordError && (
+            <div
+              role="alert"
+              className="flex items-start gap-2 border border-destructive bg-background px-3 py-2.5 text-xs text-destructive"
             >
-              {isLoadingLogin ? (
-                <>
-                  <Loader className="h-5 w-5 animate-spin" aria-hidden="true" />
-                  logging in...
-                </>
-              ) : (
-                "log in"
-              )}
-            </button>
-          </form>
-        </div>
+              <AlertCircle
+                className="mt-px h-3.5 w-3.5 shrink-0"
+                aria-hidden="true"
+              />
+              <span className="text-pretty">{error.message}</span>
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={isLoadingLogin}
+            className="inline-flex w-full cursor-pointer items-center justify-center gap-2 border border-transparent bg-text-primary px-6 py-3 text-sm font-medium text-background transition-colors hover:opacity-90 rounded-lg disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {isLoadingLogin ? (
+              <>
+                <Loader className="h-4 w-4 animate-spin" aria-hidden="true" />
+                Logging in…
+              </>
+            ) : (
+              "Log in"
+            )}
+          </button>
+        </form>
+
+        <p className="mt-8 text-xs font-mono text-text-secondary">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 underline-offset-4 transition-colors hover:text-accent hover:underline"
+          >
+            <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+            <span className="text-pretty">Back to site</span>
+          </Link>
+        </p>
       </div>
-    </section>
+    </main>
   );
 }

@@ -1,6 +1,11 @@
 import { Skill } from "@/service/skill.service";
 import Image from "next/image";
 import { Edit, Loader, Trash } from "@/components/icons";
+import {
+  btnDanger,
+  btnGhost,
+  panel,
+} from "@/components/dashboard/modals/form-styles";
 
 interface props {
   groupedSkills: Record<string, Skill[]>;
@@ -26,9 +31,9 @@ export function Content({
       {Object.entries(groupedSkills).map(([category, list]) => (
         <div
           key={category}
-          className="rounded-xl border border-border bg-surface p-6 space-y-4"
+          className={`${panel} space-y-4`}
         >
-          <h3 className="font-mono text-sm font-bold text-text-primary border-b border-border pb-2 capitalize">
+          <h3 className="border-b border-border pb-2 text-sm font-bold text-text-primary capitalize">
             {category}
           </h3>
           <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
@@ -42,10 +47,10 @@ export function Content({
               return (
                 <div
                   key={skill.id}
-                  className={`flex items-center justify-between rounded-lg border p-3 transition-all duration-200 ${
+                  className={`flex items-center justify-between border p-3 transition-colors ${
                     isPendingCreate
-                      ? "border-accent/30 bg-accent/5"
-                      : "border-border/60 bg-background/50 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-soft-lg"
+                      ? "border-accent bg-subtle"
+                      : "border-border bg-background hover:bg-subtle"
                   }`}
                 >
                   <div
@@ -85,19 +90,19 @@ export function Content({
                         />
                       </div>
                     ) : null}
-                    <span className="font-mono text-xs font-bold text-text-primary block">
+                    <span className="block font-mono text-xs font-bold text-text-primary">
                       {skill.name}
                     </span>
                   </div>
                   <div className="flex gap-1">
                     {isPendingCreate ? (
-                      <span className="flex items-center gap-1 font-mono text-[10px] font-medium text-accent">
+                      <span className="flex items-center gap-1 font-mono text-xs font-medium text-accent">
                         <Loader className="h-3 w-3 animate-spin" />
                         Saving
                       </span>
                     ) : isConfirmingDelete ? (
                       <div className="flex flex-col gap-1 items-center">
-                        <span className="text-center font-mono text-[10px] font-semibold text-destructive">
+                        <span className="text-center font-mono text-xs font-semibold text-destructive">
                           Sure?
                         </span>
                         <div className="flex gap-1">
@@ -107,14 +112,14 @@ export function Content({
                               deleteSkill(skill.id);
                               setConfirmDeleteId(null);
                             }}
-                            className="rounded-md bg-destructive px-2 py-1 font-mono text-[10px] font-semibold text-destructive-foreground transition-opacity hover:opacity-90"
+                            className="rounded-lg bg-destructive px-2 py-1 font-mono text-xs font-semibold text-background transition-colors hover:opacity-80"
                           >
                             Yes
                           </button>
                           <button
                             type="button"
                             onClick={() => setConfirmDeleteId(null)}
-                            className="rounded-md border border-border px-2 py-1 font-mono text-[10px] text-text-secondary transition-colors hover:text-text-primary"
+                            className="rounded-lg border border-border bg-background px-2 py-1 font-mono text-xs text-text-secondary transition-colors hover:border-text-primary hover:text-text-primary"
                           >
                             No
                           </button>
@@ -126,7 +131,7 @@ export function Content({
                           type="button"
                           onClick={() => setSkillForm(skill)}
                           disabled={actionsDisabled}
-                          className="p-1 hover:bg-background rounded text-text-secondary hover:text-accent transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+                          className={`${btnGhost} hover:bg-subtle`}
                         >
                           <Edit className="h-3.5 w-3.5" />
                         </button>
@@ -134,7 +139,7 @@ export function Content({
                           type="button"
                           onClick={() => setConfirmDeleteId(skill.id)}
                           disabled={actionsDisabled}
-                          className="p-1 hover:bg-destructive/10 rounded text-text-secondary hover:text-destructive transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+                          className={`${btnDanger} hover:bg-subtle`}
                         >
                           {isDeletingThis ? (
                             <Loader className="h-3.5 w-3.5 animate-spin" />

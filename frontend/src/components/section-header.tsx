@@ -1,30 +1,23 @@
 interface SectionHeaderProps {
-  path: string;
-  command: string;
   title: string;
   description?: string;
+  tag?: string;
 }
 
-export function SectionHeader({
-  path,
-  command,
-  title,
-  description,
-}: SectionHeaderProps) {
+export function SectionHeader({ title, description, tag }: SectionHeaderProps) {
   return (
-    <div className="max-w-2xl">
-      <p className="flex flex-wrap items-center gap-2 font-mono text-xs text-accent sm:text-sm">
-        <span className="text-text-secondary">{path}</span>
-        <span className="text-text-secondary">$</span>
-        <span>{command}</span>
-      </p>
-
-      <h2 className="mt-4 text-4xl font-extrabold tracking-tight text-text-primary md:text-5xl">
+    <div className="space-y-2 sm:space-y-3 w-full">
+      {tag && (
+        <div className="inline-flex items-center gap-2 text-xs font-mono tracking-wider uppercase text-text-secondary">
+          <span className="w-1.5 h-1.5 bg-accent shrink-0" />
+          <span className="truncate">{tag}</span>
+        </div>
+      )}
+      <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-text-primary text-balance">
         {title}
       </h2>
-
       {description && (
-        <p className="mt-5 text-base leading-relaxed text-text-secondary md:text-lg">
+        <p className="text-sm sm:text-base text-text-secondary max-w-[60ch] leading-relaxed text-pretty">
           {description}
         </p>
       )}

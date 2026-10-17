@@ -82,15 +82,15 @@ export function TagInput({
       </label>
 
       <div
-        className={`flex cursor-text flex-wrap items-center gap-1.5 rounded-lg border bg-input/40 px-2 py-1.5 transition-colors focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/25 ${
-          error ? "border-destructive/60" : "border-border"
+        className={`flex cursor-text flex-wrap items-center gap-1.5 border bg-background px-2.5 py-2 transition-colors focus-within:border-text-primary ${
+          error ? "border-destructive" : "border-border"
         } ${disabled ? "cursor-not-allowed opacity-60" : ""}`}
         onClick={() => inputRef.current?.focus()}
       >
         {normalized.map((tag) => (
           <span
             key={tag}
-            className="inline-flex items-center gap-1.5 rounded-full bg-accent px-2.5 py-1 font-mono text-xs font-medium text-on-accent"
+            className="inline-flex items-center gap-1.5 border border-border bg-subtle px-2 py-1 font-mono text-xs text-text-primary"
           >
             {tag}
             <button
@@ -98,7 +98,7 @@ export function TagInput({
               onClick={() => removeTag(tag)}
               disabled={disabled}
               aria-label={`Remove ${tag}`}
-              className="rounded-full p-0.5 opacity-70 transition-opacity hover:opacity-100 disabled:cursor-not-allowed"
+              className="text-text-secondary transition-colors hover:text-destructive disabled:cursor-not-allowed"
             >
               <X className="h-3 w-3" aria-hidden="true" />
             </button>
@@ -119,7 +119,7 @@ export function TagInput({
           }}
           disabled={disabled}
           placeholder={normalized.length ? "Add another…" : placeholder}
-          className="min-w-[8rem] flex-1 bg-transparent px-1.5 py-1 font-mono text-sm text-text-primary outline-none placeholder:text-text-secondary/50 disabled:cursor-not-allowed"
+          className="min-w-[8rem] flex-1 bg-transparent px-1.5 py-1 font-mono text-sm text-text-primary outline-none placeholder:text-text-secondary/60 disabled:cursor-not-allowed"
         />
       </div>
 
@@ -135,7 +135,7 @@ export function TagInput({
               key={s}
               onClick={() => addSuggestion(s)}
               disabled={disabled}
-              className="inline-flex items-center gap-1 rounded-full border border-border px-2.5 py-1 font-mono text-xs text-text-secondary transition-colors hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex items-center gap-1 border border-border px-2.5 py-1 font-mono text-xs text-text-secondary transition-colors hover:border-text-primary hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-60"
             >
               <Plus className="h-3 w-3" aria-hidden="true" />
               {s}

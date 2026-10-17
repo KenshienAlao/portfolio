@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { cn } from "@/lib/utils";
 
 export function SkillCategoryFilter({ categories }: { categories: string[] }) {
   const router = useRouter();
@@ -9,7 +8,7 @@ export function SkillCategoryFilter({ categories }: { categories: string[] }) {
   const currentCategory = searchParams.get("category") ?? "All";
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-x-5 gap-y-2">
       <form method="GET" className="contents">
         {categories.map((cat) => {
           const isActive =
@@ -21,6 +20,7 @@ export function SkillCategoryFilter({ categories }: { categories: string[] }) {
             <button
               key={cat}
               type="button"
+              aria-pressed={isActive}
               onClick={() => {
                 const params = new URLSearchParams(searchParams.toString());
                 if (cat === "All") {
@@ -33,12 +33,11 @@ export function SkillCategoryFilter({ categories }: { categories: string[] }) {
                   scroll: false,
                 });
               }}
-              className={cn(
-                "rounded-full border px-4 py-1.5 font-mono text-xs font-semibold transition-colors cursor-pointer",
+              className={`cursor-pointer border-b-2 pb-1 text-sm transition-colors duration-150 ${
                 isActive
-                  ? "border-accent bg-accent text-on-accent"
-                  : "border-border bg-transparent text-text-secondary hover:border-accent/50 hover:text-text-primary",
-              )}
+                  ? "border-accent text-text-primary"
+                  : "border-transparent text-text-secondary hover:text-text-primary"
+              }`}
             >
               {cat}
             </button>
@@ -50,7 +49,7 @@ export function SkillCategoryFilter({ categories }: { categories: string[] }) {
             <select
               name="category"
               defaultValue={currentCategory}
-              className="rounded-lg border border-border bg-surface px-2.5 py-1 text-xs text-text-primary"
+              className="border border-border bg-background px-3 py-1.5 text-sm text-text-primary"
             >
               {categories.map((cat) => (
                 <option key={cat} value={cat}>
@@ -60,7 +59,7 @@ export function SkillCategoryFilter({ categories }: { categories: string[] }) {
             </select>
             <button
               type="submit"
-              className="rounded-lg border border-border bg-surface px-2.5 py-1 text-xs text-text-primary hover:border-accent/50"
+              className="inline-flex items-center justify-center border border-border bg-background px-3 py-1.5 text-sm font-medium text-text-primary transition-colors hover:border-text-primary rounded-lg"
             >
               Filter
             </button>

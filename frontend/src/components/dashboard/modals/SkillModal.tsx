@@ -14,6 +14,7 @@ import { SkillName } from "./skill/Skill-Name";
 import { SkillImageLight } from "./skill/Skill-ImageLight";
 import { SkillImageDark } from "./skill/Skill-ImageDark";
 import { Section } from "./Section";
+import { btnPrimary } from "./form-styles";
 
 const MAX_IMAGE_SIZE = 25 * 1024 * 1024;
 
@@ -313,7 +314,7 @@ export function SkillModal({
         {error && !hasFieldError && (
           <div
             role="alert"
-            className="flex items-start gap-2 rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2.5 text-destructive"
+            className="flex items-start gap-2 border border-destructive bg-background px-3 py-2.5 text-xs text-destructive"
           >
             <AlertCircle
               className="mt-0.5 h-3.5 w-3.5 shrink-0"
@@ -330,7 +331,7 @@ export function SkillModal({
           <button
             type="submit"
             disabled={isLoading}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-5 py-2.5 font-mono text-sm font-semibold text-on-accent transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
+            className={btnPrimary}
           >
             {isLoading ? (
               <>

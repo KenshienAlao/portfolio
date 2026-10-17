@@ -1,6 +1,10 @@
 "use server";
 
-import { createMessage, toggleMessageRead, deleteMessage } from "@/lib/db/messages";
+import {
+  createMessage,
+  toggleMessageRead,
+  deleteMessage,
+} from "@/lib/db/messages";
 import { requireAuth } from "@/lib/auth/session";
 import { revalidatePath } from "next/cache";
 
@@ -10,11 +14,14 @@ export async function submitContactMessage(formData: {
   subject: string;
   message: string;
 }) {
-  if (!formData.name?.trim() || !formData.email?.trim() || !formData.message?.trim()) {
+  if (
+    !formData.name?.trim() ||
+    !formData.email?.trim() ||
+    !formData.message?.trim()
+  ) {
     return { success: false, message: "Please fill in all required fields." };
   }
 
-  // Basic email check
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(formData.email.trim())) {
     return { success: false, message: "Please enter a valid email address." };
@@ -29,10 +36,17 @@ export async function submitContactMessage(formData: {
     });
 
     revalidatePath("/dashboard");
-    return { success: true, message: "Message sent successfully!", data: newMessage };
+    return {
+      success: true,
+      message: "Message sent successfully!",
+      data: newMessage,
+    };
   } catch (error) {
     console.error("Error creating message:", error);
-    return { success: false, message: "Failed to send message. Please try again." };
+    return {
+      success: false,
+      message: "Failed to send message. Please try again.",
+    };
   }
 }
 

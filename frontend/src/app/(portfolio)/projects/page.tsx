@@ -3,8 +3,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Projects | Kenshien Alao",
-  description:
-    "Selected projects showcasing full-stack development, UI design, and problem solving by Kenshien Alao.",
+  description: "Projects showcasing by Kenshien Alao.",
   alternates: {
     canonical: "/projects",
   },

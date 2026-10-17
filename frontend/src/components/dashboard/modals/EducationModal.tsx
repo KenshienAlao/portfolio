@@ -11,7 +11,7 @@ import z, { ZodError } from "zod";
 import { getYears } from "@/lib/year";
 import { Save, AlertCircle, Loader, MapPin } from "@/components/icons";
 import { Section } from "./Section";
-import { FieldError, fieldLabel, inputClass } from "./form-styles";
+import { FieldError, btnPrimary, fieldLabel, inputClass } from "./form-styles";
 
 const educationFormSchema = z.object({
   school: z.string().min(1, "School is required"),
@@ -245,7 +245,7 @@ export function EducationModal({
         {error && !hasFieldError && (
           <div
             role="alert"
-            className="flex items-start gap-2 rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2.5 text-destructive"
+            className="flex items-start gap-2 border border-destructive bg-background px-3 py-2.5 text-xs text-destructive"
           >
             <AlertCircle
               className="mt-0.5 h-3.5 w-3.5 shrink-0"
@@ -262,7 +262,7 @@ export function EducationModal({
           <button
             type="submit"
             disabled={isLoadingAdd || isLoadingEdit}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-5 py-2.5 font-mono text-sm font-semibold text-on-accent transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
+            className={btnPrimary}
           >
             {isLoadingAdd || isLoadingEdit ? (
               <>

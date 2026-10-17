@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth/session";
-import { QueryProvider } from "@/provider/query-provider";
 import { Login } from "@/views/login";
 
 export default async function LoginPage() {
@@ -10,9 +9,5 @@ export default async function LoginPage() {
     redirect("/dashboard");
   }
 
-  return (
-    <QueryProvider>
-      <Login />
-    </QueryProvider>
-  );
+  return <Login />;
 }

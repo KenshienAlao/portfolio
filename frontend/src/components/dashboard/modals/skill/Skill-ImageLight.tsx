@@ -29,14 +29,14 @@ export function SkillImageLight({
       </label>
       <label
         htmlFor="imageLight"
-        className={`flex flex-col items-center justify-center gap-2 overflow-hidden rounded-lg border border-dashed bg-input/40 px-3 py-4 text-center transition-colors ${
+        className={`flex flex-col items-center justify-center gap-2 overflow-hidden rounded-lg border border-dashed bg-subtle px-3 py-4 text-center transition-colors ${
           disabled
             ? "cursor-not-allowed opacity-60"
-            : "cursor-pointer hover:border-accent/60"
-        } ${imageLightError ? "border-destructive/60" : "border-border"}`}
+            : "cursor-pointer hover:border-text-primary"
+        } ${imageLightError ? "border-destructive" : "border-border"}`}
       >
         {lightPreview ? (
-          <div className="relative h-20 w-full overflow-hidden rounded">
+          <div className="relative h-20 w-full overflow-hidden rounded-lg">
             <Image
               src={lightPreview}
               alt={lightFileName || "Light mode preview"}

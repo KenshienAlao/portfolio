@@ -1,73 +1,26 @@
-export const ProjectCardSkeleton = () => {
-  return (
-    <div
-      className="flex animate-pulse flex-col overflow-hidden rounded-2xl border border-border bg-surface"
-      aria-hidden="true"
-    >
-      <div className="aspect-video border-b border-border bg-muted-foreground/15" />
-      <div className="flex flex-1 flex-col gap-3 p-5">
-        <div className="h-4 w-2/3 rounded bg-muted-foreground/15" />
-        <div className="space-y-2">
-          <div className="h-3 w-full rounded bg-muted-foreground/15" />
-          <div className="h-3 w-5/6 rounded bg-muted-foreground/15" />
-        </div>
-        <div className="flex flex-wrap gap-1.5">
-          <div className="h-5 w-14 rounded-md bg-muted-foreground/15" />
-          <div className="h-5 w-16 rounded-md bg-muted-foreground/15" />
-          <div className="h-5 w-12 rounded-md bg-muted-foreground/15" />
-        </div>
-        <div className="mt-auto flex gap-2 pt-2">
-          <div className="h-8 w-20 rounded-lg bg-muted-foreground/15" />
-          <div className="h-8 w-24 rounded-lg bg-muted-foreground/15" />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export const EducationCardSkeleton = () => {
-  return (
-    <li className="relative animate-pulse pl-8" aria-hidden="true">
-      <span className="absolute -left-3 top-5 flex h-6 w-6 items-center justify-center">
-        <span className="h-2.5 w-2.5 rounded-full bg-muted-foreground/15" />
-      </span>
-
-      <div className="rounded-2xl border border-border bg-surface p-5">
-        <div className="h-4 w-2/3 rounded bg-muted-foreground/15" />
-        <div className="mt-2 h-3 w-1/3 rounded bg-muted-foreground/15" />
-        <div className="mt-4 space-y-2">
-          <div className="h-3 w-full rounded bg-muted-foreground/15" />
-          <div className="h-3 w-4/5 rounded bg-muted-foreground/15" />
-        </div>
-        <div className="mt-4 h-3 w-24 rounded bg-muted-foreground/15" />
-      </div>
-    </li>
-  );
-};
-
 export const DashboardProjectCardSkeleton = () => {
   return (
     <article
-      className="flex flex-col rounded-xl border border-border bg-surface overflow-hidden shadow-soft animate-pulse"
+      className="flex flex-col overflow-hidden border border-border bg-background"
       aria-hidden="true"
     >
-      <div className="relative aspect-video overflow-hidden border-b border-border bg-muted-foreground/15" />
-      <div className="p-4 flex-1 flex flex-col gap-3">
-        <div className="flex justify-between items-start gap-2">
-          <div className="h-4 w-1/2 rounded bg-muted-foreground/15" />
+      <div className="relative aspect-video overflow-hidden border-b border-border skeleton" />
+      <div className="flex flex-1 flex-col gap-3 p-4">
+        <div className="flex items-start justify-between gap-2">
+          <div className="h-4 w-1/2 skeleton" />
           <div className="flex shrink-0 gap-1">
-            <div className="h-6 w-6 rounded-md bg-muted-foreground/15" />
-            <div className="h-6 w-6 rounded-md bg-muted-foreground/15" />
+            <div className="h-6 w-6 skeleton" />
+            <div className="h-6 w-6 skeleton" />
           </div>
         </div>
         <div className="space-y-2">
-          <div className="h-3 w-full rounded bg-muted-foreground/15" />
-          <div className="h-3 w-4/5 rounded bg-muted-foreground/15" />
+          <div className="h-3 w-full skeleton" />
+          <div className="h-3 w-4/5 skeleton" />
         </div>
-        <div className="flex flex-wrap gap-1 mt-auto pt-1">
-          <div className="h-4 w-10 rounded-md bg-muted-foreground/15" />
-          <div className="h-4 w-12 rounded-md bg-muted-foreground/15" />
-          <div className="h-4 w-14 rounded-md bg-muted-foreground/15" />
+        <div className="mt-auto flex flex-wrap gap-1 pt-1">
+          <div className="h-4 w-10 skeleton" />
+          <div className="h-4 w-12 skeleton" />
+          <div className="h-4 w-14 skeleton" />
         </div>
       </div>
     </article>
@@ -77,23 +30,23 @@ export const DashboardProjectCardSkeleton = () => {
 export const DashboardEducationCardSkeleton = () => {
   return (
     <div
-      className="rounded-xl border border-border bg-surface p-5 flex flex-col md:flex-row justify-between gap-4 animate-pulse"
+      className="flex flex-col justify-between gap-4 border border-border bg-background p-5 md:flex-row"
       aria-hidden="true"
     >
-      <div className="space-y-3 flex-1">
+      <div className="flex-1 space-y-3">
         <div className="flex flex-wrap items-center gap-2">
-          <div className="h-4 w-1/3 rounded bg-muted-foreground/15" />
-          <div className="h-5 w-24 rounded-md bg-muted-foreground/15" />
+          <div className="h-4 w-1/3 skeleton" />
+          <div className="h-5 w-24 skeleton" />
         </div>
-        <div className="h-3 w-1/4 rounded bg-muted-foreground/15" />
+        <div className="h-3 w-1/4 skeleton" />
         <div className="space-y-2 pt-1">
-          <div className="h-3 w-full rounded bg-muted-foreground/15 max-w-3xl" />
-          <div className="h-3 w-5/6 rounded bg-muted-foreground/15 max-w-3xl" />
+          <div className="h-3 w-full max-w-3xl skeleton" />
+          <div className="h-3 w-5/6 max-w-3xl skeleton" />
         </div>
       </div>
-      <div className="flex md:flex-col gap-2 items-end justify-start shrink-0">
-        <div className="h-8 w-20 rounded-lg bg-muted-foreground/15" />
-        <div className="h-8 w-24 rounded-lg bg-muted-foreground/15" />
+      <div className="flex shrink-0 items-end justify-start gap-2 md:flex-col">
+        <div className="h-8 w-20 skeleton" />
+        <div className="h-8 w-24 skeleton" />
       </div>
     </div>
   );
@@ -102,23 +55,23 @@ export const DashboardEducationCardSkeleton = () => {
 export const DashboardSkillCategorySkeleton = () => {
   return (
     <div
-      className="rounded-xl border border-border bg-surface p-6 space-y-4 animate-pulse"
+      className="space-y-4 border border-border bg-background p-6"
       aria-hidden="true"
     >
-      <div className="h-4 w-1/4 rounded bg-muted-foreground/15 border-b border-border pb-2" />
+      <div className="h-4 w-1/4 border-b border-border pb-2 skeleton" />
       <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
         {Array.from({ length: 3 }).map((_, i) => (
           <div
             key={i}
-            className="flex items-center justify-between p-3 rounded-lg border border-border/60 bg-background/50"
+            className="flex items-center justify-between border border-border p-3 skeleton"
           >
-            <div className="space-y-1.5 flex-1">
-              <div className="h-3 w-2/3 rounded bg-muted-foreground/15" />
-              <div className="h-2.5 w-1/3 rounded bg-muted-foreground/15" />
+            <div className="flex-1 space-y-1.5">
+              <div className="h-3 w-2/3 skeleton skeleton-alt" />
+              <div className="h-2.5 w-1/3 skeleton skeleton-alt" />
             </div>
-            <div className="flex gap-1 shrink-0">
-              <div className="h-6 w-6 rounded bg-muted-foreground/15" />
-              <div className="h-6 w-6 rounded bg-muted-foreground/15" />
+            <div className="flex shrink-0 gap-1">
+              <div className="h-6 w-6 skeleton skeleton-alt" />
+              <div className="h-6 w-6 skeleton skeleton-alt" />
             </div>
           </div>
         ))}
@@ -127,176 +80,73 @@ export const DashboardSkillCategorySkeleton = () => {
   );
 };
 
-export const SetupCardSkeleton = () => {
-  return (
-    <div
-      className="flex flex-col justify-between gap-4 rounded-2xl border border-border bg-surface p-5 animate-pulse"
-      aria-hidden="true"
-    >
-      <div className="flex flex-col gap-3">
-        <div className="h-3 w-28 rounded bg-muted-foreground/15" />
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-          <div className="flex items-center gap-1.5">
-            <div className="h-5 w-5 rounded-md bg-muted-foreground/15" />
-            <div className="h-4 w-20 rounded bg-muted-foreground/15" />
-          </div>
-          <div className="h-4 w-1 rounded bg-muted-foreground/15" />
-          <div className="flex items-center gap-1.5">
-            <div className="h-5 w-5 rounded-md bg-muted-foreground/15" />
-            <div className="h-4 w-24 rounded bg-muted-foreground/15" />
-          </div>
-        </div>
-        <div className="space-y-1.5 pt-1">
-          <div className="h-3.5 w-full rounded bg-muted-foreground/15" />
-          <div className="h-3.5 w-4/5 rounded bg-muted-foreground/15" />
-        </div>
-      </div>
-      <div className="h-7 w-32 rounded-lg bg-muted-foreground/15" />
-    </div>
-  );
-};
-
-export const SkillCardSkeleton = () => {
-  return (
-    <div
-      className="flex flex-col gap-4 rounded-2xl border border-border bg-surface p-5 animate-pulse"
-      aria-hidden="true"
-    >
-      <div className="h-3 w-20 rounded bg-muted-foreground/15" />
-      <div className="flex flex-wrap gap-2">
-        <div className="h-8 w-24 rounded-lg bg-muted-foreground/15" />
-        <div className="h-8 w-20 rounded-lg bg-muted-foreground/15" />
-        <div className="h-8 w-28 rounded-lg bg-muted-foreground/15" />
-        <div className="h-8 w-16 rounded-lg bg-muted-foreground/15" />
-        <div className="h-8 w-24 rounded-lg bg-muted-foreground/15" />
-      </div>
-    </div>
-  );
-};
-
-export const OverviewHeaderSkeleton = () => (
+export const OverviewHeadSkeleton = () => (
   <div
-    className="flex flex-wrap items-center justify-between gap-3 animate-pulse"
+    className="flex flex-wrap items-end justify-between gap-4"
     aria-hidden="true"
   >
-    <div className="h-3.5 w-56 rounded bg-muted-foreground/15" />
-    <div className="h-8 w-40 rounded-lg bg-muted-foreground/15" />
+    <div className="space-y-2">
+      <div className="h-7 w-40 skeleton" />
+      <div className="h-3 w-32 skeleton" />
+    </div>
+    <div className="h-9 w-40 skeleton" />
   </div>
 );
 
-export const OverviewStatCardSkeleton = () => (
+export const OverviewStatsSkeleton = () => (
   <div
-    className="flex flex-col justify-between rounded-2xl border border-border bg-surface p-5 animate-pulse"
+    className="grid grid-cols-1 gap-px border border-border bg-border sm:grid-cols-2 xl:grid-cols-4"
     aria-hidden="true"
   >
-    <div className="flex items-start justify-between">
-      <div className="h-7 w-10 rounded bg-muted-foreground/15" />
-      <div className="h-9 w-9 rounded-xl bg-muted-foreground/15" />
-    </div>
-    <div className="mt-3 space-y-1.5">
-      <div className="h-2.5 w-16 rounded bg-muted-foreground/15" />
-      <div className="h-2 w-20 rounded bg-muted-foreground/15" />
-    </div>
-  </div>
-);
-
-export const OverviewManageSkeleton = () => (
-  <div
-    className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5"
-    role="status"
-    aria-busy="true"
-    aria-label="Loading overview stats"
-  >
-    {Array.from({ length: 5 }).map((_, i) => (
-      <OverviewStatCardSkeleton key={i} />
+    {Array.from({ length: 4 }).map((_, i) => (
+      <div key={i} className="flex items-center gap-4 bg-background p-5">
+        <div className="h-12 w-12 shrink-0 skeleton" />
+        <div className="space-y-2">
+          <div className="h-6 w-10 skeleton" />
+          <div className="h-2.5 w-16 skeleton" />
+        </div>
+      </div>
     ))}
   </div>
 );
 
-export const OverviewMessageSkeleton = () => (
-  <div className="lg:col-span-2 animate-pulse" aria-hidden="true">
-    <div className="rounded-2xl border border-border bg-surface p-6">
-      <div className="flex items-center justify-between border-b border-border/60 pb-4">
-        <div className="flex items-center gap-2">
-          <div className="h-4 w-4 rounded bg-muted-foreground/15" />
-          <div className="h-4 w-28 rounded bg-muted-foreground/15" />
-        </div>
-        <div className="h-3.5 w-16 rounded bg-muted-foreground/15" />
-      </div>
-      <div className="mt-4 space-y-3">
-        {Array.from({ length: 3 }).map((_, i) => (
-          <div
-            key={i}
-            className="rounded-xl border border-border bg-background p-4 space-y-2.5"
-          >
-            <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <div className="h-3.5 w-3.5 rounded-full bg-muted-foreground/15 shrink-0" />
-                <div className="h-3 w-20 rounded bg-muted-foreground/15" />
-                <div className="h-3 w-32 rounded bg-muted-foreground/15" />
-              </div>
-              <div className="h-2.5 w-20 rounded bg-muted-foreground/15 shrink-0" />
-            </div>
-            <div className="h-3 w-2/3 rounded bg-muted-foreground/15" />
-            <div className="space-y-1.5">
-              <div className="h-2.5 w-full rounded bg-muted-foreground/15" />
-              <div className="h-2.5 w-4/5 rounded bg-muted-foreground/15" />
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
-);
-
-export const OverviewSkillsSkeleton = () => (
+export const OverviewTableSkeleton = () => (
   <div
-    className="rounded-2xl border border-border bg-surface p-6 animate-pulse"
+    className="border border-border bg-background"
     aria-hidden="true"
   >
-    <div className="mb-4 flex items-center justify-between">
-      <div className="h-4 w-28 rounded bg-muted-foreground/15" />
-      <div className="h-3 w-14 rounded bg-muted-foreground/15" />
+    <div className="flex items-center gap-2 border-b border-border p-6">
+      <div className="mr-auto h-4 w-32 skeleton" />
+      <div className="h-7 w-7 skeleton" />
+      <div className="h-7 w-7 skeleton" />
     </div>
-    <div className="space-y-3">
-      {Array.from({ length: 4 }).map((_, i) => (
-        <div key={i} className="space-y-1.5">
-          <div className="flex items-center justify-between">
-            <div className="h-3 w-20 rounded bg-muted-foreground/15" />
-            <div className="h-3 w-6 rounded bg-muted-foreground/15" />
-          </div>
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-background">
-            <div
-              className="h-full rounded-full bg-muted-foreground/15"
-              style={{ width: `${70 - i * 15}%` }}
-            />
-          </div>
+    <div className="space-y-3 p-6">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <div key={i} className="flex items-center gap-3">
+          <div className="h-8 w-8 shrink-0 skeleton" />
+          <div className="h-3 flex-1 skeleton" />
+          <div className="h-3 w-16 skeleton" />
+          <div className="h-4 w-12 skeleton" />
         </div>
       ))}
     </div>
   </div>
 );
 
-export const OverviewStackSkeleton = () => (
-  <div
-    className="rounded-2xl border border-border bg-surface p-6 animate-pulse"
-    aria-hidden="true"
-  >
-    <div className="mb-4 flex items-center gap-1.5">
-      <div className="h-3 w-3 rounded-full bg-muted-foreground/15" />
-      <div className="h-3 w-3 rounded-full bg-muted-foreground/15" />
-      <div className="h-3 w-3 rounded-full bg-muted-foreground/15" />
-      <div className="ml-3 h-3 w-20 rounded bg-muted-foreground/15" />
+export const OverviewTodoSkeleton = () => (
+  <div className="border border-border bg-background" aria-hidden="true">
+    <div className="flex items-center gap-2 border-b border-border p-6">
+      <div className="mr-auto h-4 w-16 skeleton" />
+      <div className="h-7 w-7 skeleton" />
+      <div className="h-7 w-7 skeleton" />
     </div>
-    <div className="space-y-2">
+    <div className="space-y-3 border-b border-border p-6">
+      <div className="h-2.5 w-24 skeleton" />
+      <div className="h-1.5 w-full skeleton" />
+    </div>
+    <div className="space-y-4 p-6">
       {Array.from({ length: 4 }).map((_, i) => (
-        <div
-          key={i}
-          className={`flex justify-between pb-2 ${i < 3 ? "border-b border-border/40" : ""}`}
-        >
-          <div className="h-3 w-20 rounded bg-muted-foreground/15" />
-          <div className="h-3 w-28 rounded bg-muted-foreground/15" />
-        </div>
+        <div key={i} className="h-3 w-4/5 skeleton" />
       ))}
     </div>
   </div>
@@ -304,19 +154,12 @@ export const OverviewStackSkeleton = () => (
 
 export const OverviewTabSkeleton = () => (
   <div
-    className="space-y-8 font-mono"
+    className="space-y-6 skeleton-scope"
     role="status"
     aria-busy="true"
     aria-label="Loading overview"
   >
-    <OverviewHeaderSkeleton />
-    <OverviewManageSkeleton />
-    <div className="grid gap-6 lg:grid-cols-3">
-      <OverviewMessageSkeleton />
-      <div className="space-y-6">
-        <OverviewSkillsSkeleton />
-        <OverviewStackSkeleton />
-      </div>
-    </div>
+    <OverviewStatsSkeleton />
+    <OverviewTableSkeleton />
   </div>
 );

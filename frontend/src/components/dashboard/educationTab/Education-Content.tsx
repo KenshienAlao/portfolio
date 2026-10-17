@@ -1,6 +1,11 @@
 import { Education } from "@/service/education.service";
 import { Dispatch, SetStateAction } from "react";
 import { ExternalLink, MapPin, Trash, Edit, Loader } from "@/components/icons";
+import {
+  btnDanger,
+  btnGhost,
+  btnSecondary,
+} from "@/components/dashboard/modals/form-styles";
 
 interface props {
   sortedEducation: Education[] | undefined;
@@ -33,23 +38,23 @@ export function Content({
         return (
           <div
             key={item.id}
-            className={`flex flex-col justify-between gap-4 rounded-xl border border-border bg-surface p-5 transition-all duration-200 md:flex-row hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-soft-lg ${
-              isPendingCreate ? "opacity-60 grayscale" : ""
+            className={`flex flex-col justify-between gap-4 border border-border bg-background p-5 transition-colors hover:bg-subtle md:flex-row ${
+              isPendingCreate ? "opacity-60" : ""
             }`}
           >
             <div className="flex-1 space-y-2">
               <div className="flex flex-wrap items-center gap-2">
-                <h4 className="font-mono text-sm font-bold text-text-primary">
+                <h4 className="text-sm font-bold text-text-primary">
                   {item.school}
                 </h4>
-                <span className="rounded bg-accent/15 px-2 py-0.5 font-mono text-[10px] font-medium text-accent">
+                <span className="rounded-lg border border-border bg-subtle px-2 py-0.5 font-mono text-xs uppercase tracking-wider text-text-secondary">
                   {item.yearStart} - {item.yearEnd}
                 </span>
               </div>
-              <p className="font-mono text-xs font-semibold text-accent">
+              <p className="text-sm font-medium text-text-primary">
                 {item.degree}
               </p>
-              <p className="max-w-3xl text-xs leading-relaxed text-text-secondary">
+              <p className="max-w-3xl text-sm leading-relaxed text-text-secondary">
                 {item.description}
               </p>
               {item.location && (
@@ -57,17 +62,17 @@ export function Content({
                   href={item.location}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 font-mono text-[10px] text-text-secondary transition-colors hover:text-accent"
+                  className="inline-flex items-center gap-1.5 font-mono text-xs text-text-secondary underline underline-offset-4 transition-colors hover:text-accent"
                 >
                   <MapPin className="h-3 w-3" /> Map Location{" "}
                   <ExternalLink className="h-2.5 w-2.5" />
                 </a>
               )}
             </div>
-            <div className="flex shrink-0 items-end justify-start gap-2 md:flex-col">
+            <div className="flex shrink-0 items-end justify-start gap-1 md:flex-col">
               {isConfirmingDelete ? (
                 <div className="flex flex-col gap-2">
-                  <span className="text-center font-mono text-[10px] font-semibold text-destructive">
+                  <span className="text-center font-mono text-xs uppercase tracking-wider text-text-secondary">
                     Are you sure?
                   </span>
                   <div className="flex gap-2">
@@ -77,14 +82,14 @@ export function Content({
                         deleteEducation(item.id);
                         setConfirmDeleteId(null);
                       }}
-                      className="rounded-md bg-destructive px-3 py-1.5 font-mono text-xs font-semibold text-destructive-foreground transition-opacity hover:opacity-90"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-transparent bg-destructive px-4 py-2.5 text-sm font-medium text-background transition-colors hover:opacity-90"
                     >
                       Yes
                     </button>
                     <button
                       type="button"
                       onClick={() => setConfirmDeleteId(null)}
-                      className="rounded-md border border-border px-3 py-1.5 font-mono text-xs text-text-secondary transition-colors hover:text-text-primary"
+                      className={btnSecondary}
                     >
                       No
                     </button>
@@ -96,7 +101,7 @@ export function Content({
                     type="button"
                     onClick={() => setEducationForm(item)}
                     disabled={actionsDisabled}
-                    className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 font-mono text-xs text-text-secondary transition-colors hover:border-accent hover:text-accent disabled:cursor-not-allowed disabled:opacity-50"
+                    className={btnGhost}
                   >
                     <Edit className="h-3.5 w-3.5" /> Edit
                   </button>
@@ -104,7 +109,7 @@ export function Content({
                     type="button"
                     onClick={() => setConfirmDeleteId(item.id)}
                     disabled={actionsDisabled}
-                    className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 font-mono text-xs text-text-secondary transition-colors hover:border-destructive hover:text-destructive disabled:cursor-not-allowed disabled:opacity-50"
+                    className={btnDanger}
                   >
                     {isDeletingThis ? (
                       <>

@@ -1,16 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 
 import { ThemeProvider } from "@/provider/theme-provider";
+import { QueryProvider } from "@/provider/query-provider";
 
 const siteUrl = "https://kenshien.is-a.dev";
 const siteName = "Kenshien Alao";
-const siteTitle = "Kenshien Alao — Web Developer";
+const siteTitle = "Kenshien Alao — Backend Developer";
 
 const siteDescription =
-  "Kenshien Alao is a web developer specializing in modern, performant, and scalable web applications using React, Next.js, TypeScript, Spring Boot, Java, and PostgreSQL.";
+  "Kenshien Alao is a backend developer specializing in modern, performant, and scalable web applications using React, Next.js, TypeScript, Spring Boot, Java, and PostgreSQL.";
 
 const socialProfiles = {
   github: "https://github.com/KenshienAlao",
@@ -86,7 +86,7 @@ export const metadata: Metadata = {
         secureUrl: `${siteUrl}/og-image.png`,
         width: 1200,
         height: 630,
-        alt: `${siteName} — Web Developer`,
+        alt: `${siteName} — Backend Developer`,
         type: "image/png",
       },
     ],
@@ -100,7 +100,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: `${siteUrl}/og-image.png`,
-        alt: `${siteName} — Web Developer`,
+        alt: `${siteName} — Backend Developer`,
       },
     ],
   },
@@ -166,7 +166,7 @@ function JsonLd() {
         url: siteUrl,
         image: `${siteUrl}/og-image.png`,
 
-        jobTitle: "Web Developer",
+        jobTitle: "Backend Developer",
 
         description: siteDescription,
 
@@ -240,11 +240,11 @@ export const viewport: Viewport = {
   themeColor: [
     {
       media: "(prefers-color-scheme: light)",
-      color: "#f7f3ed",
+      color: "#ffffff",
     },
     {
       media: "(prefers-color-scheme: dark)",
-      color: "#121212",
+      color: "#0f1115",
     },
   ],
 
@@ -259,7 +259,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${GeistSans.variable} ${GeistMono.variable} bg-background font-sans`}
+      className={`${GeistMono.variable} bg-background font-mono`}
       suppressHydrationWarning
     >
       <head>
@@ -268,7 +268,9 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col antialiased">
         <JsonLd />
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <QueryProvider>{children}</QueryProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

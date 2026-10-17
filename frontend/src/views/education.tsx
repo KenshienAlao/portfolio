@@ -1,8 +1,6 @@
 "use client";
 
 import { SectionHeader } from "@/components/section-header";
-import { EducationCardSkeleton } from "@/components/ui/skeleton";
-import { ArrowUpRight } from "@/components/icons";
 import { useEducation, type Education } from "@/hooks/use-public-data";
 import Link from "next/link";
 
@@ -19,92 +17,81 @@ function sortByMostRecent(education: Education[]): Education[] {
 
 function EducationEntry({ item }: { item: Education }) {
   return (
-    <li className="relative pl-8">
-      <span
-        aria-hidden="true"
-        className="absolute -left-3 top-5 flex h-6 w-6 items-center justify-center"
-      >
-        <span className="h-2.5 w-2.5 rounded-full bg-accent" />
-      </span>
-
-      <div className="rounded-2xl border border-border bg-surface p-5 hover:border-accent/40">
-        <h3 className="break-words text-base font-bold text-text-primary">
+    <li className="border-b border-border py-8">
+      <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 sm:gap-4">
+        <h3 className="text-lg font-bold tracking-tight text-text-primary">
           {item.school}
         </h3>
-
-        <p className="mt-1 font-mono text-xs text-text-secondary">
-          {item.degree} · {item.yearStart} — {item.yearEnd}
-        </p>
-
-        <p className="mt-3 text-sm leading-relaxed text-text-secondary">
-          {item.description}
-        </p>
-
-        <Link
-          href={item.location}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 inline-flex items-center gap-1.5 font-mono text-xs font-medium text-accent transition-colors hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-        >
-          View location
-          <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-          <span className="sr-only"> for {item.school} on Google Maps</span>
-        </Link>
+        <span className="shrink-0 font-mono text-xs text-text-secondary uppercase tracking-wider">
+          {item.yearStart} — {item.yearEnd}
+        </span>
       </div>
-    </li>
-  );
-}
 
-function EducationTimeline({ items }: { items: Education[] }) {
-  return (
-    <ol className="relative mt-14 ml-3 space-y-8 border-l border-border">
-      {items.map((item) => (
-        <EducationEntry key={`${item.id}-${item.school}`} item={item} />
-      ))}
-    </ol>
+      <p className="mt-1 text-sm font-medium text-text-primary">
+        {item.degree}
+      </p>
+
+      <p className="mt-2 text-sm leading-relaxed text-text-secondary max-w-[65ch] text-pretty">
+        {item.description}
+      </p>
+
+      {item.location && (
+        <div className="mt-4">
+          <Link
+            href={item.location}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 font-mono text-xs text-text-primary underline underline-offset-4 hover:text-accent transition-colors"
+          >
+            <span>View location</span>
+          </Link>
+        </div>
+      )}
+    </li>
   );
 }
 
 export function Education() {
   const { data: education, isLoading } = useEducation();
-  const sortedEducation = Array.isArray(education) ? sortByMostRecent(education) : [];
+  const sortedEducation = Array.isArray(education)
+    ? sortByMostRecent(education)
+    : [];
 
   return (
-    <section
-      id="education"
-      className="relative overflow-hidden bg-background py-24 md:py-32"
-    >
-      <div className="absolute inset-0 bg-grid opacity-40" aria-hidden="true" />
+    <section className="container max-w-5xl mx-auto py-24 px-4 sm:px-6">
+      <SectionHeader
+        title="Education"
+        description="My academic background and learning journey."
+      />
 
-      <div className="container relative z-10 mx-auto max-w-3xl px-4">
-        <SectionHeader
-          path="~/education"
-          command="cat education.md"
-          title="Education"
-          description="My academic background and learning journey."
-        />
-
-        {isLoading ? (
-          <ol
-            className="relative mt-14 ml-3 space-y-8 border-l border-border"
-            role="status"
-            aria-busy="true"
-            aria-label="Loading education timeline"
-          >
-            {Array.from({ length: 3 }).map((_, i) => (
-              <EducationCardSkeleton key={i} />
-            ))}
-          </ol>
-        ) : sortedEducation.length === 0 ? (
-          <div className="mt-14 flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-surface/50 py-12 text-center">
-            <h3 className="font-mono text-base font-bold text-text-primary">
-              No education entries available yet.
-            </h3>
-          </div>
-        ) : (
-          <EducationTimeline items={sortedEducation} />
-        )}
-      </div>
+      {isLoading ? (
+        <div
+          className="mt-12 border-t border-border"
+          role="status"
+          aria-busy="true"
+          aria-label="Loading education"
+        >
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="border-b border-border py-8">
+              <div className="h-5 w-48 bg-subtle" />
+              <div className="mt-3 h-4 w-32 bg-subtle" />
+              <div className="mt-2 h-4 w-full max-w-md bg-subtle" />
+            </div>
+          ))}
+        </div>
+      ) : sortedEducation.length === 0 ? (
+        <div className="mt-12 border-t border-border pt-6">
+          <p className="text-sm font-mono text-text-secondary">
+            No education entries found.
+          </p>
+        </div>
+      ) : (
+        <ul className="mt-12 border-t border-border">
+          {sortedEducation.map((item) => (
+            <EducationEntry key={`${item.id}-${item.school}`} item={item} />
+          ))}
+        </ul>
+      )}
     </section>
   );
 }

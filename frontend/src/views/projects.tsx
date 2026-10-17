@@ -2,8 +2,7 @@
 
 import { SectionHeader } from "@/components/section-header";
 import { ProjectCard } from "@/components/projects/project-card";
-import { ProjectSort } from "@/components/projects/project-sort";
-import { ProjectCardSkeleton } from "@/components/ui/skeleton";
+import { ProjectSortDropdown } from "@/components/projects/project-sort-dropdown";
 import { useProjects } from "@/hooks/use-public-data";
 import { type Project } from "@/service/project.service";
 
@@ -24,64 +23,61 @@ function sortProjects(
   });
 }
 
-export function Projects({
-  sort = "latest",
-}: {
-  sort?: "latest" | "oldest";
-}) {
+export function Projects({ sort = "latest" }: { sort?: "latest" | "oldest" }) {
   const { data: projects, isLoading } = useProjects();
   const projectList = Array.isArray(projects) ? projects : [];
   const sortedProjects = sortProjects(projectList, sort);
 
   return (
-    <section
-      id="projects"
-      className="relative overflow-hidden bg-background py-24 md:py-32"
-    >
-      <div className="absolute inset-0 bg-grid opacity-40" aria-hidden="true" />
+    <section className="container max-w-5xl mx-auto py-24 px-4 sm:px-6">
+      <SectionHeader
+        title="Projects"
+        description="A collection of projects I've built."
+      />
 
-      <div className="container relative z-10 mx-auto max-w-5xl px-4">
-        <SectionHeader
-          path="~/projects"
-          command="ls -la"
-          title="Projects"
-          description="Selected work showcasing full-stack development, UI design, and problem solving."
-        />
+      {projectList.length > 0 && (
+        <div className="mt-8 flex justify-end">
+          <ProjectSortDropdown />
+        </div>
+      )}
 
-        {projectList.length > 0 && <ProjectSort />}
-
-        {isLoading ? (
-          <div
-            className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
-            role="status"
-            aria-busy="true"
-            aria-label="Loading projects"
-          >
-            {Array.from({ length: 6 }).map((_, i) => (
-              <ProjectCardSkeleton key={i} />
-            ))}
-          </div>
-        ) : sortedProjects.length === 0 ? (
-          <div className="mt-14 flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-surface/50 py-12 text-center">
-            <h3 className="font-mono text-base font-bold text-text-primary">
-              No projects available
-            </h3>
-            <p className="mt-1 text-sm text-text-secondary">
-              Check back later for updates to this section.
-            </p>
-          </div>
-        ) : (
-          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {sortedProjects.map((project, idx) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                priority={idx === 0}
-              />
-            ))}
-          </div>
-        )}
-      </div>
+      {isLoading ? (
+        <div
+          className="mt-12 border-t border-border skeleton-scope"
+          role="status"
+          aria-busy="true"
+          aria-label="Loading projects"
+        >
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div
+              key={i}
+              className="border-b border-border py-8 flex flex-col sm:flex-row gap-6"
+            >
+              <div className="aspect-video w-full sm:w-56 md:w-64 shrink-0 skeleton border border-border" />
+              <div className="flex-1 space-y-3">
+                <div className="h-5 w-48 skeleton" />
+                <div className="h-4 w-full max-w-[65ch] skeleton" />
+                <div className="h-4 w-3/4 max-w-[40ch] skeleton" />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : sortedProjects.length === 0 ? (
+        <div className="mt-12 border-t border-border pt-8">
+          <p className="text-sm font-mono text-text-primary">
+            No projects yet.
+          </p>
+          <p className="mt-1 text-sm text-text-secondary text-pretty">
+            Projects will appear here once they&apos;re added.
+          </p>
+        </div>
+      ) : (
+        <div className="mt-12 border-t border-border">
+          {sortedProjects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

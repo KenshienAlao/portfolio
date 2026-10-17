@@ -1,16 +1,16 @@
 # Kenshien Alao
 
-> Web developer focused on building performant, scalable, and maintainable web applications with modern frontend and backend technologies.
+> Backend developer focused on engineering reliable APIs, database architectures, and scalable server-side systems.
 
 ## About
 
-Kenshien Alao is a web developer specializing in full-stack web application development. His work focuses on building production-ready systems with an emphasis on performance, scalability, maintainability, clean architecture, and reliable user experiences.
+Kenshien Alao is a backend developer based in Marikina, Philippines. His work centers on designing and engineering robust server-side applications with a focus on API design, database modeling, query optimization, security, and maintainable architecture.
 
-His primary technology stack includes React, Next.js, TypeScript, Spring Boot, Java, PostgreSQL, and modern web development tooling. His projects span frontend applications, REST APIs, database-driven systems, authentication, caching, and full-stack application architecture.
+His core interests and technical expertise include REST APIs, authentication, data validation, database systems (PostgreSQL), server performance, caching, and scalable backend design.
 
 ## Links
 
-* [Portfolio](https://kenshien.is-a.dev/): Portfolio featuring projects, technical skills, and development experience.
-* [GitHub](https://github.com/KenshienAlao): Source code, projects, and technical implementations.
+* [Portfolio](https://kenshien.is-a.dev/): Portfolio featuring backend projects, technical skills, and development experience.
+* [GitHub](https://github.com/KenshienAlao): Source code, system implementations, and technical projects.
 * [LinkedIn](https://www.linkedin.com/in/KenshienAlao/): Professional profile and career information.
-* [Contact](https://kenshien.is-a.dev/#contact): Contact information for professional opportunities and collaboration.
+* [Contact](https://kenshien.is-a.dev/contact): Contact information for professional opportunities and inquiries.

@@ -5,7 +5,7 @@ const SESSION_COOKIE_NAME = "portfolio_session";
 const SESSION_SECRET =
   process.env.SESSION_SECRET ||
   "super-secret-portfolio-session-key-fallback-32b!";
-const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 7; // 7 days
+const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 7;
 
 export interface SessionData {
   code: string;

@@ -52,6 +52,4 @@ frontend/public/uploads/
 *.iml
 *.ipr
 
-frontend/tools/
-
-decision.md
+tools/

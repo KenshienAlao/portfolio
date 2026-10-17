@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ChangeEvent, RefObject } from "react";
 import { ImagePlus } from "@/components/icons";
-import { FieldError, fieldLabel } from "../form-styles";
+import { btnDanger, FieldError, fieldLabel } from "../form-styles";
 
 interface ProjectImageProps {
   imagePreview: string | null;
@@ -29,14 +29,14 @@ export function ProjectImage({
       </label>
       <label
         htmlFor="image"
-        className={`flex flex-col items-center justify-center gap-2 overflow-hidden rounded-lg border border-dashed bg-input/40 px-3 py-4 text-center transition-colors ${
+        className={`flex flex-col items-center justify-center gap-2 overflow-hidden rounded-lg border border-dashed bg-subtle px-3 py-4 text-center transition-colors ${
           disabled
             ? "cursor-not-allowed opacity-60"
-            : "cursor-pointer hover:border-accent/60"
-        } ${imageError ? "border-destructive/60" : "border-border"}`}
+            : "cursor-pointer hover:border-text-primary"
+        } ${imageError ? "border-destructive" : "border-border"}`}
       >
         {imagePreview ? (
-          <div className="relative h-28 w-full overflow-hidden rounded">
+          <div className="relative h-28 w-full overflow-hidden rounded-lg">
             <Image
               src={imagePreview}
               alt={imageFileName || "Project preview"}
@@ -77,7 +77,7 @@ export function ProjectImage({
             type="button"
             onClick={onRemoveImage}
             disabled={disabled}
-            className="text-destructive hover:underline disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:no-underline"
+            className={btnDanger}
           >
             Remove
           </button>

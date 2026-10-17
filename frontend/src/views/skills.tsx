@@ -2,11 +2,8 @@
 
 import { SectionHeader } from "@/components/section-header";
 import { SkillCategoryFilter } from "@/components/skills/skill-category-filter";
-import { SkillCardSkeleton } from "@/components/ui/skeleton";
 import { useSkills } from "@/hooks/use-public-data";
 import { type Skill } from "@/service/skill.service";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
 
 export function Skills({
   selectedCategory = "All",
@@ -39,107 +36,82 @@ export function Skills({
       : { [activeCategory]: groupedSkills[activeCategory] ?? [] };
 
   return (
-    <section
-      id="skills"
-      className="relative py-24 bg-background overflow-hidden md:py-32"
-    >
-      <div className="absolute inset-0 bg-grid opacity-40" aria-hidden="true" />
+    <section className="container max-w-5xl mx-auto py-24 px-4 sm:px-6">
+      <SectionHeader
+        title="Skills"
+        description="Tools, languages, and technologies I work with across the stack."
+      />
 
-      <div className="container relative z-10 mx-auto px-4 max-w-5xl">
-        <SectionHeader
-          path="~/skills"
-          command="npm ls --global"
-          title="Skills"
-          description="Tools and technologies I work with across the stack."
-        />
+      <div className="mt-12">
+        {isLoading ? (
+          <div
+            className="space-y-8 skeleton-scope"
+            role="status"
+            aria-busy="true"
+            aria-label="Loading skills"
+          >
+            <div className="h-9 w-64 skeleton" />
+            <div className="border-t border-border pt-8 space-y-8">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="grid grid-cols-1 sm:grid-cols-[14rem_1fr] gap-4"
+                >
+                  <div className="h-4 w-32 skeleton" />
+                  <div className="h-4 w-64 skeleton" />
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : categories.length > 1 ? (
+          <>
+            <SkillCategoryFilter categories={categories} />
 
-        <div className="mt-12 space-y-10">
-          {isLoading ? (
-            <>
-              <div className="flex flex-wrap gap-2 animate-pulse" aria-hidden="true">
-                <div className="h-7 w-14 rounded-full bg-muted-foreground/15" />
-                <div className="h-7 w-20 rounded-full bg-muted-foreground/15" />
-                <div className="h-7 w-24 rounded-full bg-muted-foreground/15" />
-                <div className="h-7 w-16 rounded-full bg-muted-foreground/15" />
-                <div className="h-7 w-20 rounded-full bg-muted-foreground/15" />
+            {Object.keys(visibleSkills).length === 0 ? (
+              <div className="mt-12 border-t border-border pt-8">
+                <p className="text-sm font-mono text-text-primary">
+                  No skills in this category.
+                </p>
+                <p className="mt-1 text-sm text-text-secondary">
+                  Try another category or select &quot;All&quot;.
+                </p>
               </div>
-
-              <div
-                className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-                role="status"
-                aria-busy="true"
-                aria-label="Loading skills"
-              >
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <SkillCardSkeleton key={i} />
+            ) : (
+              <div className="mt-12 border-t border-border">
+                {Object.entries(visibleSkills).map(([category, items]) => (
+                  <div
+                    key={category}
+                    className="border-b border-border py-8 grid grid-cols-1 sm:grid-cols-[14rem_1fr] gap-4 sm:gap-6 items-baseline"
+                  >
+                    <h3 className="text-xs font-mono uppercase tracking-wider text-text-secondary font-medium">
+                      {category}
+                    </h3>
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                      {items.map((skill: Skill, idx: number) => (
+                        <span
+                          key={skill.name}
+                          className="inline-flex items-center gap-4 text-sm font-mono text-text-primary"
+                        >
+                          <span className="hover:text-accent transition-colors">
+                            {skill.name}
+                          </span>
+                          {idx < items.length - 1 && (
+                            <span
+                              className="text-border select-none"
+                              aria-hidden="true"
+                            >
+                              /
+                            </span>
+                          )}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 ))}
               </div>
-            </>
-          ) : categories.length > 1 ? (
-            <>
-              <SkillCategoryFilter categories={categories} />
-
-              {Object.keys(visibleSkills).length === 0 ? (
-                <div className="mt-14 flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-surface/50 py-12 text-center">
-                  <h3 className="font-mono text-base font-bold text-text-primary">
-                    No skills found
-                  </h3>
-                  <p className="mt-1 text-sm text-text-secondary">
-                    No tools or technologies found under this category.
-                  </p>
-                </div>
-              ) : (
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {Object.entries(visibleSkills).map(([category, items]) => (
-                    <div
-                      key={category}
-                      className="flex flex-col gap-4 rounded-2xl border border-border bg-surface p-5 hover:border-accent/40"
-                    >
-                      <p className="font-mono text-[11px] uppercase tracking-widest text-text-secondary">
-                        {category}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {items.map((skill: Skill) => (
-                          <div
-                            key={skill.name}
-                            className="flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-text-primary"
-                          >
-                            {skill.imageLight && (
-                              <Image
-                                src={skill.imageLight}
-                                alt={skill.name}
-                                width={16}
-                                height={16}
-                                loading="lazy"
-                                decoding="async"
-                                className={cn(
-                                  "h-4 w-4 shrink-0 object-contain",
-                                  skill.imageDark ? "dark:hidden" : "",
-                                )}
-                              />
-                            )}
-                            {skill.imageDark && (
-                              <Image
-                                src={skill.imageDark}
-                                alt={skill.name}
-                                width={16}
-                                height={16}
-                                loading="lazy"
-                                decoding="async"
-                                className="hidden h-4 w-4 shrink-0 object-contain dark:block"
-                              />
-                            )}
-                            {skill.name}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </>
-          ) : null}
-        </div>
+            )}
+          </>
+        ) : null}
       </div>
     </section>
   );
