@@ -20,13 +20,6 @@ const INITIAL_STATE: FormState = {
 
 type SubmitStatus = "idle" | "loading" | "success" | "error";
 
-const BUTTON_LABEL: Record<SubmitStatus, string> = {
-  idle: "Send message",
-  loading: "Sending…",
-  success: "Message sent",
-  error: "Failed to send",
-};
-
 const MIN_LOADING_MS = 600;
 const SUCCESS_HOLD_MS = 1800;
 const ERROR_HOLD_MS = 1600;

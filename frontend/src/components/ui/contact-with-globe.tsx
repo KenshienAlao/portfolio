@@ -1,14 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { messageService } from "@/service/message.service";
 import { CONTACT_LINKS } from "@/config/contact";
 import {
   Mail,
-  Phone,
-  Headphones,
   ArrowRight,
   GitHub,
   Facebook,
@@ -21,8 +19,6 @@ import {
 import * as d3 from "d3";
 import { feature } from "topojson-client";
 import type { GeoPermissibleObjects } from "d3";
-
-const smoothEase = [0.25, 0.1, 0.25, 1] as const;
 
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   Gmail: Gmail,
@@ -96,60 +92,6 @@ const cityCoordinates: Record<string, [number, number]> = {
   chicago: [41.8781, -87.6298],
 };
 
-function orthographicRaw(x: number, y: number): [number, number] {
-  const cosy = Math.cos(y);
-  return [cosy * Math.sin(x), Math.sin(y)];
-}
-
-function equirectangularRaw(lambda: number, phi: number): [number, number] {
-  return [lambda, phi];
-}
-
-function interpolateProjection(
-  raw0: (lambda: number, phi: number) => [number, number],
-  raw1: (lambda: number, phi: number) => [number, number],
-): d3.GeoProjection {
-  let t = 0;
-
-  const createRawProjection = (
-    alpha: number,
-  ): ((lambda: number, phi: number) => [number, number]) => {
-    return (lambda: number, phi: number): [number, number] => {
-      const [x0, y0] = raw0(lambda, phi);
-      const [x1, y1] = raw1(lambda, phi);
-      return [x0 + alpha * (x1 - x0), y0 + alpha * (y1 - y0)];
-    };
-  };
-
-  const projection = d3.geoProjection(
-    createRawProjection(t),
-  ) as d3.GeoProjection & { alpha: (v?: number) => number | d3.GeoProjection };
-
-  const alphaMethod = ((value?: number) => {
-    if (value !== undefined) {
-      t = +value;
-      const newProjection = d3.geoProjection(
-        createRawProjection(t),
-      ) as d3.GeoProjection & {
-        alpha: (v?: number) => number | d3.GeoProjection;
-      };
-      if (projection.scale()) newProjection.scale(projection.scale());
-      if (projection.translate())
-        newProjection.translate(projection.translate());
-      if (projection.rotate()) newProjection.rotate(projection.rotate());
-      if (projection.precision())
-        newProjection.precision(projection.precision());
-      newProjection.alpha = alphaMethod;
-      return newProjection;
-    }
-    return t;
-  }) as (v?: number) => number | d3.GeoProjection;
-
-  (projection as { alpha: (v?: number) => number | d3.GeoProjection }).alpha =
-    alphaMethod;
-
-  return projection;
-}
 
 function GlobeWireframe({
   width,
@@ -178,7 +120,6 @@ function GlobeWireframe({
 }: GlobeWireframeProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [worldData, setWorldData] = useState<GeoFeature[]>([]);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   const rotationRef = useRef<[number, number]>(initialRotation);
@@ -206,9 +147,7 @@ function GlobeWireframe({
           "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
         );
         const world = (await response.json()) as WorldAtlasTopology;
-        const countries = feature(world, world.objects.countries)
-          .features as GeoFeature[];
-        setWorldData(countries);
+        const countries = (feature(world, world.objects.countries) as { features: GeoFeature[] }).features;
         worldDataRef.current = countries;
       } catch (error) {
         console.error("Error loading world data:", error);
@@ -262,8 +201,6 @@ function GlobeWireframe({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     ctx.scale(dpr, dpr);
-
-    const graticule = d3.geoGraticule();
 
     const handleMouseDown = (e: MouseEvent) => {
       if (!enableInteraction) return;
@@ -390,12 +327,6 @@ function GlobeWireframe({
       const alpha = Math.pow(t, 0.5);
 
       if (variant === "wireframe") {
-        const scaleRange = d3
-          .scaleLinear()
-          .domain([0, 1])
-          .range([baseRadius * scale, baseRadius * 0.6 * scale]);
-        const baseRotate = d3.scaleLinear().domain([0, 1]).range([0, 0]);
-
         projection = d3
           .geoOrthographic()
           .scale(baseRadius * scale * (1 - alpha * 0.4))
@@ -477,8 +408,7 @@ function GlobeWireframe({
             ctx.fill(p);
           }
           ctx.stroke(p);
-        } catch {
-        }
+        } catch {}
       }
       ctx.globalAlpha = 1;
 
@@ -492,8 +422,7 @@ function GlobeWireframe({
           ctx.stroke(p);
           ctx.globalAlpha = 1;
         }
-      } catch {
-      }
+      } catch {}
 
       rafRef.current = requestAnimationFrame(render);
     };
@@ -546,14 +475,12 @@ function GlobeWireframe({
 
 interface ContactWithGlobeProps {
   title?: string;
-  subtitle?: string;
   description?: string;
   className?: string;
 }
 
 export default function ContactWithGlobe({
   title = "Let's talk",
-  subtitle = "Contact",
   description = "Have a project in mind or a question? Feel free to reach out.",
   className,
 }: ContactWithGlobeProps) {
