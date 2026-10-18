@@ -5,7 +5,7 @@ export default function ProjectsLoading() {
     <section className="container max-w-5xl mx-auto py-24 px-4 sm:px-6">
       <SectionHeader
         title="Projects"
-        description="APIs, databases, and backend systems I've engineered."
+        description="A collection of projects I've built."
       />
 
       <div
@@ -14,15 +14,18 @@ export default function ProjectsLoading() {
         aria-busy="true"
         aria-label="Loading projects"
       >
-        {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="border-b border-border py-8 space-y-3">
-            <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 sm:gap-4">
-              <div className="h-5 w-56 skeleton" />
-              <div className="h-3 w-24 skeleton" />
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div
+            key={i}
+            className="border-b border-border py-8 flex flex-col sm:flex-row gap-6"
+          >
+            <div className="aspect-video w-full sm:w-56 md:w-64 shrink-0 skeleton border border-border" />
+            <div className="flex-1 space-y-3">
+              <div className="h-5 w-48 skeleton" />
+              <div className="h-4 w-full max-w-[65ch] skeleton" />
+              <div className="h-4 w-3/4 max-w-[40ch] skeleton" />
+              <div className="h-3 w-32 skeleton mt-4" />
             </div>
-            <div className="h-4 w-full max-w-[65ch] skeleton" />
-            <div className="h-3 w-48 skeleton pt-2" />
-            <div className="h-3 w-32 skeleton mt-4" />
           </div>
         ))}
       </div>

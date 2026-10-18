@@ -12,6 +12,7 @@ function usePortfolioQuery<T>(queryKey: string[], queryFn: () => Promise<T>) {
     queryFn,
     retry: 1,
     refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 }
 
