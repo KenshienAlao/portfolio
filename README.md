@@ -13,17 +13,6 @@ Personal portfolio website showcasing my work, skills, education, and experience
 - Redis / JSON data storage
 - Cloudinary
 
-## Features
-
-- Responsive portfolio
-- Project showcase
-- Education timeline
-- Skills and development setup
-- Contact form
-- Admin dashboard
-- Dark/light theme
-- SEO and Open Graph metadata
-
 ## Links
 
 - GitHub: https://github.com/KenshienAlao
