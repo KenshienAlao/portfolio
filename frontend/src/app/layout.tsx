@@ -50,10 +50,6 @@ export const metadata: Metadata = {
     "Clarenze Kenshien A. Alao",
     "Clarenze Alao",
     "Kenshien",
-    "Web Developer",
-    "Full Stack Developer",
-    "Full-Stack Web Developer",
-    "Frontend Developer",
     "Backend Developer",
     "React Developer",
     "Next.js Developer",
@@ -62,7 +58,6 @@ export const metadata: Metadata = {
     "Java Developer",
     "PostgreSQL Developer",
     "Software Developer",
-    "Web Development",
     "Software Engineering",
   ],
 
