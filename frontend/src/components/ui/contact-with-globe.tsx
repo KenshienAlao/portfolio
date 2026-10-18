@@ -92,6 +92,51 @@ const cityCoordinates: Record<string, [number, number]> = {
   chicago: [41.8781, -87.6298],
 };
 
+function interpolateProjection(
+  raw0: (lambda: number, phi: number) => [number, number],
+  raw1: (lambda: number, phi: number) => [number, number],
+): d3.GeoProjection {
+  let t = 0;
+
+  const createRawProjection = (
+    alpha: number,
+  ): ((lambda: number, phi: number) => [number, number]) => {
+    return (lambda: number, phi: number): [number, number] => {
+      const [x0, y0] = raw0(lambda, phi);
+      const [x1, y1] = raw1(lambda, phi);
+      return [x0 + alpha * (x1 - x0), y0 + alpha * (y1 - y0)];
+    };
+  };
+
+  const projection = d3.geoProjection(
+    createRawProjection(t),
+  ) as d3.GeoProjection & { alpha: (v?: number) => number | d3.GeoProjection };
+
+  const alphaMethod = ((value?: number) => {
+    if (value !== undefined) {
+      t = +value;
+      const newProjection = d3.geoProjection(
+        createRawProjection(t),
+      ) as d3.GeoProjection & {
+        alpha: (v?: number) => number | d3.GeoProjection;
+      };
+      if (projection.scale()) newProjection.scale(projection.scale());
+      if (projection.translate())
+        newProjection.translate(projection.translate());
+      if (projection.rotate()) newProjection.rotate(projection.rotate());
+      if (projection.precision())
+        newProjection.precision(projection.precision());
+      newProjection.alpha = alphaMethod;
+      return newProjection;
+    }
+    return t;
+  }) as (v?: number) => number | d3.GeoProjection;
+
+  (projection as { alpha: (v?: number) => number | d3.GeoProjection }).alpha =
+    alphaMethod;
+
+  return projection;
+}
 
 function GlobeWireframe({
   width,
@@ -120,6 +165,7 @@ function GlobeWireframe({
 }: GlobeWireframeProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [worldData, setWorldData] = useState<GeoFeature[]>([]);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   const rotationRef = useRef<[number, number]>(initialRotation);
@@ -147,7 +193,9 @@ function GlobeWireframe({
           "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
         );
         const world = (await response.json()) as WorldAtlasTopology;
-        const countries = (feature(world, world.objects.countries) as { features: GeoFeature[] }).features;
+        const countries = feature(world, world.objects.countries)
+          .features as GeoFeature[];
+        setWorldData(countries);
         worldDataRef.current = countries;
       } catch (error) {
         console.error("Error loading world data:", error);
@@ -201,6 +249,8 @@ function GlobeWireframe({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     ctx.scale(dpr, dpr);
+
+    const graticule = d3.geoGraticule();
 
     const handleMouseDown = (e: MouseEvent) => {
       if (!enableInteraction) return;
@@ -292,6 +342,13 @@ function GlobeWireframe({
       rotationRef.current = [-coords[1], -coords[0]];
     }
 
+    const resolveColor = (color: string) => {
+      if (color === "currentColor") {
+        return getComputedStyle(canvas).color || "#000000";
+      }
+      return color;
+    };
+
     const render = () => {
       if (!isVisibleRef.current) {
         rafRef.current = requestAnimationFrame(render);
@@ -314,7 +371,7 @@ function GlobeWireframe({
       ctx.clearRect(0, 0, w, h);
 
       if (backgroundColor && backgroundColor !== "transparent") {
-        ctx.fillStyle = backgroundColor;
+        ctx.fillStyle = backgroundColor === "currentColor" ? resolveColor("currentColor") : backgroundColor || "transparent";
         ctx.beginPath();
         ctx.arc(cx, cy, baseRadius, 0, Math.PI * 2);
         ctx.fill();
@@ -327,6 +384,12 @@ function GlobeWireframe({
       const alpha = Math.pow(t, 0.5);
 
       if (variant === "wireframe") {
+        const scaleRange = d3
+          .scaleLinear()
+          .domain([0, 1])
+          .range([baseRadius * scale, baseRadius * 0.6 * scale]);
+        const baseRotate = d3.scaleLinear().domain([0, 1]).range([0, 0]);
+
         projection = d3
           .geoOrthographic()
           .scale(baseRadius * scale * (1 - alpha * 0.4))
@@ -366,7 +429,7 @@ function GlobeWireframe({
         finalGraticuleOpacity = 0;
         finalSphereOutlineWidth = 1.5;
       } else if (variant === "solid") {
-        finalCountryFill = defaultCountryFillColor;
+        finalCountryFill = resolveColor(defaultCountryFillColor);
         finalStrokeWidth = strokeWidth * 0.5;
         finalOpacity = 0.3;
         renderGraticule = false;
@@ -375,7 +438,7 @@ function GlobeWireframe({
       }
 
       if (renderGraticule && finalGraticuleOpacity > 0) {
-        ctx.strokeStyle = defaultGraticuleColor;
+        ctx.strokeStyle = resolveColor(defaultGraticuleColor);
         ctx.lineWidth = 1;
         ctx.globalAlpha = finalGraticuleOpacity;
         ctx.beginPath();
@@ -388,7 +451,7 @@ function GlobeWireframe({
         ctx.globalAlpha = 1;
       }
 
-      ctx.strokeStyle = defaultStrokeColor;
+      ctx.strokeStyle = resolveColor(defaultStrokeColor);
       ctx.lineWidth = finalStrokeWidth;
       ctx.globalAlpha = finalOpacity;
       ctx.fillStyle = finalCountryFill;
@@ -415,7 +478,7 @@ function GlobeWireframe({
       try {
         const spherePath = path({ type: "Sphere" });
         if (spherePath) {
-          ctx.strokeStyle = defaultSphereOutlineColor;
+          ctx.strokeStyle = resolveColor(defaultSphereOutlineColor);
           ctx.lineWidth = finalSphereOutlineWidth;
           ctx.globalAlpha = variant === "wireframe" ? 1.0 : 0.8;
           const p = new Path2D(spherePath);
@@ -475,12 +538,14 @@ function GlobeWireframe({
 
 interface ContactWithGlobeProps {
   title?: string;
+  subtitle?: string;
   description?: string;
   className?: string;
 }
 
 export default function ContactWithGlobe({
   title = "Let's talk",
+  subtitle = "Contact",
   description = "Have a project in mind or a question? Feel free to reach out.",
   className,
 }: ContactWithGlobeProps) {
