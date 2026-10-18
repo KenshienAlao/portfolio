@@ -95,13 +95,13 @@ function OverviewStats({ stats }: { stats: Stat[] }) {
         <li key={label}>
           <Link
             href={href}
-            className="flex h-full items-center gap-4 bg-background p-5 transition-colors duration-150 hover:bg-subtle rounded-lg cursor-pointer"
+            className="flex h-full items-center gap-3 bg-background p-3 transition-colors duration-150 hover:bg-subtle rounded-lg cursor-pointer sm:gap-4 sm:p-5"
           >
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center border border-border text-text-secondary rounded-lg">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center border border-border text-text-secondary rounded-lg sm:h-12 sm:w-12">
               <Icon className="h-5 w-5" aria-hidden="true" />
             </span>
             <span className="min-w-0">
-              <span className="block font-mono text-3xl font-bold tracking-tight text-text-primary">
+              <span className="block font-mono text-2xl font-bold tracking-tight text-text-primary sm:text-3xl">
                 {value}
               </span>
               <span className="block text-xs font-mono uppercase tracking-wider text-text-secondary">
@@ -209,7 +209,7 @@ function RecentMessages({ messages }: { messages: Message[] }) {
 
   return (
     <section className="border border-border bg-background rounded-lg lg:col-span-3">
-      <div className="flex items-center gap-2 border-b border-border p-5 sm:p-6">
+      <div className="flex items-center gap-2 border-b border-border p-3 sm:p-6">
         <h2 className="mr-auto text-sm font-bold tracking-tight text-text-primary uppercase font-mono">
           Recent Messages
         </h2>
@@ -249,19 +249,19 @@ function RecentMessages({ messages }: { messages: Message[] }) {
       )}
 
       <div className="overflow-x-auto">
-        <table className="w-full min-w-104 border-collapse text-left">
+        <table className="w-full min-w-[280px] border-collapse text-left">
           <thead>
             <tr className="border-b border-border">
-              <th className="px-5 py-3 text-xs font-mono font-normal uppercase tracking-wider text-text-secondary sm:px-6">
+              <th className="px-3 py-3 text-xs font-mono font-normal uppercase tracking-wider text-text-secondary sm:px-6">
                 Sender
               </th>
-              <th className="hidden px-5 py-3 text-xs font-mono font-normal uppercase tracking-wider text-text-secondary sm:table-cell sm:px-6">
+              <th className="hidden px-3 py-3 text-xs font-mono font-normal uppercase tracking-wider text-text-secondary sm:table-cell sm:px-6">
                 Subject
               </th>
-              <th className="px-5 py-3 text-xs font-mono font-normal uppercase tracking-wider text-text-secondary sm:px-6">
+              <th className="px-3 py-3 text-xs font-mono font-normal uppercase tracking-wider text-text-secondary sm:px-6">
                 Date
               </th>
-              <th className="px-5 py-3 text-xs font-mono font-normal uppercase tracking-wider text-text-secondary sm:px-6">
+              <th className="px-3 py-3 text-xs font-mono font-normal uppercase tracking-wider text-text-secondary sm:px-6">
                 Status
               </th>
             </tr>
@@ -271,7 +271,7 @@ function RecentMessages({ messages }: { messages: Message[] }) {
               <tr>
                 <td
                   colSpan={4}
-                  className="px-5 py-10 text-center text-xs font-mono text-text-secondary sm:px-6"
+                  className="px-3 py-10 text-center text-xs font-mono text-text-secondary sm:px-6"
                 >
                   No messages match this view.
                 </td>
@@ -282,10 +282,10 @@ function RecentMessages({ messages }: { messages: Message[] }) {
                   key={message.id}
                   className="transition-colors duration-150 hover:bg-subtle/50"
                 >
-                  <td className="px-5 py-3.5 sm:px-6">
+                  <td className="px-3 py-3.5 sm:px-6">
                     <div className="flex items-center gap-3">
                       <span
-                        className="flex h-8 w-8 shrink-0 items-center justify-center border border-border bg-text-primary font-mono text-xs font-bold text-background rounded-full"
+                        className="flex h-7 w-7 shrink-0 items-center justify-center border border-border bg-text-primary font-mono text-[10px] font-bold text-background rounded-full sm:h-8 sm:w-8 sm:text-xs"
                         aria-hidden="true"
                       >
                         {message.name.charAt(0).toUpperCase() || "?"}
@@ -300,15 +300,15 @@ function RecentMessages({ messages }: { messages: Message[] }) {
                       </span>
                     </div>
                   </td>
-                  <td className="hidden max-w-48 px-5 py-3.5 sm:table-cell sm:px-6">
+                  <td className="hidden max-w-48 px-3 py-3.5 sm:table-cell sm:px-6">
                     <span className="block truncate text-xs font-mono text-text-secondary">
                       {message.subject}
                     </span>
                   </td>
-                  <td className="whitespace-nowrap px-5 py-3.5 font-mono text-[11px] text-text-secondary sm:px-6">
+                  <td className="whitespace-nowrap px-3 py-3.5 font-mono text-[11px] text-text-secondary sm:px-6">
                     {formatDate(message.createdAt)}
                   </td>
-                  <td className="px-5 py-3.5 sm:px-6">
+                  <td className="px-3 py-3.5 sm:px-6">
                     <span
                       className={`inline-flex items-center border px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-wider rounded-lg ${
                         message.isRead
@@ -326,7 +326,7 @@ function RecentMessages({ messages }: { messages: Message[] }) {
         </table>
       </div>
 
-      <div className="border-t border-border px-5 py-3 sm:px-6">
+      <div className="border-t border-border px-3 py-3 sm:px-6">
         <Link
           href="/dashboard/messages"
           className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-text-secondary transition-colors duration-150 hover:text-text-primary cursor-pointer"
